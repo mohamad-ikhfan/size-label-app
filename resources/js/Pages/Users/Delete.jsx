@@ -22,8 +22,8 @@ export default function UserDelete({ user, closeModal = () => {} }) {
     };
     return (
         <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h3 className="text-lg text-center mb-6">
-                Are you sure to delete this user {user.name}?
+            <h3 className="dark:text-gray-100 text-lg text-center mb-6">
+                Are you sure to delete this user <strong>{user.name}</strong>?
             </h3>
             <form onSubmit={submit} className="space-y-6">
                 <div className="flex justify-center gap-4">

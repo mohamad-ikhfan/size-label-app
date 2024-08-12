@@ -237,7 +237,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                             <td>
                                                 <div className="flex gap-1.5">
                                                     <EyeIcon
-                                                        className="w-6 text-gray-500 cursor-pointer"
+                                                        className="w-5 text-gray-500 cursor-pointer"
                                                         title="show"
                                                         onClick={(e) => {
                                                             setUser(user);
@@ -248,7 +248,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                                         }}
                                                     />
                                                     <PencilSquareIcon
-                                                        className="w-6 text-yellow-500 cursor-pointer"
+                                                        className="w-5 text-yellow-500 cursor-pointer"
                                                         title="edit"
                                                         onClick={(e) => {
                                                             setUser(user);
@@ -259,7 +259,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                                         }}
                                                     />
                                                     <TrashIcon
-                                                        className="w-6 text-red-500 cursor-pointer"
+                                                        className="w-5 text-red-500 cursor-pointer"
                                                         title="delete"
                                                         onClick={(e) => {
                                                             setUser(user);
@@ -279,7 +279,10 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                         </div>
                     </div>
                 </div>
-                <Modal show={showModal}>
+                <Modal
+                    show={showModal}
+                    maxWidth={statusModal === "delete" ? "sm" : "xl"}
+                >
                     {statusModal === "create" && (
                         <UserCreate closeModal={closeModal} />
                     )}

@@ -29,7 +29,7 @@ export default function UserCreate({ closeModal = () => {} }) {
     };
     return (
         <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h3 className="mb-4 text-lg">New User</h3>
+            <h3 className="mb-4 text-lg dark:text-gray-100">New User</h3>
             <form onSubmit={submit} className="space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
