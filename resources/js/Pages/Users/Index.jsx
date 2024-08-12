@@ -1,11 +1,23 @@
+import Modal from "@/Components/Modal";
 import Pagination from "@/Components/Pagination";
+import PrimaryButton from "@/Components/PrimaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TableHeading from "@/Components/TableHeading";
 import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
+import { useState } from "react";
+import UserCreate from "./Create";
+import {
+    EyeIcon,
+    PencilSquareIcon,
+    TrashIcon,
+} from "@heroicons/react/16/solid";
+import UserDelete from "./Delete";
+import UserEdit from "./Edit";
+import UserShow from "./Show";
 
-export default function User({ auth, users, queryParams = null }) {
+export default function UserIndex({ auth, users, queryParams = null }) {
     queryParams = queryParams || {};
 
     const searchFieldChanged = (name, value) => {
@@ -38,21 +50,41 @@ export default function User({ auth, users, queryParams = null }) {
         searchFieldChanged(name, e.target.value);
     };
 
+    const [showModal, setShowModal] = useState(false);
+    const [statusModal, setStatusModal] = useState("");
+    const [user, setUser] = useState({});
+
+    const createModal = () => {
+        setShowModal(true);
+        setStatusModal("create");
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        setStatusModal("");
+        setUser({});
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    User Lists
+                    User lists
                 </h2>
             }
         >
             <Head title="User Lists" />
 
-            <div className="py-12">
+            <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
+                    <div className="mb-6 flex justify-end">
+                        <PrimaryButton type="button" onClick={createModal}>
+                            New User
+                        </PrimaryButton>
+                    </div>
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="w-full p-5 overflow-auto">
+                        <div className="w-full p-6 overflow-auto">
                             <table className="w-full text-left text-gray-500 dark:text-gray-400">
                                 <thead className="text-gray-700 bg-gray-50 dark:bg-slate-700 dark:text-gray-400 border-b-2 border-gray-500 uppercase">
                                     <tr className="text-nowrap">
@@ -202,7 +234,43 @@ export default function User({ auth, users, queryParams = null }) {
                                             <td className="px-3 py-2">
                                                 {user.updated_at}
                                             </td>
-                                            <td></td>
+                                            <td>
+                                                <div className="flex gap-1.5">
+                                                    <EyeIcon
+                                                        className="w-6 text-gray-500 cursor-pointer"
+                                                        title="show"
+                                                        onClick={(e) => {
+                                                            setUser(user);
+                                                            setShowModal(true);
+                                                            setStatusModal(
+                                                                "show"
+                                                            );
+                                                        }}
+                                                    />
+                                                    <PencilSquareIcon
+                                                        className="w-6 text-yellow-500 cursor-pointer"
+                                                        title="edit"
+                                                        onClick={(e) => {
+                                                            setUser(user);
+                                                            setShowModal(true);
+                                                            setStatusModal(
+                                                                "edit"
+                                                            );
+                                                        }}
+                                                    />
+                                                    <TrashIcon
+                                                        className="w-6 text-red-500 cursor-pointer"
+                                                        title="delete"
+                                                        onClick={(e) => {
+                                                            setUser(user);
+                                                            setShowModal(true);
+                                                            setStatusModal(
+                                                                "delete"
+                                                            );
+                                                        }}
+                                                    />
+                                                </div>
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -211,6 +279,20 @@ export default function User({ auth, users, queryParams = null }) {
                         </div>
                     </div>
                 </div>
+                <Modal show={showModal}>
+                    {statusModal === "create" && (
+                        <UserCreate closeModal={closeModal} />
+                    )}
+                    {statusModal === "show" && (
+                        <UserShow user={user} closeModal={closeModal} />
+                    )}
+                    {statusModal === "edit" && (
+                        <UserEdit user={user} closeModal={closeModal} />
+                    )}
+                    {statusModal === "delete" && (
+                        <UserDelete user={user} closeModal={closeModal} />
+                    )}
+                </Modal>
             </div>
         </AuthenticatedLayout>
     );
