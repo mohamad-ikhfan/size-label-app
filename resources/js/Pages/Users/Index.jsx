@@ -52,7 +52,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
 
     const [showModal, setShowModal] = useState(false);
     const [statusModal, setStatusModal] = useState("");
-    const [user, setUser] = useState({});
+    const [userData, setUserData] = useState({});
 
     const createModal = () => {
         setShowModal(true);
@@ -62,7 +62,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
     const closeModal = () => {
         setShowModal(false);
         setStatusModal("");
-        setUser({});
+        setUserData({});
     };
 
     return (
@@ -74,7 +74,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                 </h2>
             }
         >
-            <Head title="User Lists" />
+            <Head title="Users" />
 
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
@@ -145,137 +145,168 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                             actions
                                         </TableHeading>
                                     </tr>
-                                    <tr className="text-nowrap">
-                                        <th className="px-3 pb-2"></th>
-                                        <th className="px-3 pb-2">
-                                            <TextInput
-                                                className="w-full"
-                                                type="search"
-                                                defaultValue={queryParams.name}
-                                                placeholder="search..."
-                                                onBlur={(e) =>
-                                                    searchFieldChanged(
-                                                        "name",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                onKeyPress={(e) =>
-                                                    onKeyPress("name", e)
-                                                }
-                                            />
-                                        </th>
-                                        <th className="px-3 pb-2">
-                                            <TextInput
-                                                className="w-full"
-                                                type="search"
-                                                defaultValue={queryParams.email}
-                                                placeholder="search..."
-                                                onBlur={(e) =>
-                                                    searchFieldChanged(
-                                                        "email",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                onKeyPress={(e) =>
-                                                    onKeyPress("email", e)
-                                                }
-                                            />
-                                        </th>
-                                        <th className="px-3 pb-2">
-                                            <SelectInput
-                                                className="w-full"
-                                                defaultValue={
-                                                    queryParams.blocked
-                                                }
-                                                onChange={(e) =>
-                                                    searchFieldChanged(
-                                                        "blocked",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            >
-                                                <option value="">
-                                                    show all
-                                                </option>
-                                                <option value={true}>
-                                                    Blocked
-                                                </option>
-                                                <option value={false}>
-                                                    Unblocked
-                                                </option>
-                                            </SelectInput>
-                                        </th>
-                                        <th className="px-3 pb-2"></th>
-                                        <th className="px-3 pb-2"></th>
-                                        <th className="px-3 pb-2"></th>
-                                    </tr>
+                                    {users.data.length > 1 && (
+                                        <tr className="text-nowrap">
+                                            <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2">
+                                                <TextInput
+                                                    className="w-full"
+                                                    type="search"
+                                                    defaultValue={
+                                                        queryParams.name
+                                                    }
+                                                    placeholder="search..."
+                                                    onBlur={(e) =>
+                                                        searchFieldChanged(
+                                                            "name",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        onKeyPress("name", e)
+                                                    }
+                                                />
+                                            </th>
+                                            <th className="px-3 pb-2">
+                                                <TextInput
+                                                    className="w-full"
+                                                    type="search"
+                                                    defaultValue={
+                                                        queryParams.email
+                                                    }
+                                                    placeholder="search..."
+                                                    onBlur={(e) =>
+                                                        searchFieldChanged(
+                                                            "email",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        onKeyPress("email", e)
+                                                    }
+                                                />
+                                            </th>
+                                            <th className="px-3 pb-2">
+                                                <SelectInput
+                                                    className="w-full"
+                                                    defaultValue={
+                                                        queryParams.blocked
+                                                    }
+                                                    onChange={(e) =>
+                                                        searchFieldChanged(
+                                                            "blocked",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        show all
+                                                    </option>
+                                                    <option value={true}>
+                                                        Blocked
+                                                    </option>
+                                                    <option value={false}>
+                                                        Unblocked
+                                                    </option>
+                                                </SelectInput>
+                                            </th>
+                                            <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2"></th>
+                                        </tr>
+                                    )}
                                 </thead>
                                 <tbody>
-                                    {users.data.map((user, index) => (
-                                        <tr
-                                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                            key={user.id}
-                                        >
-                                            <td className="px-3 py-2">
-                                                {++index}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {user.name}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {user.email}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {user.blocked}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {user.created_at}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {user.updated_at}
-                                            </td>
-                                            <td>
-                                                <div className="flex gap-1.5">
-                                                    <EyeIcon
-                                                        className="w-5 text-gray-500 cursor-pointer"
-                                                        title="show"
-                                                        onClick={(e) => {
-                                                            setUser(user);
-                                                            setShowModal(true);
-                                                            setStatusModal(
-                                                                "show"
-                                                            );
-                                                        }}
-                                                    />
-                                                    <PencilSquareIcon
-                                                        className="w-5 text-yellow-500 cursor-pointer"
-                                                        title="edit"
-                                                        onClick={(e) => {
-                                                            setUser(user);
-                                                            setShowModal(true);
-                                                            setStatusModal(
-                                                                "edit"
-                                                            );
-                                                        }}
-                                                    />
-                                                    <TrashIcon
-                                                        className="w-5 text-red-500 cursor-pointer"
-                                                        title="delete"
-                                                        onClick={(e) => {
-                                                            setUser(user);
-                                                            setShowModal(true);
-                                                            setStatusModal(
-                                                                "delete"
-                                                            );
-                                                        }}
-                                                    />
-                                                </div>
+                                    {users.data.length > 0 ? (
+                                        users.data.map((user, index) => (
+                                            <tr
+                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                                                key={user.id}
+                                            >
+                                                <td className="px-3 py-2">
+                                                    {++index}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {user.name}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {user.email}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {user.blocked}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {user.created_at}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {user.updated_at}
+                                                </td>
+                                                <td>
+                                                    <div className="px-3 py-2 flex gap-1.5">
+                                                        <EyeIcon
+                                                            className="w-5 text-gray-500 cursor-pointer"
+                                                            title="show"
+                                                            onClick={(e) => {
+                                                                setUserData(
+                                                                    user
+                                                                );
+                                                                setShowModal(
+                                                                    true
+                                                                );
+                                                                setStatusModal(
+                                                                    "show"
+                                                                );
+                                                            }}
+                                                        />
+                                                        <PencilSquareIcon
+                                                            className="w-5 text-yellow-500 cursor-pointer"
+                                                            title="edit"
+                                                            onClick={(e) => {
+                                                                setUserData(
+                                                                    user
+                                                                );
+                                                                setShowModal(
+                                                                    true
+                                                                );
+                                                                setStatusModal(
+                                                                    "edit"
+                                                                );
+                                                            }}
+                                                        />
+                                                        <TrashIcon
+                                                            className="w-5 text-red-500 cursor-pointer"
+                                                            title="delete"
+                                                            onClick={(e) => {
+                                                                setUserData(
+                                                                    user
+                                                                );
+                                                                setShowModal(
+                                                                    true
+                                                                );
+                                                                setStatusModal(
+                                                                    "delete"
+                                                                );
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td
+                                                colSpan={7}
+                                                className="text-center px-3 py-2"
+                                            >
+                                                No data found.
                                             </td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
-                            <Pagination links={users.meta.links} />
+                            {users.data.length > 0 && (
+                                <Pagination links={users.meta.links} />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -287,13 +318,13 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                         <UserCreate closeModal={closeModal} />
                     )}
                     {statusModal === "show" && (
-                        <UserShow user={user} closeModal={closeModal} />
+                        <UserShow user={userData} closeModal={closeModal} />
                     )}
                     {statusModal === "edit" && (
-                        <UserEdit user={user} closeModal={closeModal} />
+                        <UserEdit user={userData} closeModal={closeModal} />
                     )}
                     {statusModal === "delete" && (
-                        <UserDelete user={user} closeModal={closeModal} />
+                        <UserDelete user={userData} closeModal={closeModal} />
                     )}
                 </Modal>
             </div>

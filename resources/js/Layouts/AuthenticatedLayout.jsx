@@ -37,6 +37,14 @@ export default function Authenticated({ user, header, children }) {
                                     >
                                         Users
                                     </NavLink>
+                                    <NavLink
+                                        href={route("destroy-ribbon.index")}
+                                        active={route().current(
+                                            "destroy-ribbon.*"
+                                        )}
+                                    >
+                                        Destroy Ribbons
+                                    </NavLink>
                                 </div>
                             </div>
 

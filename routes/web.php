@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DestroyRibbonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('user', UserController::class)->except('create', 'show', 'edit');
+    Route::resource('destroy-ribbon', DestroyRibbonController::class)->except('create', 'show', 'edit');
 });
 
 require __DIR__ . '/auth.php';
