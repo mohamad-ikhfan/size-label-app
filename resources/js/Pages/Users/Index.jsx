@@ -50,7 +50,7 @@ export default function User({ auth, users, queryParams = null }) {
             <Head title="User Lists" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="max-w-full mx-auto sm:px-4 lg:px-6">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="w-full p-5 overflow-auto">
                             <table className="w-full text-left text-gray-500 dark:text-gray-400">
@@ -163,7 +163,7 @@ export default function User({ auth, users, queryParams = null }) {
                                                 }
                                             >
                                                 <option value="">
-                                                    Show all
+                                                    show all
                                                 </option>
                                                 <option value={true}>
                                                     Blocked

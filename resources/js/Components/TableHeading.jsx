@@ -20,7 +20,7 @@ export default function TableHeading({
                                     "w-4 -mb-1 " +
                                     (sort_field === name &&
                                     sort_direction === "asc"
-                                        ? "text-white"
+                                        ? "text-gray-950 dark:text-white"
                                         : "")
                                 }
                             />
@@ -29,7 +29,7 @@ export default function TableHeading({
                                     "w-4 -mt-1 " +
                                     (sort_field === name &&
                                     sort_direction === "desc"
-                                        ? "text-white"
+                                       ? "text-gray-950 dark:text-white"
                                         : "")
                                 }
                             />
