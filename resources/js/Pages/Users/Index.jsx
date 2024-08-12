@@ -146,8 +146,8 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                         </TableHeading>
                                     </tr>
                                     <tr className="text-nowrap">
-                                        <th className="px-3 py-2"></th>
-                                        <th className="px-3 py-2">
+                                        <th className="px-3 pb-2"></th>
+                                        <th className="px-3 pb-2">
                                             <TextInput
                                                 className="w-full"
                                                 type="search"
@@ -164,7 +164,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                                 }
                                             />
                                         </th>
-                                        <th className="px-3 py-2">
+                                        <th className="px-3 pb-2">
                                             <TextInput
                                                 className="w-full"
                                                 type="search"
@@ -181,7 +181,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                                 }
                                             />
                                         </th>
-                                        <th className="px-3 py-2">
+                                        <th className="px-3 pb-2">
                                             <SelectInput
                                                 className="w-full"
                                                 defaultValue={
@@ -205,9 +205,9 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                                 </option>
                                             </SelectInput>
                                         </th>
-                                        <th className="px-3 py-2"></th>
-                                        <th className="px-3 py-2"></th>
-                                        <th className="px-3 py-2"></th>
+                                        <th className="px-3 pb-2"></th>
+                                        <th className="px-3 pb-2"></th>
+                                        <th className="px-3 pb-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
