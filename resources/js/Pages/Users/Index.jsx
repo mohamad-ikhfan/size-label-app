@@ -89,7 +89,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                 <thead className="text-gray-700 bg-gray-50 dark:bg-slate-700 dark:text-gray-400 border-b-2 border-gray-500 uppercase">
                                     <tr className="text-nowrap">
                                         <TableHeading sortable={false}>
-                                            id
+                                            #
                                         </TableHeading>
                                         <TableHeading
                                             name="name"
@@ -211,13 +211,13 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.data.map((user) => (
+                                    {users.data.map((user, index) => (
                                         <tr
                                             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                             key={user.id}
                                         >
                                             <td className="px-3 py-2">
-                                                {user.id}
+                                                {++index}
                                             </td>
                                             <td className="px-3 py-2">
                                                 {user.name}

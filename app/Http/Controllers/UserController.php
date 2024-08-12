@@ -30,7 +30,7 @@ class UserController extends Controller
         }
 
         /**@disregard P1013*/
-        $users = UserResource::collection($query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1));
+        $users = UserResource::collection($query->orderBy($sortField, $sortDirection)->paginate(15)->onEachSide(1));
         return Inertia::render('Users/Index', [
             'users' => $users,
             'queryParams' => request()->query() ?: null
