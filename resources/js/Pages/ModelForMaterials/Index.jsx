@@ -20,8 +20,6 @@ import ModelForMaterialDelete from "./Delete";
 export default function ModelForMaterialIndex({
     auth,
     modelForMaterials,
-    filterGenders,
-    filterCategories,
     filterMaterialTypes,
     filterMaterialSizes,
     filterWides,
@@ -111,26 +109,6 @@ export default function ModelForMaterialIndex({
                                             Model name
                                         </TableHeading>
                                         <TableHeading
-                                            name="gender"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            Gender
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="category"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            Category
-                                        </TableHeading>
-                                        <TableHeading
                                             name="material_type"
                                             sort_field={queryParams.sort_field}
                                             sort_direction={
@@ -208,60 +186,6 @@ export default function ModelForMaterialIndex({
                                                         )
                                                     }
                                                 />
-                                            </th>
-                                            <th className="px-3 pb-2">
-                                                <SelectInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.gender
-                                                    }
-                                                    onChange={(e) =>
-                                                        searchFieldChanged(
-                                                            "gender",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        show all
-                                                    </option>
-                                                    {filterGenders.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
-                                                </SelectInput>
-                                            </th>
-                                            <th className="px-3 pb-2">
-                                                <SelectInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.category
-                                                    }
-                                                    onChange={(e) =>
-                                                        searchFieldChanged(
-                                                            "category",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        show all
-                                                    </option>
-                                                    {filterCategories.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
-                                                </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
                                                 <SelectInput
@@ -364,16 +288,6 @@ export default function ModelForMaterialIndex({
                                                     <td className="px-3 py-2">
                                                         {
                                                             modelForMaterial.model_name
-                                                        }
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {
-                                                            modelForMaterial.gender
-                                                        }
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {
-                                                            modelForMaterial.category
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">

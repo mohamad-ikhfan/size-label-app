@@ -10,8 +10,6 @@ import { toast } from "react-hot-toast";
 export default function ModelForMaterialCreate({ closeModal = () => {} }) {
     const { data, setData, post, errors, processing } = useForm({
         model_name: "",
-        gender: "",
-        category: "",
         material_type: "",
         material_size: "",
         wide: 0,
@@ -53,61 +51,6 @@ export default function ModelForMaterialCreate({ closeModal = () => {} }) {
                         <InputError
                             className="mt-2"
                             message={errors.model_name}
-                        />
-                    </div>
-                    <div>
-                        <InputLabel htmlFor="gender" value="Gender" />
-
-                        <SelectInput
-                            id="gender"
-                            className="mt-1 block w-full"
-                            value={data.gender}
-                            onChange={(e) => setData("gender", e.target.value)}
-                        >
-                            <option value="">Select gender</option>
-                            <option value="Mens">Mens</option>
-                            <option value="Womens">Womens</option>
-                            <option value="Boys Grade School">
-                                Boys Grade School
-                            </option>
-                            <option value="Grade School Unisex">
-                                Grade School Unisex
-                            </option>
-                            <option value="Boys Pre School">
-                                Boys Pre School
-                            </option>
-                            <option value="Pre School Unisex">
-                                Pre School Unisex
-                            </option>
-                            <option value="Boys Toddler">Boys Toddler</option>
-                            <option value="Toddler Unisex">
-                                Toddler Unisex
-                            </option>
-                        </SelectInput>
-
-                        <InputError className="mt-2" message={errors.gender} />
-                    </div>
-                    <div>
-                        <InputLabel htmlFor="category" value="Category" />
-
-                        <SelectInput
-                            id="category"
-                            className="mt-1 block w-full"
-                            value={data.category}
-                            onChange={(e) =>
-                                setData("category", e.target.value)
-                            }
-                        >
-                            <option value="">Select category</option>
-                            <option value="M/W">M/W</option>
-                            <option value="GS">GS</option>
-                            <option value="PS">PS</option>
-                            <option value="TD">TD</option>
-                        </SelectInput>
-
-                        <InputError
-                            className="mt-2"
-                            message={errors.category}
                         />
                     </div>
                     <div>

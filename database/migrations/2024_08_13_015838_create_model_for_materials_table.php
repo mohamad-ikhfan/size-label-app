@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('model_for_materials', function (Blueprint $table) {
             $table->id();
             $table->string('model_name');
-            $table->string('gender');
-            $table->string('category');
             $table->string('material_type');
             $table->string('material_size');
             $table->boolean('wide')->default(false);

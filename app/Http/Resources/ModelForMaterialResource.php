@@ -18,8 +18,6 @@ class ModelForMaterialResource extends JsonResource
         return [
             'id' => $this->id,
             'model_name' => $this->model_name,
-            'gender' => $this->gender,
-            'category' => $this->category,
             'material_type' => $this->material_type,
             'material_size' => $this->material_size,
             'wide' => $this->wide,

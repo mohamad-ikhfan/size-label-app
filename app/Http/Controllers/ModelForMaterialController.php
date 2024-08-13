@@ -36,12 +36,6 @@ class ModelForMaterialController extends Controller
         if (request("model_name")) {
             $query->where("model_name", "like", "%" . request("model_name") . "%");
         }
-        if (request("gender")) {
-            $query->where("gender", "like", "%" . request("gender") . "%");
-        }
-        if (request("category")) {
-            $query->where("category", "like", "%" . request("category") . "%");
-        }
         if (request("material_type")) {
             $query->where("material_type", "like", "%" . request("material_type") . "%");
         }
@@ -58,8 +52,6 @@ class ModelForMaterialController extends Controller
         return Inertia::render('ModelForMaterials/Index', [
             'modelForMaterials' => $modelForMaterials,
             'queryParams' => request()->query() ?: null,
-            'filterGenders' => $filterGenders->sortBy('value', descending: true)->unique('value')->toArray(),
-            'filterCategories' => $filterCategories->sortBy('value', descending: true)->unique('value')->toArray(),
             'filterMaterialTypes' => $filterMaterialTypes->sortBy('value', descending: true)->unique('value')->toArray(),
             'filterMaterialSizes' => $filterMaterialSizes->sortBy('value', descending: true)->unique('value')->toArray(),
             'filterWides' => $filterWides->sortBy('value', descending: true)->unique('value')->toArray(),
@@ -73,8 +65,6 @@ class ModelForMaterialController extends Controller
     {
         $request->validate([
             'model_name' => 'required|string|unique:model_for_materials',
-            'gender' => 'required|string',
-            'category' => 'required|string',
             'material_type' => 'required|string',
             'material_size' => 'required|string',
             'wide' => 'required|integer',
@@ -82,8 +72,6 @@ class ModelForMaterialController extends Controller
 
         ModelForMaterial::create([
             'model_name' => strtoupper($request->model_name),
-            'gender' => $request->gender,
-            'category' => $request->category,
             'material_type' => $request->material_type,
             'material_size' => $request->material_size,
             'wide' => $request->wide,
@@ -97,8 +85,6 @@ class ModelForMaterialController extends Controller
     {
         $request->validate([
             'model_name' => 'required|string|unique:model_for_materials',
-            'gender' => 'required|string',
-            'category' => 'required|string',
             'material_type' => 'required|string',
             'material_size' => 'required|string',
             'wide' => 'required|integer',
@@ -107,8 +93,6 @@ class ModelForMaterialController extends Controller
         $modelForMaterial = ModelForMaterial::findOrFail($id);
         $modelForMaterial->update([
             'model_name' => strtoupper($request->model_name),
-            'gender' => $request->gender,
-            'category' => $request->category,
             'material_type' => $request->material_type,
             'material_size' => $request->material_size,
             'wide' => $request->wide,
