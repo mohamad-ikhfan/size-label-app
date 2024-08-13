@@ -42,7 +42,7 @@ export default function DestroyRibbonIndex({
             queryParams.sort_direction = "asc";
         }
 
-        router.get(route("destroyRibbon.index"), queryParams);
+        router.get(route("destroy-ribbon.index"), queryParams);
     };
 
     const onKeyPress = (name, e) => {
