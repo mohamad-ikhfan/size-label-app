@@ -145,7 +145,7 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                             actions
                                         </TableHeading>
                                     </tr>
-                                    {users.data.length > 1 && (
+                                    {users.data.length > 0 && (
                                         <tr className="text-nowrap">
                                             <th className="px-3 pb-2"></th>
                                             <th className="px-3 pb-2">

@@ -16,6 +16,14 @@ class DestroyRibbonController extends Controller
     {
         $query = DestroyRibbon::query();
 
+        $destroyDates = collect();
+        $destroyByes = collect();
+
+        foreach ($query->get() as $destroyRibbon) {
+            $destroyDates->push(['key' => $destroyRibbon->destroyed_at, 'value' => now()->parse($destroyRibbon->destroyed_at)->format('d-F-Y')]);
+            $destroyByes->push(['key' => $destroyRibbon->destroyed_by, 'value' => $destroyRibbon->destroyedBy->name]);
+        }
+
         $sortField = request("sort_field", "destroyed_at");
         $sortDirection = request("sort_direction", "desc");
 
@@ -30,7 +38,9 @@ class DestroyRibbonController extends Controller
         $destroyRibbons = DestroyRibbonResource::collection($query->orderBy($sortField, $sortDirection)->orderBy('updated_at', 'desc')->paginate(15)->onEachSide(1));
         return Inertia::render('DistroyRibbons/Index', [
             'destroyRibbons' => $destroyRibbons,
-            'queryParams' => request()->query() ?: null
+            'queryParams' => request()->query() ?: null,
+            'filterDestroyDates' => $destroyDates->sortBy('key', descending: true)->unique('key')->toArray(),
+            'filterDestroyByes' => $destroyByes->sortBy('value')->unique('key')->toArray()
         ]);
     }
 

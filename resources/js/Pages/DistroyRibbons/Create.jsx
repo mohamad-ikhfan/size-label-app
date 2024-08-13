@@ -7,10 +7,14 @@ import { useForm } from "@inertiajs/react";
 import { toast } from "react-hot-toast";
 
 export default function DestroyRibbonCreate({ userId, closeModal = () => {} }) {
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 3);
+    var dateValue = currentDate.toISOString().substring(0, 10);
+
     const { data, setData, post, errors, processing } = useForm({
-        destroyed_at: "",
+        destroyed_at: dateValue,
         destroyed_by: userId,
-        qty: "",
+        qty: 1,
     });
 
     const submit = (e) => {
@@ -42,8 +46,8 @@ export default function DestroyRibbonCreate({ userId, closeModal = () => {} }) {
                         onChange={(e) =>
                             setData("destroyed_at", e.target.value)
                         }
-                        isFocused
                         type="date"
+                        onKeyDown={(e) => e.preventDefault()}
                     />
 
                     <InputError

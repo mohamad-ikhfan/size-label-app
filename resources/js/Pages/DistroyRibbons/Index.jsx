@@ -6,11 +6,7 @@ import TableHeading from "@/Components/TableHeading";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
-import {
-    EyeIcon,
-    PencilSquareIcon,
-    TrashIcon,
-} from "@heroicons/react/16/solid";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import DestroyRibbonCreate from "./Create";
 import DestroyRibbonEdit from "./Edit";
 import DestroyRibbonDelete from "./Delete";
@@ -18,6 +14,8 @@ import DestroyRibbonDelete from "./Delete";
 export default function DestroyRibbonIndex({
     auth,
     destroyRibbons,
+    filterDestroyDates,
+    filterDestroyByes,
     queryParams = null,
 }) {
     queryParams = queryParams || {};
@@ -147,14 +145,14 @@ export default function DestroyRibbonIndex({
                                             actions
                                         </TableHeading>
                                     </tr>
-                                    {destroyRibbons.data.length > 1 && (
+                                    {destroyRibbons.data.length > 0 && (
                                         <tr className="text-nowrap">
                                             <th className="px-3 pb-2"></th>
                                             <th className="px-3 pb-2">
                                                 <SelectInput
                                                     className="w-full"
                                                     defaultValue={
-                                                        queryParams.blocked
+                                                        queryParams.destroyed_at
                                                     }
                                                     onChange={(e) =>
                                                         searchFieldChanged(
@@ -166,13 +164,20 @@ export default function DestroyRibbonIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
+                                                    {filterDestroyDates.map(
+                                                        ({ key, value }) => (
+                                                            <option value={key}>
+                                                                {value}
+                                                            </option>
+                                                        )
+                                                    )}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
                                                 <SelectInput
                                                     className="w-full"
                                                     defaultValue={
-                                                        queryParams.blocked
+                                                        queryParams.destroyed_by
                                                     }
                                                     onChange={(e) =>
                                                         searchFieldChanged(
@@ -184,6 +189,13 @@ export default function DestroyRibbonIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
+                                                    {filterDestroyByes.map(
+                                                        ({ key, value }) => (
+                                                            <option value={key}>
+                                                                {value}
+                                                            </option>
+                                                        )
+                                                    )}
                                                 </SelectInput>
                                             </th>
                                             <th
