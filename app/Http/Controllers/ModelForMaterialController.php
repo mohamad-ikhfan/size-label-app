@@ -19,15 +19,11 @@ class ModelForMaterialController extends Controller
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
 
-        $filterGenders = collect();
-        $filterCategories = collect();
         $filterMaterialTypes = collect();
         $filterMaterialSizes = collect();
         $filterWides = collect();
 
         foreach ($query->get() as $modelForMaterial) {
-            $filterGenders->push(['value' => $modelForMaterial->gender]);
-            $filterCategories->push(['value' => $modelForMaterial->category]);
             $filterMaterialTypes->push(['value' => $modelForMaterial->material_type]);
             $filterMaterialSizes->push(['value' => $modelForMaterial->material_size]);
             $filterWides->push(['value' => $modelForMaterial->wide]);

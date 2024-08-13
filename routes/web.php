@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DestroyRibbonController;
 use App\Http\Controllers\ModelForMaterialController;
+use App\Http\Controllers\PoItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class)->except('create', 'show', 'edit');
     Route::resource('destroy-ribbon', DestroyRibbonController::class)->except('create', 'show', 'edit');
     Route::resource('model-for-material', ModelForMaterialController::class)->except('create', 'show', 'edit');
+    Route::resource('po-item', PoItemController::class)->except('create', 'show', 'edit');
 });
 
 require __DIR__ . '/auth.php';
