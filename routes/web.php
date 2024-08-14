@@ -4,6 +4,7 @@ use App\Http\Controllers\DestroyRibbonController;
 use App\Http\Controllers\ModelForMaterialController;
 use App\Http\Controllers\PoItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportPrintController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('destroy-ribbon', DestroyRibbonController::class)->except('create', 'show', 'edit');
     Route::resource('model-for-material', ModelForMaterialController::class)->except('create', 'show', 'edit');
     Route::resource('po-item', PoItemController::class)->except('create', 'show', 'edit');
+    Route::resource('report-print', ReportPrintController::class)->except('create', 'show', 'edit');
 });
 
 require __DIR__ . '/auth.php';

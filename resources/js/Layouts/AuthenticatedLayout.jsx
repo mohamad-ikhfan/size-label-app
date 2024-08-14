@@ -52,6 +52,14 @@ export default function Authenticated({ user, header, children }) {
                                         PO Items
                                     </NavLink>
                                     <NavLink
+                                        href={route("report-print.index")}
+                                        active={route().current(
+                                            "report-print.*"
+                                        )}
+                                    >
+                                        Report Prints
+                                    </NavLink>
+                                    <NavLink
                                         href={route("destroy-ribbon.index")}
                                         active={route().current(
                                             "destroy-ribbon.*"
