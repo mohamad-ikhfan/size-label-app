@@ -206,6 +206,7 @@ export default function ModelForMaterialIndex({
                                                     {filterMaterialTypes.map(
                                                         ({ value }) => (
                                                             <option
+                                                                key={value}
                                                                 value={value}
                                                             >
                                                                 {value}
@@ -233,6 +234,7 @@ export default function ModelForMaterialIndex({
                                                     {filterMaterialSizes.map(
                                                         ({ value }) => (
                                                             <option
+                                                                key={value}
                                                                 value={value}
                                                             >
                                                                 {value}
@@ -260,6 +262,7 @@ export default function ModelForMaterialIndex({
                                                     {filterWides.map(
                                                         ({ value }) => (
                                                             <option
+                                                                key={value}
                                                                 value={value}
                                                             >
                                                                 {value === 1

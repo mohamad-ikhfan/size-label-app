@@ -166,7 +166,10 @@ export default function DestroyRibbonIndex({
                                                     </option>
                                                     {filterDestroyDates.map(
                                                         ({ key, value }) => (
-                                                            <option value={key}>
+                                                            <option
+                                                                key={key}
+                                                                value={key}
+                                                            >
                                                                 {value}
                                                             </option>
                                                         )
@@ -191,7 +194,10 @@ export default function DestroyRibbonIndex({
                                                     </option>
                                                     {filterDestroyByes.map(
                                                         ({ key, value }) => (
-                                                            <option value={key}>
+                                                            <option
+                                                                key={key}
+                                                                value={key}
+                                                            >
                                                                 {value}
                                                             </option>
                                                         )

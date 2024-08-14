@@ -16,9 +16,12 @@ class PoItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'line' => $this->line,
-            'spk_publish' => $this->spk_publish ? Carbon::parse($this->spk_publish)->format('m/d y') : null,
-            'release' => Carbon::parse($this->release)->format('m/d y'),
+            'spk_publish' => $this->spk_publish,
+            'spk_publish_format' => $this->spk_publish ? Carbon::parse($this->spk_publish)->format('m/d y') : null,
+            'release' => $this->release,
+            'release_format' => Carbon::parse($this->release)->format('m/d y'),
             'po_number' => $this->po_number,
             'style_number' => $this->style_number,
             'model_name' => $this->model_name,
