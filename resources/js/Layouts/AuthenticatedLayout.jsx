@@ -67,6 +67,14 @@ export default function Authenticated({ user, header, children }) {
                                     >
                                         Destroy Ribbons
                                     </NavLink>
+                                    <NavLink
+                                        href={route("schedule-print.index")}
+                                        active={route().current(
+                                            "schedule-print.*"
+                                        )}
+                                    >
+                                        Schedule Prints
+                                    </NavLink>
                                 </div>
                             </div>
 
