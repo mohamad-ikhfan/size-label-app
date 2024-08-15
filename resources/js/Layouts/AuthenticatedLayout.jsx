@@ -38,6 +38,12 @@ export default function Authenticated({ user, header, children }) {
                                         Users
                                     </NavLink>
                                     <NavLink
+                                        href={route("material.index")}
+                                        active={route().current("material.*")}
+                                    >
+                                        Materials
+                                    </NavLink>
+                                    <NavLink
                                         href={route("model-for-material.index")}
                                         active={route().current(
                                             "model-for-material.*"

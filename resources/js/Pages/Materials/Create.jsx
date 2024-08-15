@@ -6,20 +6,20 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { toast } from "react-hot-toast";
 
-export default function UserCreate({ closeModal = () => {} }) {
+export default function MaterialCreate({ closeModal = () => {} }) {
     const { data, setData, post, errors, processing } = useForm({
+        code: "",
         name: "",
-        email: "",
-        password: "",
+        description: "",
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("user.store"), {
+        post(route("material.store"), {
             onSuccess: () => {
                 closeModal();
-                toast.success("New user created successfully.", {
+                toast.success("New material created successfully.", {
                     position: "top-right",
                     duration: 3000,
                 });
@@ -28,8 +28,20 @@ export default function UserCreate({ closeModal = () => {} }) {
     };
     return (
         <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h3 className="mb-4 text-lg dark:text-gray-100">New User</h3>
+            <h3 className="mb-4 text-lg dark:text-gray-100">New Material</h3>
             <form onSubmit={submit} className="space-y-6">
+                <div>
+                    <InputLabel htmlFor="code" value="Code" />
+
+                    <TextInput
+                        id="code"
+                        className="mt-1 block w-full"
+                        value={data.code}
+                        onChange={(e) => setData("code", e.target.value)}
+                    />
+
+                    <InputError className="mt-2" message={errors.code} />
+                </div>
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -38,40 +50,23 @@ export default function UserCreate({ closeModal = () => {} }) {
                         className="mt-1 block w-full"
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
-                        isFocused
-                        autoComplete="name"
                     />
 
                     <InputError className="mt-2" message={errors.name} />
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="description" value="Description" />
 
                     <TextInput
-                        id="email"
-                        type="email"
+                        id="description"
+                        type="text"
                         className="mt-1 block w-full"
-                        value={data.email}
-                        onChange={(e) => setData("email", e.target.value)}
-                        autoComplete="username"
+                        value={data.description}
+                        onChange={(e) => setData("description", e.target.value)}
                     />
 
-                    <InputError className="mt-2" message={errors.email} />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        className="mt-1 block w-full"
-                        value={data.password}
-                        onChange={(e) => setData("password", e.target.value)}
-                    />
-
-                    <InputError className="mt-2" message={errors.password} />
+                    <InputError className="mt-2" message={errors.description} />
                 </div>
 
                 <div className="flex items-center gap-4">

@@ -1,9 +1,6 @@
 import Modal from "@/Components/Modal";
 import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
-import SelectInput from "@/Components/SelectInput";
-import TextInput from "@/Components/TextInput";
-import TableHeading from "@/Components/TableHeading";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
