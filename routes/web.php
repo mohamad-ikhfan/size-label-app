@@ -7,6 +7,7 @@ use App\Http\Controllers\PoItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportPrintController;
 use App\Http\Controllers\SchedulePrintController;
+use App\Http\Controllers\TransactionMaterialController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('report-print', ReportPrintController::class)->except('create', 'show', 'edit');
     Route::resource('schedule-print', SchedulePrintController::class)->except('create', 'show', 'edit');
     Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
+    Route::resource('transaction-material', TransactionMaterialController::class)->except('create', 'show', 'edit');
 });
 
 require __DIR__ . '/auth.php';
