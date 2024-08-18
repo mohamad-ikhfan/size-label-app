@@ -5,6 +5,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { Toaster } from "react-hot-toast";
+import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -37,22 +38,45 @@ export default function Authenticated({ user, header, children }) {
                                     >
                                         Users
                                     </NavLink>
-                                    <NavLink
-                                        href={route("material.index")}
-                                        active={route().current("material.*")}
-                                    >
-                                        Materials
-                                    </NavLink>
-                                    <NavLink
-                                        href={route(
-                                            "transaction-material.index"
-                                        )}
-                                        active={route().current(
-                                            "transaction-material.*"
-                                        )}
-                                    >
-                                        Transaction Materials
-                                    </NavLink>
+                                    <div className="inline-flex items-center">
+                                        <Dropdown>
+                                            <Dropdown.Trigger>
+                                                <button
+                                                    type="button"
+                                                    className={
+                                                        route().current(
+                                                            "material.*"
+                                                        ) ||
+                                                        route().current(
+                                                            "transaction-material.*"
+                                                        )
+                                                            ? "inline-flex items-center px-1 py-5 border-b-2 text-sm font-medium leading-6 transition duration-150 ease-in-out focus:outline-none border-indigo-400 dark:border-indigo-600 text-gray-900 dark:text-gray-100 focus:border-indigo-700"
+                                                            : "inline-flex items-center px-1 py-5 border-b-2 text-sm font-medium leading-6 transition duration-150 ease-in-out focus:outline-none border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700"
+                                                    }
+                                                >
+                                                    Materials
+                                                    <ChevronUpDownIcon className="ms-2 -me-0.5 h-4 w-4" />
+                                                </button>
+                                            </Dropdown.Trigger>
+
+                                            <Dropdown.Content>
+                                                <Dropdown.Link
+                                                    href={route(
+                                                        "material.index"
+                                                    )}
+                                                >
+                                                    Materials
+                                                </Dropdown.Link>
+                                                <Dropdown.Link
+                                                    href={route(
+                                                        "transaction-material.index"
+                                                    )}
+                                                >
+                                                    Transaction Materials
+                                                </Dropdown.Link>
+                                            </Dropdown.Content>
+                                        </Dropdown>
+                                    </div>
                                     <NavLink
                                         href={route("model-for-material.index")}
                                         active={route().current(
@@ -104,19 +128,7 @@ export default function Authenticated({ user, header, children }) {
                                                     className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                                                 >
                                                     {user.name}
-
-                                                    <svg
-                                                        className="ms-2 -me-0.5 h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 20 20"
-                                                        fill="currentColor"
-                                                    >
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
+                                                    <ChevronUpDownIcon className="ms-2 -me-0.5 h-4 w-4" />
                                                 </button>
                                             </span>
                                         </Dropdown.Trigger>
