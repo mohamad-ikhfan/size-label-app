@@ -11,6 +11,7 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import ReportPrintCreate from "./Create";
 import ReportPrintEdit from "./Edit";
 import ReportPrintDelete from "./Delete";
+import ReportPrintImport from "./Import";
 
 export default function ReportPrintIndex({
     auth,
@@ -63,6 +64,11 @@ export default function ReportPrintIndex({
         setStatusModal("create");
     };
 
+    const importModal = () => {
+        setShowModal(true);
+        setStatusModal("import");
+    };
+
     const closeModal = () => {
         setShowModal(false);
         setStatusModal("");
@@ -82,7 +88,10 @@ export default function ReportPrintIndex({
 
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
-                    <div className="mb-6 flex justify-end">
+                    <div className="mb-6 flex justify-end gap-4">
+                        <PrimaryButton type="button" onClick={importModal}>
+                            Import report print
+                        </PrimaryButton>
                         <PrimaryButton type="button" onClick={createModal}>
                             New report print
                         </PrimaryButton>
@@ -571,7 +580,11 @@ export default function ReportPrintIndex({
                 </div>
                 <Modal
                     show={showModal}
-                    maxWidth={statusModal === "delete" ? "sm" : "6xl"}
+                    maxWidth={
+                        statusModal === "delete" || statusModal === "import"
+                            ? "sm"
+                            : "6xl"
+                    }
                 >
                     {statusModal === "create" && (
                         <ReportPrintCreate
@@ -591,6 +604,9 @@ export default function ReportPrintIndex({
                             reportPrint={reportPrintData}
                             closeModal={closeModal}
                         />
+                    )}
+                    {statusModal === "import" && (
+                        <ReportPrintImport closeModal={closeModal} />
                     )}
                 </Modal>
             </div>
