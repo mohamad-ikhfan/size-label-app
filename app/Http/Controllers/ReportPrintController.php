@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ReportPrintResource;
+use App\Models\HistoryImportFile;
 use App\Models\ReportPrint;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -147,5 +148,30 @@ class ReportPrintController extends Controller
     {
         $reportPrint = ReportPrint::findOrFail($id);
         $reportPrint->delete();
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate(([
+            'import_file' => 'required|file'
+        ]));
+
+        $dateFormat = '_(' . now()->format('d-m-y') . '_' . time() . ')';
+        $file = $request->file('import_file');
+        $ext = $file->getClientOriginalExtension();
+        $fileName = str_replace("." . $ext, "", $file->getClientOriginalName()) . $dateFormat;
+        $mimeType = $file->getMimeType();
+        $size = $file->getSize();
+        $path = 'app/public/imports';
+
+        $file->move(storage_path($path), $fileName . "." . $ext);
+
+        HistoryImportFile::create([
+            'name' => $fileName,
+            'extension' => $ext,
+            'mime_type' => $mimeType,
+            'size' => $size,
+            'path' => $path,
+        ]);
     }
 }

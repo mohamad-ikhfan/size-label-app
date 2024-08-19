@@ -9,7 +9,8 @@ use App\Http\Controllers\ReportPrintController;
 use App\Http\Controllers\SchedulePrintController;
 use App\Http\Controllers\TransactionMaterialController;
 use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Application;
+use App\Models\User;
+use App\Notifications\ImportNotification;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -37,9 +38,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('model-for-material', ModelForMaterialController::class)->except('create', 'show', 'edit');
     Route::resource('po-item', PoItemController::class)->except('create', 'show', 'edit');
     Route::resource('report-print', ReportPrintController::class)->except('create', 'show', 'edit');
+    Route::post('report-print/import-file', [ReportPrintController::class, 'import'])->name('report-print.import');
     Route::resource('schedule-print', SchedulePrintController::class)->except('create', 'show', 'edit');
     Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
     Route::resource('transaction-material', TransactionMaterialController::class)->except('create', 'show', 'edit');
+
+
+    Route::get('/testing', function () {
+        $user = User::find(auth()->guard('web')->user()->id);
+        dd($user->notify(new ImportNotification('Laporan Print.xlsx')));
+    });
 });
 
 require __DIR__ . '/auth.php';
