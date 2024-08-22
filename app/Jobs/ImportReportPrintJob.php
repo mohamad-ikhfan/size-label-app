@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\ReportPrint;
+use App\Models\User;
+use App\Notifications\ImportNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -13,12 +15,15 @@ class ImportReportPrintJob implements ShouldQueue
 {
     use Queueable;
 
+    public $receipent, $file;
+
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(User $receipent, $file)
     {
-        //
+        $this->receipent = $receipent;
+        $this->file = $file;
     }
 
     /**
@@ -27,7 +32,8 @@ class ImportReportPrintJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $file = storage_path('app/public/imports/LAPORAN PRINT SIZELABEL_(19-08-24_1724028637).xlsx');
+            ReportPrint::truncate();
+            $file = storage_path('app/public/imports/' . $this->file);
             $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
             $reader->setReadDataOnly(true);
             $spreadsheet = $reader->load($file);
@@ -40,7 +46,7 @@ class ImportReportPrintJob implements ShouldQueue
                     $styleNumber = $row[4] ?? null;
                     $modelName = $row[5] ?? null;
                     $special = $row[6] ?? null;
-                    $qty = floatval($row[7] ?? 0);
+                    $qty = floatval($row[8] ?? 0);
                     $remark = $row[9] ?? null;
                     $printedBy = intval($row[10] ?? 0);
 
@@ -61,8 +67,9 @@ class ImportReportPrintJob implements ShouldQueue
                     }
                 }
             }
+            $this->receipent->notify(new ImportNotification(title: 'Imported success', message: $this->file . ' imported successfully'));
         } catch (\Exception $e) {
-            //throw $e;
+            $this->receipent->notify(new ImportNotification(title: 'Import error', message: $this->file . ' import error : ' . $e->getMessage(), notif: 'error'));
         }
     }
 }

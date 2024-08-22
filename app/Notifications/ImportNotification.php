@@ -10,14 +10,16 @@ use Illuminate\Notifications\Notification;
 class ImportNotification extends Notification
 {
     use Queueable;
-    public $fileName;
+    public $title, $message, $notif;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($fileName)
+    public function __construct($title, $message, $notif = 'success')
     {
-        $this->fileName = $fileName;
+        $this->title = $title;
+        $this->message = $message;
+        $this->notif = $notif;
     }
 
     /**
@@ -49,7 +51,9 @@ class ImportNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'data' => 'Import ' . $this->fileName . ' successfully'
+            'title' => $this->title,
+            'message' => $this->message,
+            'notif' => $this->notif
         ];
     }
 }

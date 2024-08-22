@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ReportPrintResource;
+use App\Jobs\ImportReportPrintJob;
 use App\Models\HistoryImportFile;
 use App\Models\ReportPrint;
 use Illuminate\Http\Request;
@@ -15,24 +16,11 @@ class ReportPrintController extends Controller
      */
     public function index()
     {
+        $reportPrintsAll = new ReportPrint;
         $query = ReportPrint::query();
 
         $sortField = request("sort_field", "printed_at");
         $sortDirection = request("sort_direction", "desc");
-
-        $filterPrintedDates = collect();
-        $filterReleases = collect();
-        $filterSpecials = collect();
-        $filterRemarks = collect();
-        $filterPrintedByes = collect();
-
-        foreach ($query->get() as $reportPrint) {
-            $filterPrintedDates->push(['key' => $reportPrint->printed_at, 'value' => now()->parse($reportPrint->printed_at)->format('d-F-Y')]);
-            $filterReleases->push(['key' => $reportPrint->release, 'value' => now()->parse($reportPrint->release)->format('m/d y')]);
-            $filterSpecials->push(['value' => $reportPrint->special]);
-            $filterRemarks->push(['value' => $reportPrint->remark]);
-            $filterPrintedByes->push(['key' => $reportPrint->printed_by, 'value' => $reportPrint->printedBy->name]);
-        }
 
         if (request("printed_at")) {
             $query->where("printed_at", "like", "%" . request("printed_at") . "%");
@@ -67,12 +55,14 @@ class ReportPrintController extends Controller
 
         return Inertia::render('ReportPrints/Index', [
             'reportPrints' => $reportPrints,
-            'filterPrintedDates' => $filterPrintedDates,
-            'filterReleases' => $filterReleases,
-            'filterSpecials' => $filterSpecials,
-            'filterRemarks' => $filterRemarks,
-            'filterPrintedByes' => $filterPrintedByes,
-            'queryParams' => request()->query() ?: null
+            'queryParams' => request()->query() ?: null,
+            'filters' => [
+                'printed_at' => $reportPrintsAll->orderBy('printed_at', 'desc')->get()->pluck('printed_at', 'printed_at')->map(fn($val) => now()->parse($val)->format('d-F-Y')),
+                'release' => $reportPrintsAll->orderBy('release', 'desc')->get()->pluck('release', 'release')->map(fn($val) => now()->parse($val)->format('m/d y')),
+                'special' => $reportPrintsAll->get()->pluck('special', 'special'),
+                'remark' => $reportPrintsAll->get()->pluck('remark', 'remark'),
+                'printed_by' => $reportPrintsAll->get()->pluck('printed_by', 'printed_by')->map(fn($val) => $reportPrintsAll->where('printed_by', $val)->first()->printedBy->name),
+            ]
         ]);
     }
 
@@ -165,6 +155,8 @@ class ReportPrintController extends Controller
         $path = 'app/public/imports';
 
         $file->move(storage_path($path), $fileName . "." . $ext);
+
+        ImportReportPrintJob::dispatch(auth()->guard('web')->user(), $fileName . "." . $ext);
 
         HistoryImportFile::create([
             'name' => $fileName,

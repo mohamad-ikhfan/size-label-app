@@ -16,12 +16,8 @@ import ReportPrintImport from "./Import";
 export default function ReportPrintIndex({
     auth,
     reportPrints,
-    filterPrintedDates,
-    filterReleases,
-    filterSpecials,
-    filterRemarks,
-    filterPrintedByes,
     queryParams = null,
+    filters,
 }) {
     queryParams = queryParams || {};
 
@@ -247,16 +243,16 @@ export default function ReportPrintIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterPrintedDates.map(
-                                                        ({ key, value }) => (
-                                                            <option
-                                                                key={key}
-                                                                value={key}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["printed_at"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -294,16 +290,16 @@ export default function ReportPrintIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterReleases.map(
-                                                        ({ key, value }) => (
-                                                            <option
-                                                                key={key}
-                                                                value={key}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["release"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -389,16 +385,16 @@ export default function ReportPrintIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterSpecials.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["special"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -417,16 +413,16 @@ export default function ReportPrintIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterRemarks.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["remark"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -445,16 +441,16 @@ export default function ReportPrintIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterPrintedByes.map(
-                                                        ({ key, value }) => (
-                                                            <option
-                                                                key={key}
-                                                                value={key}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["printed_by"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th

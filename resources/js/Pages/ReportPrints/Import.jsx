@@ -3,7 +3,6 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export default function ReportPrintImport({ closeModal = () => {} }) {
@@ -17,7 +16,7 @@ export default function ReportPrintImport({ closeModal = () => {} }) {
         post(route("report-print.import"), {
             onSuccess: () => {
                 closeModal();
-                toast.success("Import report print successfully.", {
+                toast.success("Import report print on proccess.", {
                     position: "top-right",
                     duration: 3000,
                 });
@@ -35,7 +34,7 @@ export default function ReportPrintImport({ closeModal = () => {} }) {
                     <TextInput
                         id="import_file"
                         type="file"
-                        className="block w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
+                        className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                         onChange={(e) =>
                             setData("import_file", e.target.files[0])

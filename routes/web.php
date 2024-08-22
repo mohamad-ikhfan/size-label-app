@@ -3,14 +3,13 @@
 use App\Http\Controllers\DestroyRibbonController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ModelForMaterialController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PoItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportPrintController;
 use App\Http\Controllers\SchedulePrintController;
 use App\Http\Controllers\TransactionMaterialController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
-use App\Notifications\ImportNotification;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -43,11 +42,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
     Route::resource('transaction-material', TransactionMaterialController::class)->except('create', 'show', 'edit');
 
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notification.index');
+    Route::put('notifications/{id}', [NotificationController::class, 'read'])->name('notification.read');
+    Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
 
-    Route::get('/testing', function () {
-        $user = User::find(auth()->guard('web')->user()->id);
-        dd($user->notify(new ImportNotification('Laporan Print.xlsx')));
-    });
+
+    // Route::get('/testing', function () {
+    //    //
+    // });
 });
 
 require __DIR__ . '/auth.php';
