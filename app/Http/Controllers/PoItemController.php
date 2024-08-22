@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PoItemResource;
+use App\Jobs\ImportPoItemJob;
+use App\Models\HistoryImportFile;
 use App\Models\PoItem;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,20 +16,11 @@ class PoItemController extends Controller
      */
     public function index()
     {
+        $poItemAll = new PoItem();
         $query = PoItem::query();
 
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
-
-        $filterReleases = collect();
-        $filterSpecials = collect();
-        $filterRemarks = collect();
-
-        foreach ($query->get() as $poItem) {
-            $filterReleases->push(['key' => $poItem->release, 'value' => now()->parse($poItem->release)->format('m/d y')]);
-            $filterSpecials->push(['value' => $poItem->special]);
-            $filterRemarks->push(['value' => $poItem->remark]);
-        }
 
         if (request("line")) {
             $query->where("line", "like", "%" . request("line") . "%");
@@ -57,9 +50,11 @@ class PoItemController extends Controller
         return Inertia::render('PoItems/Index', [
             'poItems' => $poItems,
             'queryParams' => request()->query() ?: null,
-            'filterReleases' => $filterReleases->sortBy('key', descending: true)->unique('key')->toArray(),
-            'filterSpecials' => $filterSpecials->sortBy('value', descending: true)->unique('value')->toArray(),
-            'filterRemarks' => $filterRemarks->sortBy('value', descending: true)->unique('value')->toArray(),
+            'filters' => [
+                'release' => $poItemAll->all()->pluck('release', 'release')->map(fn($v) => now()->parse($v)->format('m/d y')),
+                'special' => $poItemAll->all()->pluck('special', 'special'),
+                'remark' => $poItemAll->all()->pluck('remark', 'remark'),
+            ]
         ]);
     }
 
@@ -131,5 +126,40 @@ class PoItemController extends Controller
     {
         $poItem = PoItem::findOrFail($id);
         $poItem->delete();
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate(([
+            'import_file_f2' => 'required|file',
+            'import_file_f4' => 'required|file',
+            'import_file_f6' => 'required|file',
+            'import_file_f7' => 'required|file',
+        ]));
+
+        $dateFormat = '_(' . now()->format('d-m-y') . '_' . time() . ')';
+        $path = 'app/public/imports';
+
+        $files = collect();
+
+        foreach ($request->all() as $key => $value) {
+            $file = $request->file($key);
+            $ext = $file->getClientOriginalExtension();
+            $fileName = str_replace("." . $ext, "", $file->getClientOriginalName()) . $dateFormat;
+            $mimeType = $file->getMimeType();
+            $size = $file->getSize();
+            $file->move(storage_path($path), $fileName . "." . $ext);
+            $files->push($fileName . "." . $ext);
+
+            HistoryImportFile::create([
+                'name' => $fileName,
+                'extension' => $ext,
+                'mime_type' => $mimeType,
+                'size' => $size,
+                'path' => $path,
+            ]);
+        }
+
+        ImportPoItemJob::dispatch(auth()->guard('web')->user(), $files->toArray());
     }
 }

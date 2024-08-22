@@ -33,13 +33,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('user', UserController::class)->except('create', 'show', 'edit');
+
     Route::resource('destroy-ribbon', DestroyRibbonController::class)->except('create', 'show', 'edit');
+
     Route::resource('model-for-material', ModelForMaterialController::class)->except('create', 'show', 'edit');
+
     Route::resource('po-item', PoItemController::class)->except('create', 'show', 'edit');
+    Route::post('po-item/import-file', [PoItemController::class, 'import'])->name('po-item.import');
+
     Route::resource('report-print', ReportPrintController::class)->except('create', 'show', 'edit');
     Route::post('report-print/import-file', [ReportPrintController::class, 'import'])->name('report-print.import');
+
     Route::resource('schedule-print', SchedulePrintController::class)->except('create', 'show', 'edit');
+
     Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
+
     Route::resource('transaction-material', TransactionMaterialController::class)->except('create', 'show', 'edit');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notification.index');

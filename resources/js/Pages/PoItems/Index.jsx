@@ -11,14 +11,13 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import PoItemCreate from "./Create";
 import PoItemEdit from "./Edit";
 import PoItemDelete from "./Delete";
+import PoItemImport from "./Import";
 
 export default function PoItemIndex({
     auth,
     poItems,
-    filterReleases,
-    filterSpecials,
-    filterRemarks,
     queryParams = null,
+    filters,
 }) {
     queryParams = queryParams || {};
 
@@ -61,6 +60,11 @@ export default function PoItemIndex({
         setStatusModal("create");
     };
 
+    const importModal = () => {
+        setShowModal(true);
+        setStatusModal("import");
+    };
+
     const closeModal = () => {
         setShowModal(false);
         setStatusModal("");
@@ -80,7 +84,10 @@ export default function PoItemIndex({
 
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
-                    <div className="mb-6 flex justify-end">
+                    <div className="mb-6 flex justify-end gap-4">
+                        <PrimaryButton type="button" onClick={importModal}>
+                            Import po item
+                        </PrimaryButton>
                         <PrimaryButton type="button" onClick={createModal}>
                             New po item
                         </PrimaryButton>
@@ -246,16 +253,16 @@ export default function PoItemIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterReleases.map(
-                                                        ({ key, value }) => (
-                                                            <option
-                                                                key={key}
-                                                                value={key}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["release"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -341,16 +348,16 @@ export default function PoItemIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterSpecials.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["special"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -369,16 +376,16 @@ export default function PoItemIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterRemarks.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["remark"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2"></th>
@@ -484,7 +491,11 @@ export default function PoItemIndex({
                 </div>
                 <Modal
                     show={showModal}
-                    maxWidth={statusModal === "delete" ? "sm" : "6xl"}
+                    maxWidth={
+                        statusModal === "delete" || statusModal === "import"
+                            ? "sm"
+                            : "6xl"
+                    }
                 >
                     {statusModal === "create" && (
                         <PoItemCreate closeModal={closeModal} />
@@ -500,6 +511,9 @@ export default function PoItemIndex({
                             poItem={poItemData}
                             closeModal={closeModal}
                         />
+                    )}
+                    {statusModal === "import" && (
+                        <PoItemImport closeModal={closeModal} />
                     )}
                 </Modal>
             </div>
