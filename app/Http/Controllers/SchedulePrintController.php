@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\SchedulePrintResource;
 use App\Models\ModelForMaterial;
+use App\Models\PoItem;
 use App\Models\SchedulePrint;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class SchedulePrintController extends Controller
 
         return Inertia::render('SchedulePrints/Index', [
             'schedulePrints' => $schedulePrints,
-            'users' => User::all()
+            'users' => User::all(),
+            'remarks' => PoItem::all()->pluck('remark', 'remark')
         ]);
     }
 
@@ -98,5 +100,19 @@ class SchedulePrintController extends Controller
     {
         $schedulePrint = SchedulePrint::findOrFail($id);
         $schedulePrint->delete();
+    }
+
+    public function generate(Request $request)
+    {
+        dd($request->all());
+        $request->validate([
+            'from_release' => 'required|date',
+            'except_remarks' => 'nullable|array',
+        ]);
+
+        $poItems = PoItem::where('release', '>', $request->from_release)
+            ->whereNotIn('remark', $request->except_remarks)
+            ->get();
+        dd($poItems);
     }
 }

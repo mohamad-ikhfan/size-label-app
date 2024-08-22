@@ -8,8 +8,14 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import ScheduletPrintCreate from "./Create";
 import SchedulePrintDelete from "./Delete";
 import ScheduletPrintEdit from "./Edit";
+import SchedulePrintGenerate from "./Generate";
 
-export default function SchedulePrintIndex({ auth, schedulePrints, users }) {
+export default function SchedulePrintIndex({
+    auth,
+    schedulePrints,
+    users,
+    remarks,
+}) {
     const [showModal, setShowModal] = useState(false);
     const [statusModal, setStatusModal] = useState("");
     const [schedulePrintData, setSchedulePrintData] = useState({});
@@ -17,6 +23,11 @@ export default function SchedulePrintIndex({ auth, schedulePrints, users }) {
     const createModal = () => {
         setShowModal(true);
         setStatusModal("create");
+    };
+
+    const generateModal = () => {
+        setShowModal(true);
+        setStatusModal("generate");
     };
 
     const closeModal = () => {
@@ -38,7 +49,10 @@ export default function SchedulePrintIndex({ auth, schedulePrints, users }) {
 
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
-                    <div className="mb-6 flex justify-end">
+                    <div className="mb-6 flex justify-end gap-4">
+                        <PrimaryButton type="button" onClick={generateModal}>
+                            Generate schedule print
+                        </PrimaryButton>
                         <PrimaryButton type="button" onClick={createModal}>
                             New schedule print
                         </PrimaryButton>
@@ -174,7 +188,11 @@ export default function SchedulePrintIndex({ auth, schedulePrints, users }) {
                 </div>
                 <Modal
                     show={showModal}
-                    maxWidth={statusModal === "delete" ? "sm" : "6xl"}
+                    maxWidth={
+                        statusModal === "delete" || statusModal === "generate"
+                            ? "sm"
+                            : "6xl"
+                    }
                 >
                     {statusModal === "create" && (
                         <ScheduletPrintCreate
@@ -192,6 +210,12 @@ export default function SchedulePrintIndex({ auth, schedulePrints, users }) {
                     {statusModal === "delete" && (
                         <SchedulePrintDelete
                             schedulePrint={schedulePrintData}
+                            closeModal={closeModal}
+                        />
+                    )}
+                    {statusModal === "generate" && (
+                        <SchedulePrintGenerate
+                            remarks={remarks}
                             closeModal={closeModal}
                         />
                     )}

@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('report-print/import-file', [ReportPrintController::class, 'import'])->name('report-print.import');
 
     Route::resource('schedule-print', SchedulePrintController::class)->except('create', 'show', 'edit');
+    Route::post('schedule-print/generate', [SchedulePrintController::class, 'generate'])->name('schedule-print.generate');
 
     Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
 
