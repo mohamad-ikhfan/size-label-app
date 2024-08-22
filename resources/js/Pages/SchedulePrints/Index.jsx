@@ -171,7 +171,7 @@ export default function SchedulePrintIndex({
                                     ) : (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td
-                                                colSpan={10}
+                                                colSpan={11}
                                                 className="text-center p-3"
                                             >
                                                 No data found.

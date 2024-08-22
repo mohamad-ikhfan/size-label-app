@@ -361,7 +361,7 @@ export default function ModelForMaterialIndex({
                                     ) : (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <td
-                                                colSpan={9}
+                                                colSpan={8}
                                                 className="text-center px-3 py-2"
                                             >
                                                 No data found.

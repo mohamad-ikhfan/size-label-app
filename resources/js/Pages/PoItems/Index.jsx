@@ -389,6 +389,7 @@ export default function PoItemIndex({
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2"></th>
                                         </tr>
                                     )}
                                 </thead>

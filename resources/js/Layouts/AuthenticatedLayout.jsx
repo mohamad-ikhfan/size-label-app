@@ -237,7 +237,7 @@ export default function Authenticated({ user, header, children }) {
                                                         )
                                                     )
                                                 ) : (
-                                                    <div className="text-center">
+                                                    <div className="text-center dark:text-gray-400">
                                                         No notification.
                                                     </div>
                                                 )}
