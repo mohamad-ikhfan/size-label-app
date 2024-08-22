@@ -14,9 +14,8 @@ import DestroyRibbonDelete from "./Delete";
 export default function DestroyRibbonIndex({
     auth,
     destroyRibbons,
-    filterDestroyDates,
-    filterDestroyByes,
     queryParams = null,
+    filters,
 }) {
     queryParams = queryParams || {};
 
@@ -164,16 +163,16 @@ export default function DestroyRibbonIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterDestroyDates.map(
-                                                        ({ key, value }) => (
-                                                            <option
-                                                                key={key}
-                                                                value={key}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["destroyed_at"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -192,16 +191,16 @@ export default function DestroyRibbonIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterDestroyByes.map(
-                                                        ({ key, value }) => (
-                                                            <option
-                                                                key={key}
-                                                                value={key}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["destroyed_by"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th

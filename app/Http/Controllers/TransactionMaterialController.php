@@ -16,10 +16,24 @@ class TransactionMaterialController extends Controller
      */
     public function index()
     {
+        $transactionMaterialAll = new TransactionMaterial;
         $query = TransactionMaterial::query();
 
         $sortField = request("sort_field", "date");
         $sortDirection = request("sort_direction", "desc");
+
+        if (request("date")) {
+            $query->where("date", "like", "%" . request("date") . "%");
+        }
+        if (request("type")) {
+            $query->where("type", "like", "%" . request("type") . "%");
+        }
+        if (request("material_id")) {
+            $query->where("material_id", "like", "%" . request("material_id") . "%");
+        }
+        if (request("transaction_by")) {
+            $query->where("transaction_by", "like", "%" . request("transaction_by") . "%");
+        }
 
         $transactionMaterials = TransactionMaterialResource::collection($query->orderBy($sortField, $sortDirection)->orderBy('updated_at', 'desc')->paginate(15)->onEachSide(1));
 
@@ -27,6 +41,12 @@ class TransactionMaterialController extends Controller
             'transactionMaterials' => $transactionMaterials,
             'materials' => Material::all(),
             'queryParams' => request()->query() ?: null,
+            'filters' => [
+                'date' => $transactionMaterialAll->all()->pluck('date', 'date')->map(fn($v) => now()->parse($v)->format('d-F-Y')),
+                'type' => $transactionMaterialAll->all()->pluck('type', 'type'),
+                'material_id' => $transactionMaterialAll->all()->pluck('material_id', 'material_id')->map(fn($v) => $transactionMaterialAll->where('material_id', $v)->first()->material->name),
+                'transaction_by' => $transactionMaterialAll->all()->pluck('transaction_by', 'transaction_by')->map(fn($v) => $transactionMaterialAll->where('transaction_by', $v)->first()->transactionBy->name),
+            ]
         ]);
     }
 

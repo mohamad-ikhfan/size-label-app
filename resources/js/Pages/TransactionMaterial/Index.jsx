@@ -2,7 +2,6 @@ import Modal from "@/Components/Modal";
 import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TableHeading from "@/Components/TableHeading";
-import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
@@ -10,12 +9,14 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import TransactionMaterialCreate from "./Create";
 import TransactionMaterialEdit from "./Edit";
 import TransactionMaterialDelete from "./Delete";
+import SelectInput from "@/Components/SelectInput";
 
 export default function MaterialIndex({
     auth,
     transactionMaterials,
     materials,
     queryParams = null,
+    filters,
 }) {
     queryParams = queryParams || {};
 
@@ -188,23 +189,121 @@ export default function MaterialIndex({
                                         <tr className="text-nowrap">
                                             <th className="px-3 pb-2"></th>
                                             <th className="px-3 pb-2">
-                                                <TextInput
+                                                <SelectInput
                                                     className="w-full"
-                                                    type="search"
                                                     defaultValue={
-                                                        queryParams.code
+                                                        queryParams.date
                                                     }
-                                                    placeholder="search..."
-                                                    onBlur={(e) =>
+                                                    onChange={(e) =>
                                                         searchFieldChanged(
-                                                            "code",
+                                                            "date",
                                                             e.target.value
                                                         )
                                                     }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("code", e)
+                                                >
+                                                    <option value="">
+                                                        show all
+                                                    </option>
+                                                    {Object.entries(
+                                                        filters["date"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
+                                                </SelectInput>
+                                            </th>
+                                            <th className="px-3 pb-2">
+                                                <SelectInput
+                                                    className="w-full"
+                                                    defaultValue={
+                                                        queryParams.type
                                                     }
-                                                />
+                                                    onChange={(e) =>
+                                                        searchFieldChanged(
+                                                            "type",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        show all
+                                                    </option>
+                                                    {Object.entries(
+                                                        filters["type"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
+                                                </SelectInput>
+                                            </th>
+                                            <th className="px-3 pb-2">
+                                                <SelectInput
+                                                    className="w-full"
+                                                    defaultValue={
+                                                        queryParams.material_id
+                                                    }
+                                                    onChange={(e) =>
+                                                        searchFieldChanged(
+                                                            "material_id",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        show all
+                                                    </option>
+                                                    {Object.entries(
+                                                        filters["material_id"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
+                                                </SelectInput>
+                                            </th>
+                                            <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2">
+                                                <SelectInput
+                                                    className="w-full"
+                                                    defaultValue={
+                                                        queryParams.transaction_by
+                                                    }
+                                                    onChange={(e) =>
+                                                        searchFieldChanged(
+                                                            "transaction_by",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        show all
+                                                    </option>
+                                                    {Object.entries(
+                                                        filters[
+                                                            "transaction_by"
+                                                        ]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
+                                                </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2"></th>
                                             <th className="px-3 pb-2"></th>

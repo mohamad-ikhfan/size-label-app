@@ -20,10 +20,8 @@ import ModelForMaterialDelete from "./Delete";
 export default function ModelForMaterialIndex({
     auth,
     modelForMaterials,
-    filterMaterialTypes,
-    filterMaterialSizes,
-    filterWides,
     queryParams = null,
+    filters,
 }) {
     queryParams = queryParams || {};
 
@@ -203,16 +201,16 @@ export default function ModelForMaterialIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterMaterialTypes.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["material_type"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -231,16 +229,16 @@ export default function ModelForMaterialIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterMaterialSizes.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["material_size"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2">
@@ -259,18 +257,16 @@ export default function ModelForMaterialIndex({
                                                     <option value="">
                                                         show all
                                                     </option>
-                                                    {filterWides.map(
-                                                        ({ value }) => (
-                                                            <option
-                                                                key={value}
-                                                                value={value}
-                                                            >
-                                                                {value === 1
-                                                                    ? "Yes"
-                                                                    : "No"}
-                                                            </option>
-                                                        )
-                                                    )}
+                                                    {Object.entries(
+                                                        filters["wide"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2"></th>

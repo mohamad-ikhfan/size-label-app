@@ -14,20 +14,11 @@ class ModelForMaterialController extends Controller
      */
     public function index()
     {
+        $modelForMaterialAll = new ModelForMaterial();
         $query = ModelForMaterial::query();
 
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
-
-        $filterMaterialTypes = collect();
-        $filterMaterialSizes = collect();
-        $filterWides = collect();
-
-        foreach ($query->get() as $modelForMaterial) {
-            $filterMaterialTypes->push(['value' => $modelForMaterial->material_type]);
-            $filterMaterialSizes->push(['value' => $modelForMaterial->material_size]);
-            $filterWides->push(['value' => $modelForMaterial->wide]);
-        }
 
         if (request("model_name")) {
             $query->where("model_name", "like", "%" . request("model_name") . "%");
@@ -48,9 +39,11 @@ class ModelForMaterialController extends Controller
         return Inertia::render('ModelForMaterials/Index', [
             'modelForMaterials' => $modelForMaterials,
             'queryParams' => request()->query() ?: null,
-            'filterMaterialTypes' => $filterMaterialTypes->sortBy('value', descending: true)->unique('value')->toArray(),
-            'filterMaterialSizes' => $filterMaterialSizes->sortBy('value', descending: true)->unique('value')->toArray(),
-            'filterWides' => $filterWides->sortBy('value', descending: true)->unique('value')->toArray(),
+            'filters' => [
+                'material_type' => $modelForMaterialAll->all()->pluck('material_type', 'material_type'),
+                'material_size' => $modelForMaterialAll->all()->pluck('material_size', 'material_size'),
+                'wide' => $modelForMaterialAll->all()->pluck('wide', 'wide')->map(fn($v) => $v === 1 ? 'Yes' : 'No'),
+            ]
         ]);
     }
 
