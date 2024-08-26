@@ -37,6 +37,9 @@ export default function SchedulePrintIndex({
         router.get(route("schedule-print.index"), queryParams);
     };
 
+    const numberFormat = (number) =>
+        new Intl.NumberFormat("en-IN").format(number);
+
     const createModal = () => {
         setShowModal(true);
         setStatusModal("create");
@@ -179,7 +182,9 @@ export default function SchedulePrintIndex({
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {schedulePrint.qty}
+                                                        {numberFormat(
+                                                            schedulePrint.qty
+                                                        )}
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {
