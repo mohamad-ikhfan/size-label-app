@@ -3,7 +3,7 @@ import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import ScheduletPrintCreate from "./Create";
 import SchedulePrintDelete from "./Delete";
@@ -37,6 +37,16 @@ export default function SchedulePrintIndex({
         router.get(route("schedule-print.index"), queryParams);
     };
 
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            router.reload();
+        }, 5000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    });
+
     const numberFormat = (number) =>
         new Intl.NumberFormat("en-IN").format(number);
 
@@ -48,11 +58,6 @@ export default function SchedulePrintIndex({
     const generateModal = () => {
         setShowModal(true);
         setStatusModal("generate");
-    };
-
-    const printingModal = () => {
-        setShowModal(true);
-        setStatusModal("printing");
     };
 
     const closeModal = () => {
@@ -227,40 +232,45 @@ export default function SchedulePrintIndex({
                                                                     Printing
                                                                 </span>
                                                             )}
-                                                            <PencilSquareIcon
-                                                                className="w-5 text-yellow-500 cursor-pointer"
-                                                                title="edit"
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    setSchedulePrintData(
-                                                                        schedulePrint
-                                                                    );
-                                                                    setShowModal(
-                                                                        true
-                                                                    );
-                                                                    setStatusModal(
-                                                                        "edit"
-                                                                    );
-                                                                }}
-                                                            />
-                                                            <TrashIcon
-                                                                className="w-5 text-red-500 cursor-pointer"
-                                                                title="delete"
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    setSchedulePrintData(
-                                                                        schedulePrint
-                                                                    );
-                                                                    setShowModal(
-                                                                        true
-                                                                    );
-                                                                    setStatusModal(
-                                                                        "delete"
-                                                                    );
-                                                                }}
-                                                            />
+                                                            {auth.user.id ===
+                                                                1 && (
+                                                                <>
+                                                                    <PencilSquareIcon
+                                                                        className="w-5 text-yellow-500 cursor-pointer"
+                                                                        title="edit"
+                                                                        onClick={(
+                                                                            e
+                                                                        ) => {
+                                                                            setSchedulePrintData(
+                                                                                schedulePrint
+                                                                            );
+                                                                            setShowModal(
+                                                                                true
+                                                                            );
+                                                                            setStatusModal(
+                                                                                "edit"
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                    <TrashIcon
+                                                                        className="w-5 text-red-500 cursor-pointer"
+                                                                        title="delete"
+                                                                        onClick={(
+                                                                            e
+                                                                        ) => {
+                                                                            setSchedulePrintData(
+                                                                                schedulePrint
+                                                                            );
+                                                                            setShowModal(
+                                                                                true
+                                                                            );
+                                                                            setStatusModal(
+                                                                                "delete"
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                </>
+                                                            )}
                                                         </div>
                                                     </td>
                                                 </tr>
