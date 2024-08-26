@@ -32,26 +32,66 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('user', UserController::class)->except('create', 'show', 'edit');
+    Route::prefix('user')->middleware('permission-user')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::post('/', [UserController::class, 'store'])->name('user.store');
+        Route::put('/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    });
 
-    Route::resource('destroy-ribbon', DestroyRibbonController::class)->except('create', 'show', 'edit');
+    Route::prefix('destroy-ribbon')->group(function () {
+        Route::get('/', [DestroyRibbonController::class, 'index'])->name('destroy-ribbon.index');
+        Route::post('/', [DestroyRibbonController::class, 'store'])->name('destroy-ribbon.store');
+        Route::put('/{id}', [DestroyRibbonController::class, 'update'])->name('destroy-ribbon.update');
+        Route::delete('/{id}', [DestroyRibbonController::class, 'destroy'])->name('destroy-ribbon.destroy');
+    });
 
-    Route::resource('model-for-material', ModelForMaterialController::class)->except('create', 'show', 'edit');
+    Route::prefix('model-for-material')->group(function () {
+        Route::get('/', [ModelForMaterialController::class, 'index'])->name('model-for-material.index');
+        Route::post('/', [ModelForMaterialController::class, 'store'])->name('model-for-material.store')->middleware('permission-user');
+        Route::put('/{id}', [ModelForMaterialController::class, 'update'])->name('model-for-material.update')->middleware('permission-user');
+        Route::delete('/{id}', [ModelForMaterialController::class, 'destroy'])->name('model-for-material.destroy')->middleware('permission-user');
+    });
 
-    Route::resource('po-item', PoItemController::class)->except('create', 'show', 'edit');
-    Route::post('po-item/import-file', [PoItemController::class, 'import'])->name('po-item.import');
+    Route::prefix('po-item')->group(function () {
+        Route::get('/', [PoItemController::class, 'index'])->name('po-item.index');
+        Route::post('/', [PoItemController::class, 'store'])->name('po-item.store')->middleware('permission-user');
+        Route::put('/{id}', [PoItemController::class, 'update'])->name('po-item.update')->middleware('permission-user');
+        Route::delete('/{id}', [PoItemController::class, 'destroy'])->name('po-item.destroy')->middleware('permission-user');
+        Route::post('/import-file', [PoItemController::class, 'import'])->name('po-item.import')->middleware('permission-user');
+    });
 
-    Route::resource('report-print', ReportPrintController::class)->except('create', 'show', 'edit');
-    Route::post('report-print/import-file', [ReportPrintController::class, 'import'])->name('report-print.import');
+    Route::prefix('report-print')->group(function () {
+        Route::get('/', [ReportPrintController::class, 'index'])->name('report-print.index');
+        Route::post('/', [ReportPrintController::class, 'store'])->name('report-print.store');
+        Route::put('/{id}', [ReportPrintController::class, 'update'])->name('report-print.update');
+        Route::delete('/{id}', [ReportPrintController::class, 'destroy'])->name('report-print.destroy');
+        Route::post('/import-file', [ReportPrintController::class, 'import'])->name('report-print.import')->middleware('permission-user');
+    });
 
-    Route::resource('schedule-print', SchedulePrintController::class)->except('create', 'show', 'edit');
-    Route::post('schedule-print/generate', [SchedulePrintController::class, 'generate'])->name('schedule-print.generate');
-    Route::post('schedule-print/sync-to-printed', [SchedulePrintController::class, 'syncToPrinted'])->name('schedule-print.sync-to-printed');
-    Route::put('schedule-print/printing/{id}', [SchedulePrintController::class, 'printing'])->name('schedule-print.printing');
+    Route::prefix('schedule-print')->group(function () {
+        Route::get('/', [SchedulePrintController::class, 'index'])->name('schedule-print.index');
+        Route::post('/', [SchedulePrintController::class, 'store'])->name('schedule-print.store');
+        Route::put('/{id}', [SchedulePrintController::class, 'update'])->name('schedule-print.update');
+        Route::delete('/{id}', [SchedulePrintController::class, 'destroy'])->name('schedule-print.destroy');
+        Route::post('/generate', [SchedulePrintController::class, 'generate'])->name('schedule-print.generate')->middleware('permission-user');
+        Route::post('/sync-to-printed', [SchedulePrintController::class, 'syncToPrinted'])->name('schedule-print.sync-to-printed');
+        Route::put('/printing/{id}', [SchedulePrintController::class, 'printing'])->name('schedule-print.printing');
+    });
 
-    Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
+    Route::prefix('material')->middleware('permission-user')->group(function () {
+        Route::get('/', [ModelForMaterialController::class, 'index'])->name('material.index');
+        Route::post('/', [ModelForMaterialController::class, 'store'])->name('material.store');
+        Route::put('/{id}', [ModelForMaterialController::class, 'update'])->name('material.update');
+        Route::delete('/{id}', [ModelForMaterialController::class, 'destroy'])->name('material.destroy');
+    });
 
-    Route::resource('transaction-material', TransactionMaterialController::class)->except('create', 'show', 'edit');
+    Route::prefix('transaction-material')->group(function () {
+        Route::get('/', [TransactionMaterialController::class, 'index'])->name('transaction-material.index');
+        Route::post('/', [TransactionMaterialController::class, 'store'])->name('transaction-material.store');
+        Route::put('/{id}', [TransactionMaterialController::class, 'update'])->name('transaction-material.update');
+        Route::delete('/{id}', [TransactionMaterialController::class, 'destroy'])->name('transaction-material.destroy');
+    });
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notification.index');
     Route::put('notifications/{id}', [NotificationController::class, 'read'])->name('notification.read');
