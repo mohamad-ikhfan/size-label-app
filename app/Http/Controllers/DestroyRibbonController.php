@@ -6,6 +6,8 @@ use App\Http\Resources\DestroyRibbonResource;
 use App\Models\DestroyRibbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class DestroyRibbonController extends Controller
 {
@@ -81,5 +83,111 @@ class DestroyRibbonController extends Controller
     {
         $destroyRibbon = DestroyRibbon::findOrFail($id);
         $destroyRibbon->delete();
+    }
+
+    public function export(Request $request)
+    {
+        $request->validate([
+            'from_date' => 'required|date',
+            'to_date' => 'required|date',
+        ]);
+
+        $destroyRibbons = DestroyRibbon::where('destroyed_at', '>=', $request->from_date)
+            ->where('destroyed_at', '<=', $request->to_date)
+            ->orderBy('destroyed_at')
+            ->orderBy('destroyed_by')
+            ->get();
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+
+        $style_header = [
+            'font' => [
+                'bold' => true,
+                'size' => 14
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ]
+        ];
+
+        $style_title = [
+            'font' => ['bold' => true],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ],
+
+            'borders' => [
+                'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+
+        $style_data = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+
+        $activeWorksheet->setCellValue('A1', 'LOG BOOK DESTROY RIBBON');
+        $activeWorksheet->mergeCells("A1:D1");
+        $activeWorksheet->getStyle("A1:D1")->applyFromArray($style_header);
+
+        $activeWorksheet->setCellValue('A2', 'DATE');
+        $activeWorksheet->getStyle("A2")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('B2', 'PIC');
+        $activeWorksheet->getStyle("B2")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('C2', 'QTY DESTROY');
+        $activeWorksheet->getStyle("C2")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('D2', 'UNIT');
+        $activeWorksheet->getStyle("D2")->applyFromArray($style_title);
+
+        $activeWorksheet->getRowDimension("1")->setRowHeight(30);
+        $activeWorksheet->getRowDimension("2")->setRowHeight(20);
+
+        $rowNum = 3;
+        foreach ($destroyRibbons as $key => $destroyRibbon) {
+            $activeWorksheet->setCellValue('A' . $rowNum, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($destroyRibbon->destroyed_at)));
+            $activeWorksheet->getStyle('A' . $rowNum)->getNumberFormat()->setFormatCode("dd-mmmm-yyyy");
+            $activeWorksheet->setCellValue('B' . $rowNum, $destroyRibbon->destroyedBy->name);
+            $activeWorksheet->setCellValue('C' . $rowNum, $destroyRibbon->qty);
+            $activeWorksheet->getStyle('C' . $rowNum)->getNumberFormat()->setFormatCode(0);
+            $activeWorksheet->setCellValue('D' . $rowNum, 'ROLL');
+
+            $activeWorksheet->getStyle('A' . $rowNum)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('B' . $rowNum)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('C' . $rowNum)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('D' . $rowNum)->applyFromArray($style_data);
+
+            $rowNum++;
+        }
+
+        $activeWorksheet->getColumnDimension("A")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("B")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("C")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("D")->setAutoSize(true);
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="export_destroy_ribbon.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save(storage_path('app/public/exports/export_destroy_ribbon.xlsx'));
+    }
+
+    public function download()
+    {
+        return response()->download(storage_path('app/public/exports/export_destroy_ribbon.xlsx'))->deleteFileAfterSend();
     }
 }

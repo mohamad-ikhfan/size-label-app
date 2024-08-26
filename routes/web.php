@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [DestroyRibbonController::class, 'store'])->name('destroy-ribbon.store');
         Route::put('/{id}', [DestroyRibbonController::class, 'update'])->name('destroy-ribbon.update');
         Route::delete('/{id}', [DestroyRibbonController::class, 'destroy'])->name('destroy-ribbon.destroy');
+        Route::post('/export', [DestroyRibbonController::class, 'export'])->name('destroy-ribbon.export');
+        Route::get('/download', [DestroyRibbonController::class, 'download'])->name('destroy-ribbon.download');
     });
 
     Route::prefix('model-for-material')->group(function () {

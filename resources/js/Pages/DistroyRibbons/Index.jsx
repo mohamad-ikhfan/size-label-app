@@ -10,6 +10,8 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import DestroyRibbonCreate from "./Create";
 import DestroyRibbonEdit from "./Edit";
 import DestroyRibbonDelete from "./Delete";
+import SecondaryButton from "@/Components/SecondaryButton";
+import DestroyRibbonExport from "./Export";
 
 export default function DestroyRibbonIndex({
     auth,
@@ -56,6 +58,11 @@ export default function DestroyRibbonIndex({
         setStatusModal("create");
     };
 
+    const exportModal = () => {
+        setShowModal(true);
+        setStatusModal("export");
+    };
+
     const closeModal = () => {
         setShowModal(false);
         setStatusModal("");
@@ -75,7 +82,10 @@ export default function DestroyRibbonIndex({
 
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
-                    <div className="mb-6 flex justify-end">
+                    <div className="mb-6 flex justify-end gap-4">
+                        <SecondaryButton type="button" onClick={exportModal}>
+                            Export Destroy Ribbon
+                        </SecondaryButton>
                         <PrimaryButton type="button" onClick={createModal}>
                             New Destroy Ribbon
                         </PrimaryButton>
@@ -327,6 +337,9 @@ export default function DestroyRibbonIndex({
                             destroyRibbon={destroyRibbonData}
                             closeModal={closeModal}
                         />
+                    )}
+                    {statusModal === "export" && (
+                        <DestroyRibbonExport closeModal={closeModal} />
                     )}
                 </Modal>
             </div>
