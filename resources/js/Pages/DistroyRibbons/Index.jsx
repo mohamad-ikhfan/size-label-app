@@ -245,42 +245,45 @@ export default function DestroyRibbonIndex({
                                                         }
                                                     </td>
                                                     <td>
-                                                        <div className="px-3 py-2 flex gap-1.5">
-                                                            <PencilSquareIcon
-                                                                className="w-5 text-yellow-500 cursor-pointer"
-                                                                title="edit"
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    setDestroyRibbonData(
-                                                                        destroyRibbon
-                                                                    );
-                                                                    setShowModal(
-                                                                        true
-                                                                    );
-                                                                    setStatusModal(
-                                                                        "edit"
-                                                                    );
-                                                                }}
-                                                            />
-                                                            <TrashIcon
-                                                                className="w-5 text-red-500 cursor-pointer"
-                                                                title="delete"
-                                                                onClick={(
-                                                                    e
-                                                                ) => {
-                                                                    setDestroyRibbonData(
-                                                                        destroyRibbon
-                                                                    );
-                                                                    setShowModal(
-                                                                        true
-                                                                    );
-                                                                    setStatusModal(
-                                                                        "delete"
-                                                                    );
-                                                                }}
-                                                            />
-                                                        </div>
+                                                        {auth.user.id ===
+                                                            destroyRibbon.destroyed_by && (
+                                                            <div className="px-3 py-2 flex gap-1.5">
+                                                                <PencilSquareIcon
+                                                                    className="w-5 text-yellow-500 cursor-pointer"
+                                                                    title="edit"
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        setDestroyRibbonData(
+                                                                            destroyRibbon
+                                                                        );
+                                                                        setShowModal(
+                                                                            true
+                                                                        );
+                                                                        setStatusModal(
+                                                                            "edit"
+                                                                        );
+                                                                    }}
+                                                                />
+                                                                <TrashIcon
+                                                                    className="w-5 text-red-500 cursor-pointer"
+                                                                    title="delete"
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        setDestroyRibbonData(
+                                                                            destroyRibbon
+                                                                        );
+                                                                        setShowModal(
+                                                                            true
+                                                                        );
+                                                                        setStatusModal(
+                                                                            "delete"
+                                                                        );
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             )
