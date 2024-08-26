@@ -214,7 +214,7 @@ export default function SchedulePrintIndex({
                                                             {schedulePrint.status ===
                                                                 null && (
                                                                 <span
-                                                                    className="cursor-pointer text-sm  text-blue-800"
+                                                                    className="cursor-pointer  text-blue-800 font-semibold"
                                                                     onClick={(
                                                                         e
                                                                     ) => {
