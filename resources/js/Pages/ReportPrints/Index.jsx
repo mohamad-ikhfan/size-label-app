@@ -51,6 +51,9 @@ export default function ReportPrintIndex({
         searchFieldChanged(name, e.target.value);
     };
 
+    const numberFormat = (number) =>
+        new Intl.NumberFormat("en-IN").format(number);
+
     const [showModal, setShowModal] = useState(false);
     const [statusModal, setStatusModal] = useState("");
     const [reportPrintData, setReportPrintData] = useState({});
@@ -496,7 +499,9 @@ export default function ReportPrintIndex({
                                                         {reportPrint.model_name}
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {reportPrint.qty}
+                                                        {numberFormat(
+                                                            reportPrint.qty
+                                                        )}
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {reportPrint.special}

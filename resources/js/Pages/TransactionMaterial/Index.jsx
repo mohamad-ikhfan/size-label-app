@@ -45,10 +45,8 @@ export default function MaterialIndex({
         router.get(route("transaction-transactionMaterial.index"), queryParams);
     };
 
-    const onKeyPress = (name, e) => {
-        if (e.key !== "Enter") return;
-        searchFieldChanged(name, e.target.value);
-    };
+    const numberFormat = (number) =>
+        new Intl.NumberFormat("en-IN").format(number);
 
     const [showModal, setShowModal] = useState(false);
     const [statusModal, setStatusModal] = useState("");
@@ -338,9 +336,9 @@ export default function MaterialIndex({
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {
+                                                        {numberFormat(
                                                             transactionMaterial.qty
-                                                        }
+                                                        )}
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {

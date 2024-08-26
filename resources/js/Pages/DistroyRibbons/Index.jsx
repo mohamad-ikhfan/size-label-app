@@ -44,10 +44,8 @@ export default function DestroyRibbonIndex({
         router.get(route("destroy-ribbon.index"), queryParams);
     };
 
-    const onKeyPress = (name, e) => {
-        if (e.key !== "Enter") return;
-        searchFieldChanged(name, e.target.value);
-    };
+    const numberFormat = (number) =>
+        new Intl.NumberFormat("en-IN").format(number);
 
     const [showModal, setShowModal] = useState(false);
     const [statusModal, setStatusModal] = useState("");
@@ -232,7 +230,9 @@ export default function DestroyRibbonIndex({
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {destroyRibbon.qty}
+                                                        {numberFormat(
+                                                            destroyRibbon.qty
+                                                        )}
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {
