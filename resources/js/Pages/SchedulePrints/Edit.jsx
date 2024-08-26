@@ -209,7 +209,7 @@ export default function ScheduletPrintEdit({
                                                 key={user.id}
                                                 value={user.id}
                                             >
-                                                {user.name}
+                                                {user.full_name}
                                             </option>
                                         );
                                     })}

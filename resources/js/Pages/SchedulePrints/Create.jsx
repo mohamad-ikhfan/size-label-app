@@ -205,7 +205,7 @@ export default function ScheduletPrintCreate({ users, closeModal = () => {} }) {
                                                 key={user.id}
                                                 value={user.id}
                                             >
-                                                {user.name}
+                                                {user.full_name}
                                             </option>
                                         );
                                     })}
