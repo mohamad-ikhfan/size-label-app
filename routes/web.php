@@ -82,10 +82,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('material')->middleware('permission-user')->group(function () {
-        Route::get('/', [ModelForMaterialController::class, 'index'])->name('material.index');
-        Route::post('/', [ModelForMaterialController::class, 'store'])->name('material.store');
-        Route::put('/{id}', [ModelForMaterialController::class, 'update'])->name('material.update');
-        Route::delete('/{id}', [ModelForMaterialController::class, 'destroy'])->name('material.destroy');
+        Route::get('/', [MaterialController::class, 'index'])->name('material.index');
+        Route::post('/', [MaterialController::class, 'store'])->name('material.store');
+        Route::put('/{id}', [MaterialController::class, 'update'])->name('material.update');
+        Route::delete('/{id}', [MaterialController::class, 'destroy'])->name('material.destroy');
     });
 
     Route::prefix('transaction-material')->group(function () {
