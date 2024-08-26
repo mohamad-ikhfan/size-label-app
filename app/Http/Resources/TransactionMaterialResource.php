@@ -28,7 +28,7 @@ class TransactionMaterialResource extends JsonResource
             'last_stock_id' => $this->last_stock_id,
             'last_stock_qty' => $this->lastStock->qty ?? 0,
             'transaction_by' => $this->transaction_by,
-            'transaction_by_name' => $this->transactionBy->name,
+            'transaction_by_name' => $this->transactionBy->full_name,
             'created_at' => Carbon::parse($this->created_at)->format('d-M-Y'),
             'updated_at' => Carbon::parse($this->updated_at)->format('d-M-Y'),
         ];

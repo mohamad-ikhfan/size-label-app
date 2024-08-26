@@ -20,7 +20,7 @@ class DestroyRibbonResource extends JsonResource
             'destroyed_at' => $this->destroyed_at,
             'destroyed_date' => Carbon::parse($this->destroyed_at)->format('d-F-Y'),
             'destroyed_by' => $this->destroyed_by,
-            'destroyed_by_name' => $this->destroyedBy->name,
+            'destroyed_by_name' => $this->destroyedBy->full_name,
             'qty' => $this->qty,
             'created_at' => Carbon::parse($this->created_at)->format('d-M-Y'),
             'updated_at' => Carbon::parse($this->updated_at)->format('d-M-Y'),

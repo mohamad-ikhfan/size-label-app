@@ -17,6 +17,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'full_name' => $this->full_name,
             'name' => $this->name,
             'email' => $this->email,
             'blocked' => $this->blocked ? 'true' : 'false',

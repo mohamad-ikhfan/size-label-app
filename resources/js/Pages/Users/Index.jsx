@@ -92,6 +92,16 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                             #
                                         </TableHeading>
                                         <TableHeading
+                                            name="full_name"
+                                            sort_field={queryParams.sort_field}
+                                            sort_direction={
+                                                queryParams.sort_direction
+                                            }
+                                            sortChanged={sortChanged}
+                                        >
+                                            full name
+                                        </TableHeading>
+                                        <TableHeading
                                             name="name"
                                             sort_field={queryParams.sort_field}
                                             sort_direction={
@@ -148,6 +158,28 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                     {users.data.length > 0 && (
                                         <tr className="text-nowrap">
                                             <th className="px-3 pb-2"></th>
+                                            <th className="px-3 pb-2">
+                                                <TextInput
+                                                    className="w-full"
+                                                    type="search"
+                                                    defaultValue={
+                                                        queryParams.full_name
+                                                    }
+                                                    placeholder="search..."
+                                                    onBlur={(e) =>
+                                                        searchFieldChanged(
+                                                            "full_name",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    onKeyPress={(e) =>
+                                                        onKeyPress(
+                                                            "full_name",
+                                                            e
+                                                        )
+                                                    }
+                                                />
+                                            </th>
                                             <th className="px-3 pb-2">
                                                 <TextInput
                                                     className="w-full"
@@ -225,6 +257,9 @@ export default function UserIndex({ auth, users, queryParams = null }) {
                                             >
                                                 <td className="px-3 py-2">
                                                     {++index}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    {user.full_name}
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     {user.name}

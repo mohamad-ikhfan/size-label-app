@@ -29,7 +29,7 @@ class ReportPrintResource extends JsonResource
             'qty' => $this->qty,
             'remark' => $this->remark,
             'printed_by' => $this->printed_by,
-            'printed_by_name' => $this->printedBy->name ?? null,
+            'printed_by_name' => $this->printedBy->full_name ?? null,
         ];
     }
 }

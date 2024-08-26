@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 
 export default function UserCreate({ closeModal = () => {} }) {
     const { data, setData, post, errors, processing } = useForm({
+        full_name: "",
         name: "",
         email: "",
         password: "",
@@ -31,6 +32,19 @@ export default function UserCreate({ closeModal = () => {} }) {
             <h3 className="mb-4 text-lg dark:text-gray-100">New User</h3>
             <form onSubmit={submit} className="space-y-6">
                 <div>
+                    <InputLabel htmlFor="full_name" value="Full Name" />
+
+                    <TextInput
+                        id="full_name"
+                        className="mt-1 block w-full"
+                        defaultValue={data.full_name}
+                        onChange={(e) => setData("full_name", e.target.value)}
+                        isFocused
+                    />
+
+                    <InputError className="mt-2" message={errors.full_name} />
+                </div>
+                <div>
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput
@@ -38,7 +52,6 @@ export default function UserCreate({ closeModal = () => {} }) {
                         className="mt-1 block w-full"
                         defaultValue={data.name}
                         onChange={(e) => setData("name", e.target.value)}
-                        isFocused
                         autoComplete="name"
                     />
 

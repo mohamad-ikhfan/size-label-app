@@ -16,11 +16,13 @@ class DatabaseSeeder extends Seeder
 
         $data = [
             [
+                'full_name' => 'Mohamad Ikhfan',
                 'name' => '20535',
                 'email' => 'label.ppic@pai.pratama.net',
                 'password' => bcrypt('20535')
             ],
             [
+                'full_name' => 'N Tri Dayanti',
                 'name' => '43682',
                 'email' => 'tri.ppic@pai.pratama.net',
                 'password' => bcrypt('43682')
@@ -32,16 +34,9 @@ class DatabaseSeeder extends Seeder
             if (!$user) {
                 if ($data[$i]['name'] == '20535') {
                     $user = User::create($data[$i]);
-                    // $user->assignRole('super-admin');
                 } else {
                     User::create($data[$i]);
                 }
-            } else {
-                // if ($data[$i]['name'] == '20535') {
-                //     $user->assignRole('super-admin');
-                // } else {
-                //     $user->givePermissionTo(['view-any-schedule-print', 'schedule-printing']);
-                // }
             }
         }
 

@@ -160,7 +160,7 @@ class DestroyRibbonController extends Controller
         foreach ($destroyRibbons as $key => $destroyRibbon) {
             $activeWorksheet->setCellValue('A' . $rowNum, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($destroyRibbon->destroyed_at)));
             $activeWorksheet->getStyle('A' . $rowNum)->getNumberFormat()->setFormatCode("dd-mmmm-yyyy");
-            $activeWorksheet->setCellValue('B' . $rowNum, $destroyRibbon->destroyedBy->name);
+            $activeWorksheet->setCellValue('B' . $rowNum, $destroyRibbon->destroyedBy->full_name);
             $activeWorksheet->setCellValue('C' . $rowNum, $destroyRibbon->qty);
             $activeWorksheet->getStyle('C' . $rowNum)->getNumberFormat()->setFormatCode(0);
             $activeWorksheet->setCellValue('D' . $rowNum, 'ROLL');

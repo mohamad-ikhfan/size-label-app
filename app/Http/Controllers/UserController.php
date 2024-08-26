@@ -19,6 +19,9 @@ class UserController extends Controller
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
 
+        if (request("full_name")) {
+            $query->where("full_name", "like", "%" . request("full_name") . "%");
+        }
         if (request("name")) {
             $query->where("name", "like", "%" . request("name") . "%");
         }
@@ -43,12 +46,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'full_name' => 'required|string',
             'name' => 'required|string|unique:users',
             'email' => 'nullable|email|unique:users',
             'password' => 'required|string'
         ]);
 
         User::create([
+            'full_name' => $request->full_name,
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
@@ -61,12 +66,14 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'full_name' => 'required|string',
             'name' => 'required|string|unique:users,name,' . $id,
             'email' => 'nullable|email|unique:users,email,' . $id
         ]);
 
         $user = User::findOrFail($id);
         $user->update([
+            'full_name' => $request->full_name,
             'name' => $request->name,
             'email' => $request->email,
         ]);
