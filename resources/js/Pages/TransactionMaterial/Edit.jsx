@@ -44,7 +44,7 @@ export default function TransactionMaterialEdit({
                     <TextInput
                         id="date"
                         className="mt-1 block w-full"
-                        value={data.date}
+                        defaultValue={data.date}
                         onChange={(e) => setData("date", e.target.value)}
                         type="date"
                         onKeyDown={(e) => e.preventDefault()}
@@ -58,7 +58,7 @@ export default function TransactionMaterialEdit({
                     <SelectInput
                         id="type"
                         className="mt-1 block w-full"
-                        value={data.type}
+                        defaultValue={data.type}
                         onChange={(e) => setData("type", e.target.value)}
                     >
                         <option value="">Select type</option>
@@ -75,7 +75,7 @@ export default function TransactionMaterialEdit({
                     <SelectInput
                         id="material_id"
                         className="mt-1 block w-full"
-                        value={data.material_id}
+                        defaultValue={data.material_id}
                         onChange={(e) => setData("material_id", e.target.value)}
                     >
                         <option value="">Select material</option>
@@ -95,7 +95,7 @@ export default function TransactionMaterialEdit({
                         id="qty"
                         type="number"
                         className="mt-1 block w-full"
-                        value={data.qty}
+                        defaultValue={data.qty}
                         onChange={(e) => setData("qty", e.target.value)}
                     />
 

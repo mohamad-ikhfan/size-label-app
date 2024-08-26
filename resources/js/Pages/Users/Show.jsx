@@ -18,7 +18,7 @@ export default function UserShow({ user, closeModal = () => {} }) {
                     <TextInput
                         id="name"
                         className="mt-1 block w-full"
-                        value={data.name}
+                        defaultValue={data.name}
                         readonly
                     />
                 </div>
@@ -30,7 +30,7 @@ export default function UserShow({ user, closeModal = () => {} }) {
                         id="email"
                         type="email"
                         className="mt-1 block w-full"
-                        value={data.email}
+                        defaultValue={data.email}
                         readonly
                     />
                 </div>

@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('schedule-print', SchedulePrintController::class)->except('create', 'show', 'edit');
     Route::post('schedule-print/generate', [SchedulePrintController::class, 'generate'])->name('schedule-print.generate');
+    Route::post('schedule-print/sync-to-printed', [SchedulePrintController::class, 'syncToPrinted'])->name('schedule-print.sync-to-printed');
+    Route::put('schedule-print/printing/{id}', [SchedulePrintController::class, 'printing'])->name('schedule-print.printing');
 
     Route::resource('material', MaterialController::class)->except('create', 'show', 'edit');
 

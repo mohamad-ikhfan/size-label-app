@@ -35,7 +35,7 @@ export default function UserEdit({ user, closeModal = () => {} }) {
                     <TextInput
                         id="name"
                         className="mt-1 block w-full"
-                        value={data.name}
+                        defaultValue={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         isFocused
                         autoComplete="name"
@@ -51,7 +51,7 @@ export default function UserEdit({ user, closeModal = () => {} }) {
                         id="email"
                         type="email"
                         className="mt-1 block w-full"
-                        value={data.email}
+                        defaultValue={data.email}
                         onChange={(e) => setData("email", e.target.value)}
                         autoComplete="username"
                     />

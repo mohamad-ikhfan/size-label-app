@@ -48,7 +48,7 @@ export default function ReportPrintEdit({
                         <TextInput
                             id="printed_at"
                             className="mt-1 block w-full"
-                            value={data.printed_at}
+                            defaultValue={data.printed_at}
                             onChange={(e) =>
                                 setData("printed_at", e.target.value)
                             }
@@ -68,7 +68,7 @@ export default function ReportPrintEdit({
                             id="line"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.line}
+                            defaultValue={data.line}
                             onChange={(e) => setData("line", e.target.value)}
                         />
 
@@ -80,7 +80,7 @@ export default function ReportPrintEdit({
                         <TextInput
                             id="release"
                             className="mt-1 block w-full"
-                            value={data.release}
+                            defaultValue={data.release}
                             onChange={(e) => setData("release", e.target.value)}
                             type="date"
                             onKeyDown={(e) => e.preventDefault()}
@@ -95,7 +95,7 @@ export default function ReportPrintEdit({
                             id="po_number"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.po_number}
+                            defaultValue={data.po_number}
                             onChange={(e) =>
                                 setData("po_number", e.target.value)
                             }
@@ -116,7 +116,7 @@ export default function ReportPrintEdit({
                             id="style_number"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.style_number}
+                            defaultValue={data.style_number}
                             onChange={(e) =>
                                 setData("style_number", e.target.value)
                             }
@@ -134,7 +134,7 @@ export default function ReportPrintEdit({
                             id="model_name"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.model_name}
+                            defaultValue={data.model_name}
                             onChange={(e) =>
                                 setData("model_name", e.target.value)
                             }
@@ -152,7 +152,7 @@ export default function ReportPrintEdit({
                             id="qty"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.qty}
+                            defaultValue={data.qty}
                             onChange={(e) => setData("qty", e.target.value)}
                         />
 
@@ -165,7 +165,7 @@ export default function ReportPrintEdit({
                             id="special"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.special}
+                            defaultValue={data.special}
                             onChange={(e) => setData("special", e.target.value)}
                         />
 
@@ -179,7 +179,7 @@ export default function ReportPrintEdit({
                         id="remark"
                         type="text"
                         className="mt-1 block w-full"
-                        value={data.remark}
+                        defaultValue={data.remark}
                         onChange={(e) => setData("remark", e.target.value)}
                     />
 

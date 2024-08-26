@@ -44,7 +44,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="line"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.line}
+                            defaultValue={data.line}
                             onChange={(e) => setData("line", e.target.value)}
                         />
 
@@ -56,7 +56,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                         <TextInput
                             id="spk_publish"
                             className="mt-1 block w-full"
-                            value={data.spk_publish}
+                            defaultValue={data.spk_publish}
                             onChange={(e) =>
                                 setData("spk_publish", e.target.value)
                             }
@@ -75,7 +75,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                         <TextInput
                             id="release"
                             className="mt-1 block w-full"
-                            value={data.release}
+                            defaultValue={data.release}
                             onChange={(e) => setData("release", e.target.value)}
                             type="date"
                             onKeyDown={(e) => e.preventDefault()}
@@ -90,7 +90,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="po_number"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.po_number}
+                            defaultValue={data.po_number}
                             onChange={(e) =>
                                 setData("po_number", e.target.value)
                             }
@@ -111,7 +111,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="style_number"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.style_number}
+                            defaultValue={data.style_number}
                             onChange={(e) =>
                                 setData("style_number", e.target.value)
                             }
@@ -129,7 +129,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="model_name"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.model_name}
+                            defaultValue={data.model_name}
                             onChange={(e) =>
                                 setData("model_name", e.target.value)
                             }
@@ -147,7 +147,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="qty"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.qty}
+                            defaultValue={data.qty}
                             onChange={(e) => setData("qty", e.target.value)}
                         />
 
@@ -160,7 +160,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="special"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.special}
+                            defaultValue={data.special}
                             onChange={(e) => setData("special", e.target.value)}
                         />
 
@@ -174,7 +174,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                         id="remark"
                         type="text"
                         className="mt-1 block w-full"
-                        value={data.remark}
+                        defaultValue={data.remark}
                         onChange={(e) => setData("remark", e.target.value)}
                     />
 

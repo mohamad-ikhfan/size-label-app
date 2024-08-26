@@ -1,3 +1,4 @@
+import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -7,18 +8,13 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
 
-export default function SchedulePrintGenerate({
-    remarks,
-    closeModal = () => {},
-}) {
+export default function SchedulePrintGenerate({ closeModal = () => {} }) {
     const { data, setData, post, errors, processing } = useForm({
         from_release: "",
-        except_remarks: [],
     });
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(data.except_remarks);
 
         post(route("schedule-print.generate"), {
             onSuccess: () => {
@@ -43,7 +39,7 @@ export default function SchedulePrintGenerate({
                     <TextInput
                         id="from_release"
                         className="mt-1 block w-full"
-                        value={data.from_release}
+                        defaultValue={data.from_release}
                         onChange={(e) =>
                             setData("from_release", e.target.value)
                         }
@@ -54,33 +50,6 @@ export default function SchedulePrintGenerate({
                     <InputError
                         className="mt-2"
                         message={errors.from_release}
-                    />
-                </div>
-                <div>
-                    <InputLabel
-                        htmlFor="except_remarks"
-                        value="Except Remarks"
-                    />
-
-                    <SelectInput
-                        id="except_remarks"
-                        className="mt-1 block w-full"
-                        value={data.except_remarks}
-                        onChange={(e) =>
-                            data.except_remarks.push(e.target.value)
-                        }
-                    >
-                        <option value="">Select remark</option>
-                        {Object.entries(remarks).map((value) => (
-                            <option key={value[0]} value={value[0]}>
-                                {value[1]}
-                            </option>
-                        ))}
-                    </SelectInput>
-
-                    <InputError
-                        className="mt-2"
-                        message={errors.except_remarks}
                     />
                 </div>
 

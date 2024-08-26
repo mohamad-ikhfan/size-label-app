@@ -31,7 +31,7 @@ class ImportPoItemJob implements ShouldQueue
     public function handle(): void
     {
         PoItem::truncate();
-        foreach ($this->files as $value) {
+        foreach ($this->files as $key=> $value) {
             try {
                 $file = storage_path('app/public/imports/' . $value);
                 $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
@@ -65,9 +65,9 @@ class ImportPoItemJob implements ShouldQueue
                         }
                     }
                 }
-                $this->receipent->notify(new ImportNotification(title: 'Imported success', message: $file . ' imported successfully'));
+                $this->receipent->notify(new ImportNotification(title: 'Imported success', message: $this->files[$key] . ' imported successfully'));
             } catch (\Exception $e) {
-                $this->receipent->notify(new ImportNotification(title: 'Import error', message: $file . ' import error : ' . $e->getMessage(), notif: 'error'));
+                $this->receipent->notify(new ImportNotification(title: 'Import error', message: $this->files[$key] . ' import error : ' . $e->getMessage(), notif: 'error'));
             }
         }
     }

@@ -2,23 +2,40 @@ import Modal from "@/Components/Modal";
 import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useState } from "react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import ScheduletPrintCreate from "./Create";
 import SchedulePrintDelete from "./Delete";
 import ScheduletPrintEdit from "./Edit";
 import SchedulePrintGenerate from "./Generate";
+import SecondaryButton from "@/Components/SecondaryButton";
+import toast from "react-hot-toast";
+import SelectInput from "@/Components/SelectInput";
+import InputLabel from "@/Components/InputLabel";
+import SchedulePrinting from "./Printing";
 
 export default function SchedulePrintIndex({
     auth,
     schedulePrints,
     users,
-    remarks,
+    queryParams = null,
 }) {
+    queryParams = queryParams || {};
+
     const [showModal, setShowModal] = useState(false);
     const [statusModal, setStatusModal] = useState("");
     const [schedulePrintData, setSchedulePrintData] = useState({});
+
+    const searchFieldChanged = (name, value) => {
+        if (value) {
+            queryParams[name] = value;
+        } else {
+            delete queryParams[name];
+        }
+
+        router.get(route("schedule-print.index"), queryParams);
+    };
 
     const createModal = () => {
         setShowModal(true);
@@ -30,10 +47,35 @@ export default function SchedulePrintIndex({
         setStatusModal("generate");
     };
 
+    const printingModal = () => {
+        setShowModal(true);
+        setStatusModal("printing");
+    };
+
     const closeModal = () => {
         setShowModal(false);
         setStatusModal("");
         setSchedulePrintData({});
+    };
+
+    const [processSyncToPrinted, setProcessSyncToPrinted] = useState(false);
+
+    const syncToPrinted = (e) => {
+        setProcessSyncToPrinted(true);
+        e.preventDefault();
+        if (confirm("Are you sure sync to printed?")) {
+            router.post(route("schedule-print.sync-to-printed"), [], {
+                onSuccess: () => {
+                    setProcessSyncToPrinted(false);
+                    toast.success("Sync to printed successfully.", {
+                        position: "top-right",
+                        duration: 3000,
+                    });
+                },
+            });
+        } else {
+            setProcessSyncToPrinted(false);
+        }
     };
 
     return (
@@ -50,6 +92,13 @@ export default function SchedulePrintIndex({
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
                     <div className="mb-6 flex justify-end gap-4">
+                        <SecondaryButton
+                            type="button"
+                            disabled={processSyncToPrinted}
+                            onClick={(e) => syncToPrinted(e)}
+                        >
+                            Sync to printed
+                        </SecondaryButton>
                         <PrimaryButton type="button" onClick={generateModal}>
                             Generate schedule print
                         </PrimaryButton>
@@ -58,6 +107,29 @@ export default function SchedulePrintIndex({
                         </PrimaryButton>
                     </div>
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className="flex justify-end p-6">
+                            <div className="flex gap-4">
+                                <InputLabel
+                                    htmlFor="status"
+                                    value="Status Filter"
+                                />
+                                <SelectInput
+                                    className="w-full"
+                                    defaultValue={
+                                        queryParams.status ?? "printing"
+                                    }
+                                    onChange={(e) =>
+                                        searchFieldChanged(
+                                            "status",
+                                            e.target.value
+                                        )
+                                    }
+                                >
+                                    <option value="printed">printed</option>
+                                    <option value="printing">printing</option>
+                                </SelectInput>
+                            </div>
+                        </div>
                         <div className="w-full p-6 overflow-auto">
                             <table className="w-full text-left text-gray-500 dark:text-gray-400">
                                 <thead className="text-gray-700 bg-gray-50 dark:bg-slate-700 dark:text-gray-400 border-b-2 border-gray-500 uppercase">
@@ -129,6 +201,27 @@ export default function SchedulePrintIndex({
                                                     </td>
                                                     <td>
                                                         <div className="px-3 py-2 flex gap-1.5">
+                                                            {schedulePrint.status ===
+                                                                null && (
+                                                                <span
+                                                                    className="cursor-pointer text-sm  text-blue-800"
+                                                                    onClick={(
+                                                                        e
+                                                                    ) => {
+                                                                        setSchedulePrintData(
+                                                                            schedulePrint
+                                                                        );
+                                                                        setShowModal(
+                                                                            true
+                                                                        );
+                                                                        setStatusModal(
+                                                                            "printing"
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    Printing
+                                                                </span>
+                                                            )}
                                                             <PencilSquareIcon
                                                                 className="w-5 text-yellow-500 cursor-pointer"
                                                                 title="edit"
@@ -189,7 +282,9 @@ export default function SchedulePrintIndex({
                 <Modal
                     show={showModal}
                     maxWidth={
-                        statusModal === "delete" || statusModal === "generate"
+                        statusModal === "delete" ||
+                        statusModal === "generate" ||
+                        statusModal === "printing"
                             ? "sm"
                             : "6xl"
                     }
@@ -214,8 +309,12 @@ export default function SchedulePrintIndex({
                         />
                     )}
                     {statusModal === "generate" && (
-                        <SchedulePrintGenerate
-                            remarks={remarks}
+                        <SchedulePrintGenerate closeModal={closeModal} />
+                    )}
+                    {statusModal === "printing" && (
+                        <SchedulePrinting
+                            user={auth.user}
+                            schedulePrint={schedulePrintData}
                             closeModal={closeModal}
                         />
                     )}

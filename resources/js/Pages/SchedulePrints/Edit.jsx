@@ -51,7 +51,7 @@ export default function ScheduletPrintEdit({
                             id="line"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.line}
+                            defaultValue={data.line}
                             onChange={(e) => setData("line", e.target.value)}
                         />
 
@@ -63,7 +63,7 @@ export default function ScheduletPrintEdit({
                         <TextInput
                             id="schedule"
                             className="mt-1 block w-full"
-                            value={data.schedule}
+                            defaultValue={data.schedule}
                             onChange={(e) =>
                                 setData("schedule", e.target.value)
                             }
@@ -82,7 +82,7 @@ export default function ScheduletPrintEdit({
                         <TextInput
                             id="release"
                             className="mt-1 block w-full"
-                            value={data.release}
+                            defaultValue={data.release}
                             onChange={(e) => setData("release", e.target.value)}
                             type="date"
                             onKeyDown={(e) => e.preventDefault()}
@@ -100,7 +100,7 @@ export default function ScheduletPrintEdit({
                             id="style_number"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.style_number}
+                            defaultValue={data.style_number}
                             onChange={(e) =>
                                 setData("style_number", e.target.value)
                             }
@@ -118,7 +118,7 @@ export default function ScheduletPrintEdit({
                             id="model_name"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.model_name}
+                            defaultValue={data.model_name}
                             onChange={(e) =>
                                 setData("model_name", e.target.value)
                             }
@@ -136,7 +136,7 @@ export default function ScheduletPrintEdit({
                             id="qty"
                             type="number"
                             className="mt-1 block w-full"
-                            value={data.qty}
+                            defaultValue={data.qty}
                             onChange={(e) => setData("qty", e.target.value)}
                         />
 
@@ -148,7 +148,7 @@ export default function ScheduletPrintEdit({
                         <SelectInput
                             id="status"
                             className="mt-1 block w-full"
-                            value={data.status}
+                            defaultValue={data.status}
                             onChange={(e) => setData("status", e.target.value)}
                         >
                             <option value="">Select status</option>
@@ -169,7 +169,7 @@ export default function ScheduletPrintEdit({
                                 <TextInput
                                     id="status_updated_at"
                                     className="mt-1 block w-full"
-                                    value={data.status_updated_at}
+                                    defaultValue={data.status_updated_at}
                                     onChange={(e) =>
                                         setData(
                                             "status_updated_at",
@@ -194,7 +194,7 @@ export default function ScheduletPrintEdit({
                                 <SelectInput
                                     id="status_updated_by"
                                     className="mt-1 block w-full"
-                                    value={data.status_updated_by}
+                                    defaultValue={data.status_updated_by}
                                     onChange={(e) =>
                                         setData(
                                             "status_updated_by",
@@ -207,7 +207,7 @@ export default function ScheduletPrintEdit({
                                         return (
                                             <option
                                                 key={user.id}
-                                                user={user.id}
+                                                value={user.id}
                                             >
                                                 {user.name}
                                             </option>

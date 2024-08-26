@@ -45,7 +45,7 @@ export default function ModelForMaterialEdit({
                             id="model_name"
                             type="text"
                             className="mt-1 block w-full"
-                            value={data.model_name}
+                            defaultValue={data.model_name}
                             onChange={(e) =>
                                 setData("model_name", e.target.value)
                             }
@@ -65,7 +65,7 @@ export default function ModelForMaterialEdit({
                         <SelectInput
                             id="material_type"
                             className="mt-1 block w-full"
-                            value={data.material_type}
+                            defaultValue={data.material_type}
                             onChange={(e) =>
                                 setData("material_type", e.target.value)
                             }
@@ -89,7 +89,7 @@ export default function ModelForMaterialEdit({
                         <SelectInput
                             id="material_size"
                             className="mt-1 block w-full"
-                            value={data.material_size}
+                            defaultValue={data.material_size}
                             onChange={(e) =>
                                 setData("material_size", e.target.value)
                             }
@@ -115,7 +115,7 @@ export default function ModelForMaterialEdit({
                         <SelectInput
                             id="wide"
                             className="mt-1 block w-full"
-                            value={data.wide}
+                            defaultValue={data.wide}
                             onChange={(e) => setData("wide", e.target.value)}
                         >
                             <option value="1">Yes</option>

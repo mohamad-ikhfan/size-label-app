@@ -42,7 +42,7 @@ export default function DestroyRibbonCreate({ userId, closeModal = () => {} }) {
                     <TextInput
                         id="destroyed_at"
                         className="mt-1 block w-full"
-                        value={data.destroyed_at}
+                        defaultValue={data.destroyed_at}
                         onChange={(e) =>
                             setData("destroyed_at", e.target.value)
                         }
@@ -63,7 +63,7 @@ export default function DestroyRibbonCreate({ userId, closeModal = () => {} }) {
                         id="qty"
                         type="number"
                         className="mt-1 block w-full"
-                        value={data.qty}
+                        defaultValue={data.qty}
                         onChange={(e) => setData("qty", e.target.value)}
                     />
 

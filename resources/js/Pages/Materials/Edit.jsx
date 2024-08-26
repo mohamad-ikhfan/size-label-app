@@ -36,7 +36,7 @@ export default function MaterialEdit({ material, closeModal = () => {} }) {
                     <TextInput
                         id="code"
                         className="mt-1 block w-full"
-                        value={data.code}
+                        defaultValue={data.code}
                         onChange={(e) => setData("code", e.target.value)}
                     />
 
@@ -48,7 +48,7 @@ export default function MaterialEdit({ material, closeModal = () => {} }) {
                     <TextInput
                         id="name"
                         className="mt-1 block w-full"
-                        value={data.name}
+                        defaultValue={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                     />
 
@@ -62,7 +62,7 @@ export default function MaterialEdit({ material, closeModal = () => {} }) {
                         id="description"
                         type="text"
                         className="mt-1 block w-full"
-                        value={data.description}
+                        defaultValue={data.description}
                         onChange={(e) => setData("description", e.target.value)}
                     />
 

@@ -73,7 +73,7 @@ class ModelForMaterialController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'model_name' => 'required|string|unique:model_for_materials',
+            'model_name' => 'required|string|unique:model_for_materials,model_name,' . $id,
             'material_type' => 'required|string',
             'material_size' => 'required|string',
             'wide' => 'required|integer',
