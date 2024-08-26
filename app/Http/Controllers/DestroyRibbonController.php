@@ -36,7 +36,7 @@ class DestroyRibbonController extends Controller
             'queryParams' => request()->query() ?: null,
             'filters' => [
                 'destroyed_at' => $destroyRibbonAll->all()->pluck('destroyed_at', 'destroyed_at')->map(fn($v) => now()->parse($v)->format('d-F-Y')),
-                'destroyed_by' => $destroyRibbonAll->all()->pluck('destroyed_by', 'destroyed_by')->map(fn($v) => $destroyRibbonAll->where('destroyed_by', $v)->first()->destroyedBy->name),
+                'destroyed_by' => $destroyRibbonAll->all()->pluck('destroyed_by', 'destroyed_by')->map(fn($v) => $destroyRibbonAll->where('destroyed_by', $v)->first()->destroyedBy->full_name),
             ]
         ]);
     }

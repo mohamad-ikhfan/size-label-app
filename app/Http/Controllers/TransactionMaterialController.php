@@ -45,7 +45,7 @@ class TransactionMaterialController extends Controller
                 'date' => $transactionMaterialAll->all()->pluck('date', 'date')->map(fn($v) => now()->parse($v)->format('d-F-Y')),
                 'type' => $transactionMaterialAll->all()->pluck('type', 'type'),
                 'material_id' => $transactionMaterialAll->all()->pluck('material_id', 'material_id')->map(fn($v) => $transactionMaterialAll->where('material_id', $v)->first()->material->name),
-                'transaction_by' => $transactionMaterialAll->all()->pluck('transaction_by', 'transaction_by')->map(fn($v) => $transactionMaterialAll->where('transaction_by', $v)->first()->transactionBy->name),
+                'transaction_by' => $transactionMaterialAll->all()->pluck('transaction_by', 'transaction_by')->map(fn($v) => $transactionMaterialAll->where('transaction_by', $v)->first()->transactionBy->full_name),
             ]
         ]);
     }

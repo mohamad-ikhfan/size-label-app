@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 
 export default function DestroyRibbonCreate({ userId, closeModal = () => {} }) {
     var currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 3);
+    currentDate.setDate(currentDate.getDate());
     var dateValue = currentDate.toISOString().substring(0, 10);
 
     const { data, setData, post, errors, processing } = useForm({
