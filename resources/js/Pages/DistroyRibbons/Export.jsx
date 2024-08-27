@@ -61,6 +61,7 @@ export default function DestroyRibbonExport({ closeModal = () => {} }) {
                     <TextInput
                         id="from_date"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.from_date}
                         onChange={(e) => setData("from_date", e.target.value)}
                         type="date"
@@ -75,6 +76,7 @@ export default function DestroyRibbonExport({ closeModal = () => {} }) {
                     <TextInput
                         id="to_date"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.to_date}
                         onChange={(e) => setData("to_date", e.target.value)}
                         type="date"

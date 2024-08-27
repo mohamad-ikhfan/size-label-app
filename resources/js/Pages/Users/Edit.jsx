@@ -36,6 +36,7 @@ export default function UserEdit({ user, closeModal = () => {} }) {
                     <TextInput
                         id="full_name"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.full_name}
                         onChange={(e) => setData("full_name", e.target.value)}
                         isFocused
@@ -49,6 +50,7 @@ export default function UserEdit({ user, closeModal = () => {} }) {
                     <TextInput
                         id="name"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         isFocused

@@ -42,7 +42,7 @@ export default function SchedulePrintIndex({
             router.reload();
         }, 10000);
 
-        clearTimeout(timer);
+        () => clearTimeout(timer);
     });
 
     const numberFormat = (number) =>

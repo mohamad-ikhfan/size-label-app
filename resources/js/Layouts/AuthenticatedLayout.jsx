@@ -36,7 +36,7 @@ export default function Authenticated({ user, header, children }) {
     useEffect(() => {
         let timer = setTimeout(() => getNotification(), 5000);
 
-        clearTimeout(timer);
+        () => clearTimeout(timer);
     });
 
     return (

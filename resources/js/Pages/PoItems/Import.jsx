@@ -54,6 +54,7 @@ export default function PoItemImport({ closeModal = () => {} }) {
                     <TextInput
                         id="import_file_f4"
                         type="file"
+                        required
                         className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                         onChange={(e) =>

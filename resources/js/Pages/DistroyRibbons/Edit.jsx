@@ -40,6 +40,7 @@ export default function DestroyRibbonEdit({
                     <TextInput
                         id="destroyed_at"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.destroyed_at}
                         onChange={(e) =>
                             setData("destroyed_at", e.target.value)
@@ -61,6 +62,7 @@ export default function DestroyRibbonEdit({
                         id="qty"
                         type="number"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.qty}
                         onChange={(e) => setData("qty", e.target.value)}
                     />

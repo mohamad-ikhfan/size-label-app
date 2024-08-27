@@ -43,7 +43,7 @@ class TransactionMaterialController extends Controller
             'queryParams' => request()->query() ?: null,
             'filters' => [
                 'date' => $transactionMaterialAll->all()->pluck('date', 'date')->map(fn($v) => now()->parse($v)->format('d-F-Y')),
-                'type' => $transactionMaterialAll->all()->pluck('type', 'type'),
+                'type' => $transactionMaterialAll->all()->pluck('type', 'type')->map(fn($v) => ucfirst(str_replace('_', ' ', $v))),
                 'material_id' => $transactionMaterialAll->all()->pluck('material_id', 'material_id')->map(fn($v) => $transactionMaterialAll->where('material_id', $v)->first()->material->name),
                 'transaction_by' => $transactionMaterialAll->all()->pluck('transaction_by', 'transaction_by')->map(fn($v) => $transactionMaterialAll->where('transaction_by', $v)->first()->transactionBy->full_name),
             ]
@@ -58,23 +58,48 @@ class TransactionMaterialController extends Controller
         $request->validate([
             'date' => 'required|date',
             'type' => 'required|string',
-            'material_id' => 'required|integer',
-            'qty' => 'required|numeric',
+            'materials' => 'required|array',
             'transaction_by' => 'required|integer',
         ]);
 
-        $stockMaterial = StockMaterial::latest()->first();
-        $newStock = StockMaterial::create(['qty' => $stockMaterial->qty ?? 0 + $request->qty]);
+        foreach ($request->materials as $material) {
+            $transactionMaterial = TransactionMaterial::where('material_id', $material['material_id'])->latest()->first();
+            if ($transactionMaterial == null) {
+                $stock = StockMaterial::create(['qty' => floatval($material['qty'])]);
+                $data = [
+                    'date' => $request->date,
+                    'type' => $request->type,
+                    'material_id' => intval($material["material_id"]),
+                    'qty' => floatval($material["qty"]),
+                    'last_stock_id' => $stock->id,
+                    'transaction_by' => $request->transaction_by,
+                ];
+            } else {
+                switch ($request->type) {
+                    case 'taking':
+                        $stock = StockMaterial::create(['qty' => ($transactionMaterial->lastStock->qty - floatval($material['qty']))]);
+                        break;
 
-        TransactionMaterial::create([
-            'date' => $request->date,
-            'type' => $request->type,
-            'material_id' => $request->material_id,
-            'qty' => $request->qty,
-            'first_stock_id' => $stockMaterial->id ?? null,
-            'last_stock_id' => $newStock->id,
-            'transaction_by' => $request->transaction_by,
-        ]);
+                    case 'comming':
+                        $stock = StockMaterial::create(['qty' => ($transactionMaterial->lastStock->qty + floatval($material['qty']))]);
+                        break;
+
+                    default:
+                        $stock = StockMaterial::create(['qty' => floatval($material['qty'])]);
+                        break;
+                }
+                $data = [
+                    'date' => $request->date,
+                    'type' => $request->type,
+                    'material_id' => intval($material["material_id"]),
+                    'qty' => floatval($material["qty"]),
+                    'first_stock_id' => $transactionMaterial->lastStock->id,
+                    'last_stock_id' => $stock->id,
+                    'transaction_by' => $request->transaction_by,
+                ];
+            }
+            TransactionMaterial::create($data);
+        }
     }
 
     /**
@@ -85,7 +110,7 @@ class TransactionMaterialController extends Controller
         $request->validate([
             'date' => 'required|date',
             'type' => 'required|string',
-            'material_id' => 'required|integer',
+            'materials' => 'required|array',
             'qty' => 'required|numeric',
             'transaction_by' => 'required|integer',
         ]);

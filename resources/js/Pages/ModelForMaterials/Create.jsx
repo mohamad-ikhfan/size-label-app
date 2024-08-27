@@ -42,6 +42,7 @@ export default function ModelForMaterialCreate({ closeModal = () => {} }) {
                             id="model_name"
                             type="text"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.model_name}
                             onChange={(e) =>
                                 setData("model_name", e.target.value)
@@ -62,6 +63,7 @@ export default function ModelForMaterialCreate({ closeModal = () => {} }) {
                         <SelectInput
                             id="material_type"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.material_type}
                             onChange={(e) =>
                                 setData("material_type", e.target.value)
@@ -86,6 +88,7 @@ export default function ModelForMaterialCreate({ closeModal = () => {} }) {
                         <SelectInput
                             id="material_size"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.material_size}
                             onChange={(e) =>
                                 setData("material_size", e.target.value)
@@ -112,6 +115,7 @@ export default function ModelForMaterialCreate({ closeModal = () => {} }) {
                         <SelectInput
                             id="wide"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.wide}
                             onChange={(e) => setData("wide", e.target.value)}
                         >

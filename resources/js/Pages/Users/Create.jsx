@@ -30,13 +30,14 @@ export default function UserCreate({ closeModal = () => {} }) {
     return (
         <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
             <h3 className="mb-4 text-lg dark:text-gray-100">New User</h3>
-            <form onSubmit={submit} className="space-y-6">
+            <form onSubmit={submit} className="grid grid-cols-2 gap-4">
                 <div>
                     <InputLabel htmlFor="full_name" value="Full Name" />
 
                     <TextInput
                         id="full_name"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.full_name}
                         onChange={(e) => setData("full_name", e.target.value)}
                         isFocused
@@ -50,6 +51,7 @@ export default function UserCreate({ closeModal = () => {} }) {
                     <TextInput
                         id="name"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         autoComplete="name"
@@ -80,6 +82,7 @@ export default function UserCreate({ closeModal = () => {} }) {
                         id="password"
                         type="password"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.password}
                         onChange={(e) => setData("password", e.target.value)}
                     />

@@ -44,6 +44,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="line"
                             type="number"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.line}
                             onChange={(e) => setData("line", e.target.value)}
                         />
@@ -75,6 +76,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                         <TextInput
                             id="release"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.release}
                             onChange={(e) => setData("release", e.target.value)}
                             type="date"
@@ -90,6 +92,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="po_number"
                             type="number"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.po_number}
                             onChange={(e) =>
                                 setData("po_number", e.target.value)
@@ -111,6 +114,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="style_number"
                             type="text"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.style_number}
                             onChange={(e) =>
                                 setData("style_number", e.target.value)
@@ -129,6 +133,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="model_name"
                             type="text"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.model_name}
                             onChange={(e) =>
                                 setData("model_name", e.target.value)
@@ -147,6 +152,7 @@ export default function PoItemEdit({ poItem, closeModal = () => {} }) {
                             id="qty"
                             type="number"
                             className="mt-1 block w-full"
+                            required
                             defaultValue={data.qty}
                             onChange={(e) => setData("qty", e.target.value)}
                         />

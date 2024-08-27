@@ -36,6 +36,7 @@ export default function MaterialCreate({ closeModal = () => {} }) {
                     <TextInput
                         id="code"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.code}
                         onChange={(e) => setData("code", e.target.value)}
                     />
@@ -48,6 +49,7 @@ export default function MaterialCreate({ closeModal = () => {} }) {
                     <TextInput
                         id="name"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                     />

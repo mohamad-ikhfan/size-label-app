@@ -37,6 +37,7 @@ export default function SchedulePrintGenerate({ closeModal = () => {} }) {
                     <TextInput
                         id="from_release"
                         className="mt-1 block w-full"
+                        required
                         defaultValue={data.from_release}
                         onChange={(e) =>
                             setData("from_release", e.target.value)

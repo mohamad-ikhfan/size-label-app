@@ -35,6 +35,7 @@ export default function ReportPrintImport({ closeModal = () => {} }) {
                         id="import_file"
                         type="file"
                         className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
+                        required
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
                         onChange={(e) =>
                             setData("import_file", e.target.files[0])

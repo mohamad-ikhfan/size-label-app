@@ -20,6 +20,7 @@ class TransactionMaterialResource extends JsonResource
             'date' => $this->date,
             'date_format' => Carbon::parse($this->date)->format('d-F-Y'),
             'type' => $this->type,
+            'type_text' => ucfirst(str_replace('_', ' ', $this->type)),
             'material_id' => $this->material_id,
             'material_name' => $this->material->name,
             'qty' => $this->qty,

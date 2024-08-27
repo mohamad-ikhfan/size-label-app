@@ -100,16 +100,6 @@ export default function MaterialIndex({
                                             date
                                         </TableHeading>
                                         <TableHeading
-                                            name="type"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            type
-                                        </TableHeading>
-                                        <TableHeading
                                             name="material_id"
                                             sort_field={queryParams.sort_field}
                                             sort_direction={
@@ -118,6 +108,16 @@ export default function MaterialIndex({
                                             sortChanged={sortChanged}
                                         >
                                             Material
+                                        </TableHeading>
+                                        <TableHeading
+                                            name="type"
+                                            sort_field={queryParams.sort_field}
+                                            sort_direction={
+                                                queryParams.sort_direction
+                                            }
+                                            sortChanged={sortChanged}
+                                        >
+                                            type
                                         </TableHeading>
                                         <TableHeading
                                             name="qty"
@@ -218,34 +218,6 @@ export default function MaterialIndex({
                                                 <SelectInput
                                                     className="w-full"
                                                     defaultValue={
-                                                        queryParams.type
-                                                    }
-                                                    onChange={(e) =>
-                                                        searchFieldChanged(
-                                                            "type",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        show all
-                                                    </option>
-                                                    {Object.entries(
-                                                        filters["type"]
-                                                    ).map((value) => (
-                                                        <option
-                                                            key={value[0]}
-                                                            value={value[0]}
-                                                        >
-                                                            {value[1]}
-                                                        </option>
-                                                    ))}
-                                                </SelectInput>
-                                            </th>
-                                            <th className="px-3 pb-2">
-                                                <SelectInput
-                                                    className="w-full"
-                                                    defaultValue={
                                                         queryParams.material_id
                                                     }
                                                     onChange={(e) =>
@@ -260,6 +232,34 @@ export default function MaterialIndex({
                                                     </option>
                                                     {Object.entries(
                                                         filters["material_id"]
+                                                    ).map((value) => (
+                                                        <option
+                                                            key={value[0]}
+                                                            value={value[0]}
+                                                        >
+                                                            {value[1]}
+                                                        </option>
+                                                    ))}
+                                                </SelectInput>
+                                            </th>
+                                            <th className="px-3 pb-2">
+                                                <SelectInput
+                                                    className="w-full"
+                                                    defaultValue={
+                                                        queryParams.type
+                                                    }
+                                                    onChange={(e) =>
+                                                        searchFieldChanged(
+                                                            "type",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        show all
+                                                    </option>
+                                                    {Object.entries(
+                                                        filters["type"]
                                                     ).map((value) => (
                                                         <option
                                                             key={value[0]}
@@ -327,12 +327,12 @@ export default function MaterialIndex({
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {
-                                                            transactionMaterial.type
+                                                            transactionMaterial.material_name
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {
-                                                            transactionMaterial.material_name
+                                                            transactionMaterial.type_text
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
