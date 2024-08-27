@@ -61,7 +61,7 @@ class ReportPrintController extends Controller
                 'release' => $reportPrintsAll->orderBy('release', 'desc')->get()->pluck('release', 'release')->map(fn($val) => now()->parse($val)->format('m/d y')),
                 'special' => $reportPrintsAll->get()->pluck('special', 'special'),
                 'remark' => $reportPrintsAll->get()->pluck('remark', 'remark'),
-                'printed_by' => $reportPrintsAll->get()->pluck('printed_by', 'printed_by')->map(fn($val) => $reportPrintsAll->where('printed_by', $val)->first()->printedBy->full_name),
+                'printed_by' => $reportPrintsAll->get()->pluck('printed_by', 'printed_by')->map(fn($val) => $reportPrintsAll->where('printed_by', $val)->first()->printedBy->full_name ?? null),
             ]
         ]);
     }
