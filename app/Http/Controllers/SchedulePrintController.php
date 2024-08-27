@@ -183,7 +183,6 @@ class SchedulePrintController extends Controller
         foreach ($scheduleOnPrints as $value) {
             $schedulePrint = SchedulePrint::where([
                 'line' => $value->line,
-                'schedule' => $value->schedule,
                 'release' => $value->release,
                 'style_number' => $value->style_number,
                 'model_name' => $value->model_name,
