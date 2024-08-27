@@ -40,11 +40,9 @@ export default function SchedulePrintIndex({
     useEffect(() => {
         let timer = setTimeout(() => {
             router.reload();
-        }, 5000);
+        }, 10000);
 
-        return () => {
-            clearTimeout(timer);
-        };
+        clearTimeout(timer);
     });
 
     const numberFormat = (number) =>
