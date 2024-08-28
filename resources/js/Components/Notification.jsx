@@ -1,24 +1,15 @@
 import { BellIcon } from "@heroicons/react/16/solid";
 import Dropdown from "./Dropdown";
-import { useEffect } from "react";
 import { router } from "@inertiajs/react";
 
 export default function Notification({ user }) {
     const handleReadNotification = (id) => {
-        router.put(route("notification.read", id), [], {
-            onSuccess: () => getNotification(),
-        });
+        router.put(route("notification.read", id));
     };
 
     const handleDeleteNotification = (id) => {
-        router
-            .delete(route("notification.destroy", id))
-            .then(() => getNotification());
+        router.delete(route("notification.destroy", id));
     };
-
-    useEffect(() => {
-        () => getNotification();
-    });
 
     return (
         <Dropdown>
