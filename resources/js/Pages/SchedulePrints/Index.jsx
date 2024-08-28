@@ -38,9 +38,7 @@ export default function SchedulePrintIndex({
     };
 
     useEffect(() => {
-        let timer = setTimeout(() => {
-            router.reload();
-        }, 10000);
+        let timer = setTimeout(async () => router.reload(), 10000);
 
         () => clearTimeout(timer);
     });
@@ -200,7 +198,9 @@ export default function SchedulePrintIndex({
                                                         }
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {schedulePrint.status}
+                                                        {
+                                                            schedulePrint.status_text
+                                                        }
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {

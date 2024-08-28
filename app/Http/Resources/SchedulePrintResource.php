@@ -31,6 +31,7 @@ class SchedulePrintResource extends JsonResource
             'status_updated_by' => $this->status_updated_by,
             'status_updated_by_name' => $this->statusUpdatedBy->full_name ?? null,
             'status' => $this->status,
+            'status_text' => ucfirst($this->status),
             'status_updated_at' => $this->status_updated_at,
             'status_updated_at_format' => Carbon::parse($this->status_updated_at)->format('d/M/y'),
         ];
