@@ -30,9 +30,7 @@ export default function Notification() {
     };
 
     useEffect(() => {
-        let timer = setTimeout(() => getNotification(), 5000);
-
-        () => clearTimeout(timer);
+        () => getNotification();
     });
 
     return (
