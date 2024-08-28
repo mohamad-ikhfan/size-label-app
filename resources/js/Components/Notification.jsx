@@ -1,22 +1,9 @@
 import { BellIcon } from "@heroicons/react/16/solid";
 import Dropdown from "./Dropdown";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { router } from "@inertiajs/react";
 
-export default function Notification() {
-    const [notification, setNotification] = useState([]);
-    const [unreadNotification, setUnreadNotification] = useState(0);
-
-    const getNotification = async () => {
-        await axios.get(route("notification.index")).then((response) => {
-            setNotification(response.data);
-            setUnreadNotification(
-                response.data.filter((v) => v.read_at === null).length
-            );
-        });
-    };
-
+export default function Notification({ user }) {
     const handleReadNotification = (id) => {
         router.put(route("notification.read", id), [], {
             onSuccess: () => getNotification(),
@@ -42,9 +29,14 @@ export default function Notification() {
                         className="inline-flex items-center p-1 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                     >
                         <BellIcon className="w-5" />
-                        {unreadNotification > 0 && (
+                        {user.notifications.filter((v) => v.read_at === null)
+                            .length > 0 && (
                             <span className="absolute top-0 right-0 px-1 rounded-full bg-orange-600 text-orange-50 text-xs">
-                                {unreadNotification}
+                                {
+                                    user.notifications.filter(
+                                        (v) => v.read_at === null
+                                    ).length
+                                }
                             </span>
                         )}
                     </button>
@@ -53,8 +45,8 @@ export default function Notification() {
 
             <Dropdown.Content>
                 <div className="px-2 py-4 text-sm max-h-96 overflow-y-auto space-y-1">
-                    {notification.length > 0 ? (
-                        notification.map((notif) => (
+                    {user.notifications.length > 0 ? (
+                        user.notifications.map((notif) => (
                             <div
                                 className={
                                     notif.read_at === null

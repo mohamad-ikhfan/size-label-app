@@ -120,7 +120,7 @@ export default function Authenticated({ user, header, children }) {
 
                             <div className="hidden sm:flex sm:items-center sm:ms-6">
                                 <div className="ms-3 relative p-2">
-                                    <Notification />
+                                    <Notification user={user} />
                                 </div>
                                 <div className="relative">
                                     <Dropdown>

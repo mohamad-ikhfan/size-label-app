@@ -95,7 +95,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [TransactionMaterialController::class, 'destroy'])->name('transaction-material.destroy');
     });
 
-    Route::get('notifications', [NotificationController::class, 'index'])->name('notification.index');
     Route::put('notifications/{id}', [NotificationController::class, 'read'])->name('notification.read');
     Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
 
