@@ -16,12 +16,15 @@ export default function Authenticated({ user, header, children }) {
     const [unreadNotification, setUnreadNotification] = useState(0);
 
     const getNotification = () => {
-        axios.get(route("notification.index")).then((response) => {
-            setNotification(response.data);
-            setUnreadNotification(
-                response.data.filter((v) => v.read_at === null).length
-            );
-        });
+        axios
+            .get(route("notification.index"))
+            .then((response) => {
+                setNotification(response.data);
+                setUnreadNotification(
+                    response.data.filter((v) => v.read_at === null).length
+                );
+            })
+            .catch(() => router.reload());
     };
 
     const handleReadNotification = (id) => {
@@ -34,7 +37,7 @@ export default function Authenticated({ user, header, children }) {
     };
 
     useEffect(() => {
-        let timer = setTimeout(() => getNotification(), 5000);
+        let timer = setTimeout(() => getNotification(), 10000);
 
         () => clearTimeout(timer);
     });
