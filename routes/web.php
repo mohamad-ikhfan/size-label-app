@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DestroyRibbonController;
+use App\Http\Controllers\HistoryImportController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ModelForMaterialController;
 use App\Http\Controllers\NotificationController;
@@ -98,6 +99,11 @@ Route::middleware('auth')->group(function () {
     Route::put('notifications/{id}', [NotificationController::class, 'read'])->name('notification.read');
     Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
 
+    Route::prefix('history-import')->group(function () {
+        Route::get('/', [HistoryImportController::class, 'index'])->name('history-import.index');
+        Route::delete('/{id}', [HistoryImportController::class, 'destroy'])->name('history-import.destroy');
+        Route::get('/download/{id}', [HistoryImportController::class, 'download'])->name('history-import.download');
+    });
 
     // Route::get('/testing', function () {
     //    //

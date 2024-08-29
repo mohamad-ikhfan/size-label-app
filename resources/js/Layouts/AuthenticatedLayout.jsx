@@ -38,6 +38,14 @@ export default function Authenticated({ user, header, children }) {
                                     >
                                         Users
                                     </NavLink>
+                                    <NavLink
+                                        href={route("history-import.index")}
+                                        active={route().current(
+                                            "history-import.*"
+                                        )}
+                                    >
+                                        History Imports
+                                    </NavLink>
                                     <div className="inline-flex items-center">
                                         <Dropdown>
                                             <Dropdown.Trigger>
