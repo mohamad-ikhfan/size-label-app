@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export default function PoItemImport({ closeModal = () => {} }) {
@@ -28,6 +29,21 @@ export default function PoItemImport({ closeModal = () => {} }) {
         });
     };
 
+    const [processUpload, setProcessUpload] = useState(false);
+
+    const handleUploadFile = async (e, setValue) => {
+        e.preventDefault();
+        setProcessUpload(true);
+
+        if (e.target.files) {
+            const file = e.target.files[0];
+            setData(setValue, file);
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setProcessUpload(false);
+    };
+
     return (
         <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
             <h3 className="dark:text-gray-100 text-lg mb-6">Import PO Item</h3>
@@ -39,9 +55,7 @@ export default function PoItemImport({ closeModal = () => {} }) {
                         type="file"
                         className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                        onChange={(e) =>
-                            setData("import_file_f2", e.target.files[0])
-                        }
+                        onChange={(e) => handleUploadFile(e, "import_file_f2")}
                     />
 
                     <InputError
@@ -57,9 +71,7 @@ export default function PoItemImport({ closeModal = () => {} }) {
                         required
                         className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                        onChange={(e) =>
-                            setData("import_file_f4", e.target.files[0])
-                        }
+                        onChange={(e) => handleUploadFile(e, "import_file_f4")}
                     />
 
                     <InputError
@@ -74,9 +86,7 @@ export default function PoItemImport({ closeModal = () => {} }) {
                         type="file"
                         className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                        onChange={(e) =>
-                            setData("import_file_f6", e.target.files[0])
-                        }
+                        onChange={(e) => handleUploadFile(e, "import_file_f6")}
                     />
 
                     <InputError
@@ -91,9 +101,7 @@ export default function PoItemImport({ closeModal = () => {} }) {
                         type="file"
                         className="block text-sm w-full border-2 p-2 rounded-md border-dashed file:hidden cursor-pointer"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                        onChange={(e) =>
-                            setData("import_file_f7", e.target.files[0])
-                        }
+                        onChange={(e) => handleUploadFile(e, "import_file_f7")}
                     />
 
                     <InputError
@@ -103,8 +111,13 @@ export default function PoItemImport({ closeModal = () => {} }) {
                 </div>
 
                 <div className="flex gap-4">
-                    <PrimaryButton disabled={processing}>Import</PrimaryButton>
-                    <SecondaryButton disabled={processing} onClick={closeModal}>
+                    <PrimaryButton disabled={processing || processUpload}>
+                        Import
+                    </PrimaryButton>
+                    <SecondaryButton
+                        disabled={processing || processUpload}
+                        onClick={closeModal}
+                    >
                         Cancel
                     </SecondaryButton>
                 </div>
