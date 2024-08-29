@@ -193,26 +193,6 @@ export default function PoItemIndex({
                                         >
                                             Remark
                                         </TableHeading>
-                                        <TableHeading
-                                            name="created_at"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            created at
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="updated_at"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            updated at
-                                        </TableHeading>
                                         <TableHeading sortable={false}>
                                             actions
                                         </TableHeading>
@@ -392,7 +372,6 @@ export default function PoItemIndex({
                                                 </SelectInput>
                                             </th>
                                             <th className="px-3 pb-2"></th>
-                                            <th className="px-3 pb-2"></th>
                                         </tr>
                                     )}
                                 </thead>
@@ -432,12 +411,6 @@ export default function PoItemIndex({
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     {poItem.remark}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {poItem.created_at}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {poItem.updated_at}
                                                 </td>
                                                 <td>
                                                     <div className="px-3 py-2 flex gap-1.5">

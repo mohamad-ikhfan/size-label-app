@@ -128,26 +128,6 @@ export default function DestroyRibbonIndex({
                                         >
                                             qty
                                         </TableHeading>
-                                        <TableHeading
-                                            name="created_at"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            created at
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="updated_at"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            updated at
-                                        </TableHeading>
                                         <TableHeading sortable={false}>
                                             actions
                                         </TableHeading>
@@ -213,7 +193,7 @@ export default function DestroyRibbonIndex({
                                             </th>
                                             <th
                                                 className="px-3 pb-2"
-                                                colSpan={4}
+                                                colSpan={2}
                                             ></th>
                                         </tr>
                                     )}
@@ -243,16 +223,6 @@ export default function DestroyRibbonIndex({
                                                         {numberFormat(
                                                             destroyRibbon.qty
                                                         )}
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {
-                                                            destroyRibbon.created_at
-                                                        }
-                                                    </td>
-                                                    <td className="px-3 py-2">
-                                                        {
-                                                            destroyRibbon.updated_at
-                                                        }
                                                     </td>
                                                     <td>
                                                         {auth.user.id ===
