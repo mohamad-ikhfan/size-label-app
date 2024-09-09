@@ -38,7 +38,10 @@ export default function SchedulePrintIndex({
     };
 
     useEffect(() => {
-        const timer = setTimeout(async () => router.reload(), 10000);
+        const timer = setTimeout(
+            async () => router.reload({ only: ["schedulePrints"] }),
+            6000
+        );
         return () => clearTimeout(timer);
     }, [schedulePrints]);
 
