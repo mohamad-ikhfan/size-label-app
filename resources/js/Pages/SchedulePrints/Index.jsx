@@ -38,10 +38,9 @@ export default function SchedulePrintIndex({
     };
 
     useEffect(() => {
-        let timer = setTimeout(async () => router.reload(), 10000);
-
-        () => clearTimeout(timer);
-    });
+        const timer = setTimeout(async () => router.reload(), 10000);
+        return () => clearTimeout(timer);
+    }, [schedulePrints]);
 
     const numberFormat = (number) =>
         new Intl.NumberFormat("en-IN").format(number);
