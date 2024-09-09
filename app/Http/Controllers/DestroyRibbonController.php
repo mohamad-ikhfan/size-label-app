@@ -95,8 +95,17 @@ class DestroyRibbonController extends Controller
         $destroyRibbons = DestroyRibbon::where('destroyed_at', '>=', $request->from_date)
             ->where('destroyed_at', '<=', $request->to_date)
             ->orderBy('destroyed_at')
-            ->orderBy('destroyed_by')
             ->get();
+
+        $distroyCollection = collect();
+        foreach ($destroyRibbons as $key => $value) {
+            $distroyCollection->push([
+                'num_row' => ($key + 3),
+                'destroyed_at' => now()->parse($value->destroyed_at)->addDay()->format('Y-m-d'),
+                'full_name' => $value->destroyedBy->full_name,
+                'qty' => $value->qty,
+            ]);
+        }
 
         $spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -156,21 +165,18 @@ class DestroyRibbonController extends Controller
         $activeWorksheet->getRowDimension("1")->setRowHeight(30);
         $activeWorksheet->getRowDimension("2")->setRowHeight(20);
 
-        $rowNum = 3;
-        foreach ($destroyRibbons as $key => $destroyRibbon) {
-            $activeWorksheet->setCellValue('A' . $rowNum, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($destroyRibbon->destroyed_at)));
-            $activeWorksheet->getStyle('A' . $rowNum)->getNumberFormat()->setFormatCode("dd-mmmm-yyyy");
-            $activeWorksheet->setCellValue('B' . $rowNum, $destroyRibbon->destroyedBy->full_name);
-            $activeWorksheet->setCellValue('C' . $rowNum, $destroyRibbon->qty);
-            $activeWorksheet->getStyle('C' . $rowNum)->getNumberFormat()->setFormatCode(0);
-            $activeWorksheet->setCellValue('D' . $rowNum, 'ROLL');
+        foreach ($distroyCollection as $destroyRibbon) {
+            $activeWorksheet->setCellValue('A' . $destroyRibbon['num_row'], isset($destroyRibbon['destroyed_at']) ? \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($destroyRibbon['destroyed_at'])) : null);
+            $activeWorksheet->getStyle('A' . $destroyRibbon['num_row'])->getNumberFormat()->setFormatCode("dd-mmmm-yyyy");
+            $activeWorksheet->setCellValue('B' . $destroyRibbon['num_row'], $destroyRibbon['full_name'] ?? null);
+            $activeWorksheet->setCellValue('C' . $destroyRibbon['num_row'], $destroyRibbon['qty'] ?? null);
+            $activeWorksheet->getStyle('C' . $destroyRibbon['num_row'])->getNumberFormat()->setFormatCode(0);
+            $activeWorksheet->setCellValue('D' . $destroyRibbon['num_row'], 'ROLL');
 
-            $activeWorksheet->getStyle('A' . $rowNum)->applyFromArray($style_data);
-            $activeWorksheet->getStyle('B' . $rowNum)->applyFromArray($style_data);
-            $activeWorksheet->getStyle('C' . $rowNum)->applyFromArray($style_data);
-            $activeWorksheet->getStyle('D' . $rowNum)->applyFromArray($style_data);
-
-            $rowNum++;
+            $activeWorksheet->getStyle('A' . $destroyRibbon['num_row'])->applyFromArray($style_data);
+            $activeWorksheet->getStyle('B' . $destroyRibbon['num_row'])->applyFromArray($style_data);
+            $activeWorksheet->getStyle('C' . $destroyRibbon['num_row'])->applyFromArray($style_data);
+            $activeWorksheet->getStyle('D' . $destroyRibbon['num_row'])->applyFromArray($style_data);
         }
 
         $activeWorksheet->getColumnDimension("A")->setAutoSize(true);
