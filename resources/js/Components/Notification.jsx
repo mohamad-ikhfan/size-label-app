@@ -1,6 +1,7 @@
 import { BellIcon } from "@heroicons/react/16/solid";
 import Dropdown from "./Dropdown";
 import { router } from "@inertiajs/react";
+import { useEffect } from "react";
 
 export default function Notification({ user }) {
     const handleReadNotification = (id) => {
@@ -10,6 +11,14 @@ export default function Notification({ user }) {
     const handleDeleteNotification = (id) => {
         router.delete(route("notification.destroy", id));
     };
+
+    useEffect(() => {
+        const timer = setTimeout(
+            async () => router.reload({ only: ["user"] }),
+            5000
+        );
+        return () => clearTimeout(timer);
+    }, [user]);
 
     return (
         <Dropdown>
