@@ -2,12 +2,20 @@ import {
     ArrowDownTrayIcon,
     EyeIcon,
     PencilIcon,
+    PrinterIcon,
     TrashIcon,
 } from "@heroicons/react/16/solid";
 
-export function TableAction({ data, show, edit, destroy, download }) {
+export function TableAction({ data, show, edit, destroy, download, print }) {
     return (
         <div className="flex gap-2 justify-start">
+            {print && (
+                <PrinterIcon
+                    className="w-5 cursor-pointer text-gray-400"
+                    title="Print"
+                    onClick={() => print(data)}
+                />
+            )}
             {download && (
                 <ArrowDownTrayIcon
                     className="w-5 cursor-pointer text-gray-400"

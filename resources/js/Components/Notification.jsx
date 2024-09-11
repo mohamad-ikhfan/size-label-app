@@ -12,13 +12,13 @@ export default function Notification({ user }) {
         router.delete(route("notification.destroy", id));
     };
 
-    useEffect(() => {
-        const timer = setTimeout(
-            async () => router.reload({ only: ["user"] }),
-            5000
-        );
-        return () => clearTimeout(timer);
-    }, [user]);
+    // useEffect(() => {
+    //     const timer = setTimeout(
+    //         async () => router.reload({ only: ["user"] }),
+    //         5000
+    //     );
+    //     return () => clearTimeout(timer);
+    // }, [user]);
 
     return (
         <Dropdown>
