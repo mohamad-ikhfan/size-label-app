@@ -61,14 +61,17 @@ export default function UserIndex({ auth, users }) {
             columnHelper.accessor("full_name", {
                 header: () => "full name",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("name", {
                 header: () => "name",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("email", {
                 header: () => "email",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("blocked_at", {
                 header: () => "blocked at",

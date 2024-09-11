@@ -43,10 +43,10 @@ export function Table({ table }) {
                                                         )}
                                                         {{
                                                             asc: (
-                                                                <ChevronUpIcon className="w-6 -mt-0.5 text-gray-950 dark:text-white" />
+                                                                <ChevronUpIcon className="w-6 -mt-0.5 text-gray-500 dark:text-gray-200" />
                                                             ),
                                                             desc: (
-                                                                <ChevronDownIcon className="w-6 -mt-0.5 text-gray-950 dark:text-white" />
+                                                                <ChevronDownIcon className="w-6 -mt-0.5 text-gray-500 dark:text-gray-200" />
                                                             ),
                                                         }[
                                                             header.column.getIsSorted()
@@ -55,7 +55,7 @@ export function Table({ table }) {
                                                                 className={
                                                                     !header.column.getCanSort()
                                                                         ? "hidden"
-                                                                        : "w-6 -mt-0.5 text-gray-950 dark:text-white"
+                                                                        : "w-6 -mt-0.5 text-gray-500 dark:text-gray-200"
                                                                 }
                                                             />
                                                         )}

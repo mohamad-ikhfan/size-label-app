@@ -53,14 +53,17 @@ export default function MaterialIndex({ auth, materials }) {
             columnHelper.accessor("code", {
                 header: () => "code",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("name", {
                 header: () => "name",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("description", {
                 header: () => "description",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("action", {
                 cell: (info) => (

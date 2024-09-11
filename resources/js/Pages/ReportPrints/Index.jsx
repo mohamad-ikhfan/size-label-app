@@ -56,42 +56,52 @@ export default function ReportPrintIndex({ auth, reportPrints }) {
             columnHelper.accessor("printed_at_format", {
                 header: () => "printed at",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("line", {
                 header: () => "line",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("po_number", {
                 header: () => "po number",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("release_format", {
                 header: () => "release",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("style_number", {
                 header: () => "style number",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("model_name", {
                 header: () => "model name",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("special", {
                 header: () => "special",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("remark", {
                 header: () => "remark",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("printed_by_name", {
                 header: () => "printed by",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("action", {
                 cell: (info) => (

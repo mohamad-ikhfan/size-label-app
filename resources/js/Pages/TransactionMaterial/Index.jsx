@@ -57,14 +57,17 @@ export default function MaterialIndex({
             columnHelper.accessor("date_format", {
                 header: () => "date",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("type_text", {
                 header: () => "type",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("material_name", {
                 header: () => "material",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
@@ -84,6 +87,7 @@ export default function MaterialIndex({
             columnHelper.accessor("transaction_by_name", {
                 header: () => "transaction by",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("action", {
                 cell: (info) => (

@@ -53,14 +53,17 @@ export default function ModelForMaterialIndex({ auth, modelForMaterials }) {
             columnHelper.accessor("model_name", {
                 header: () => "model name",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("material_type", {
                 header: () => "material type",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("material_size", {
                 header: () => "material size",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("wide_text", {
                 header: () => "wide",

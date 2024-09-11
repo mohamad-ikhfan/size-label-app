@@ -49,6 +49,7 @@ export default function HistoryImportIndex({ auth, historyImports }) {
             columnHelper.accessor("name", {
                 header: () => "name",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
                 enableSorting: false,
             }),
             columnHelper.accessor("extension", {

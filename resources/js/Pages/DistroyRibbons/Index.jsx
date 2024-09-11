@@ -57,14 +57,17 @@ export default function DestroyRibbonIndex({ auth, destroyRibbons }) {
             columnHelper.accessor("destroyed_at_format", {
                 header: () => "destroyed at",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("destroyed_by_name", {
                 header: () => "destroyed by",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
                 cell: (info) => info.getValue(),
+                filterFn: "includesString",
             }),
             columnHelper.accessor("action", {
                 cell: (info) =>
