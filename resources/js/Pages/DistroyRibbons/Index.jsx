@@ -67,13 +67,14 @@ export default function DestroyRibbonIndex({ auth, destroyRibbons }) {
                 cell: (info) => info.getValue(),
             }),
             columnHelper.accessor("action", {
-                cell: (info) => (
-                    <TableAction
-                        data={info.cell.row.original}
-                        edit={edit}
-                        destroy={destroy}
-                    />
-                ),
+                cell: (info) =>
+                    info.cell.row.original.destroyed_by === auth.user.id ? (
+                        <TableAction
+                            data={info.cell.row.original}
+                            edit={edit}
+                            destroy={destroy}
+                        />
+                    ) : null,
                 enableColumnFilter: false,
                 enableSorting: false,
             }),
