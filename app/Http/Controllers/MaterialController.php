@@ -14,26 +14,8 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        $query = Material::query();
-
-        $sortField = request("sort_field", "updated_at");
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("code")) {
-            $query->where("code", "like", "%" . request("code") . "%");
-        }
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        if (request("description")) {
-            $query->where("description", "like", "%" . request("description") . "%");
-        }
-
-        $materials = MaterialResource::collection($query->orderBy($sortField, $sortDirection)->paginate(15)->onEachSide(1));
-
         return Inertia::render('Materials/Index', [
-            'materials' => $materials,
-            'queryParams' => request()->query() ?: null
+            'materials' => MaterialResource::collection(Material::latest()->get())
         ]);
     }
 

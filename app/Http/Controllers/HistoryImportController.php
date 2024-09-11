@@ -14,12 +14,8 @@ class HistoryImportController extends Controller
      */
     public function index()
     {
-        $query = HistoryImportFile::query();
-
-        /**@disregard P1013*/
-        $historyImports = HistoryImportResource::collection($query->paginate(15)->onEachSide(1));
         return Inertia::render('HistoryImports/Index', [
-            'historyImports' => $historyImports
+            'historyImports' => HistoryImportResource::collection(HistoryImportFile::latest()->get())
         ]);
     }
 

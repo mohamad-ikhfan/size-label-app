@@ -16,53 +16,8 @@ class ReportPrintController extends Controller
      */
     public function index()
     {
-        $reportPrintsAll = new ReportPrint;
-        $query = ReportPrint::query();
-
-        $sortField = request("sort_field", "printed_at");
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("printed_at")) {
-            $query->where("printed_at", "like", "%" . request("printed_at") . "%");
-        }
-        if (request("line")) {
-            $query->where("line", "like", "%" . request("line") . "%");
-        }
-        if (request("release")) {
-            $query->where("release", "like", "%" . request("release") . "%");
-        }
-        if (request("po_number")) {
-            $query->where("po_number", "like", "%" . request("po_number") . "%");
-        }
-        if (request("style_number")) {
-            $query->where("style_number", "like", "%" . request("style_number") . "%");
-        }
-        if (request("model_name")) {
-            $query->where("model_name", "like", "%" . request("model_name") . "%");
-        }
-        if (request("special")) {
-            $query->where("special", "like", "%" . request("special") . "%");
-        }
-        if (request("remark")) {
-            $query->where("remark", "like", "%" . request("remark") . "%");
-        }
-        if (request("printed_by")) {
-            $query->where("printed_by", "like", "%" . request("printed_by") . "%");
-        }
-
-        /**@disregard P1013*/
-        $reportPrints = ReportPrintResource::collection($query->orderBy($sortField, $sortDirection)->orderBy('printed_by', 'desc')->paginate(15)->onEachSide(1));
-
         return Inertia::render('ReportPrints/Index', [
-            'reportPrints' => $reportPrints,
-            'queryParams' => request()->query() ?: null,
-            'filters' => [
-                'printed_at' => $reportPrintsAll->orderBy('printed_at', 'desc')->get()->pluck('printed_at', 'printed_at')->map(fn($val) => now()->parse($val)->format('d-F-Y')),
-                'release' => $reportPrintsAll->orderBy('release', 'desc')->get()->pluck('release', 'release')->map(fn($val) => now()->parse($val)->format('m/d y')),
-                'special' => $reportPrintsAll->get()->pluck('special', 'special'),
-                'remark' => $reportPrintsAll->get()->pluck('remark', 'remark'),
-                'printed_by' => $reportPrintsAll->get()->pluck('printed_by', 'printed_by')->map(fn($val) => $reportPrintsAll->where('printed_by', $val)->first()->printedBy->full_name ?? null),
-            ]
+            'reportPrints' => ReportPrintResource::collection(ReportPrint::orderBy('printed_at', 'desc')->orderBy('printed_by')->get())
         ]);
     }
 

@@ -16,45 +16,8 @@ class PoItemController extends Controller
      */
     public function index()
     {
-        $poItemAll = new PoItem();
-        $query = PoItem::query();
-
-        $sortField = request("sort_field", "created_at");
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("line")) {
-            $query->where("line", "like", "%" . request("line") . "%");
-        }
-        if (request("release")) {
-            $query->where("release", "like", "%" . request("release") . "%");
-        }
-        if (request("po_number")) {
-            $query->where("po_number", "like", "%" . request("po_number") . "%");
-        }
-        if (request("style_number")) {
-            $query->where("style_number", "like", "%" . request("style_number") . "%");
-        }
-        if (request("model_name")) {
-            $query->where("model_name", "like", "%" . request("model_name") . "%");
-        }
-        if (request("special")) {
-            $query->where("special", "like", "%" . request("special") . "%");
-        }
-        if (request("remark")) {
-            $query->where("remark", "like", "%" . request("remark") . "%");
-        }
-
-        /**@disregard P1013*/
-        $poItems = PoItemResource::collection($query->orderBy($sortField, $sortDirection)->paginate(15)->onEachSide(1));
-
         return Inertia::render('PoItems/Index', [
-            'poItems' => $poItems,
-            'queryParams' => request()->query() ?: null,
-            'filters' => [
-                'release' => $poItemAll->all()->pluck('release', 'release')->map(fn($v) => now()->parse($v)->format('m/d y')),
-                'special' => $poItemAll->all()->pluck('special', 'special'),
-                'remark' => $poItemAll->all()->pluck('remark', 'remark'),
-            ]
+            'poItems' => PoItemResource::collection(PoItem::all())
         ]);
     }
 

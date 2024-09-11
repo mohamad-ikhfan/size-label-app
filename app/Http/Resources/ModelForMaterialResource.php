@@ -21,6 +21,7 @@ class ModelForMaterialResource extends JsonResource
             'material_type' => $this->material_type,
             'material_size' => $this->material_size,
             'wide' => $this->wide,
+            'wide_text' => $this->wide === 0 ? 'No' : 'Yes',
             'created_at' => Carbon::parse($this->created_at)->format('d-M-Y'),
             'updated_at' => Carbon::parse($this->updated_at)->format('d-M-Y'),
         ];

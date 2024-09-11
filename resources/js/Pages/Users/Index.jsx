@@ -1,69 +1,99 @@
-import Modal from "@/Components/Modal";
-import Pagination from "@/Components/Pagination";
 import PrimaryButton from "@/Components/PrimaryButton";
-import SelectInput from "@/Components/SelectInput";
-import TableHeading from "@/Components/TableHeading";
-import TextInput from "@/Components/TextInput";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, router } from "@inertiajs/react";
-import { useState } from "react";
+import { Head } from "@inertiajs/react";
+import { useMemo, useState } from "react";
 import UserCreate from "./Create";
-import {
-    EyeIcon,
-    PencilSquareIcon,
-    TrashIcon,
-} from "@heroicons/react/16/solid";
 import UserDelete from "./Delete";
 import UserEdit from "./Edit";
 import UserShow from "./Show";
+import {
+    createColumnHelper,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    useReactTable,
+} from "@tanstack/react-table";
+import { Table } from "@/Components/Table";
+import { TableAction } from "@/Components/TableAction";
 
-export default function UserIndex({ auth, users, queryParams = null }) {
-    queryParams = queryParams || {};
+export default function UserIndex({ auth, users }) {
+    const [openModalCreate, setOpenModalCreate] = useState(false);
+    const [openModalShow, setOpenModalShow] = useState(false);
+    const [openModalEdit, setOpenModalEdit] = useState(false);
+    const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [dataRow, setDataRow] = useState();
 
-    const searchFieldChanged = (name, value) => {
-        if (value) {
-            queryParams[name] = value;
-        } else {
-            delete queryParams[name];
-        }
-
-        router.get(route("user.index"), queryParams);
+    const show = (data) => {
+        setDataRow(data);
+        setOpenModalShow(true);
     };
 
-    const sortChanged = (name) => {
-        if (name === queryParams.sort_field) {
-            if (queryParams.sort_direction === "asc") {
-                queryParams.sort_direction = "desc";
-            } else {
-                queryParams.sort_direction = "asc";
-            }
-        } else {
-            queryParams.sort_field = name;
-            queryParams.sort_direction = "asc";
-        }
-
-        router.get(route("user.index"), queryParams);
+    const edit = (data) => {
+        setDataRow(data);
+        setOpenModalEdit(true);
     };
 
-    const onKeyPress = (name, e) => {
-        if (e.key !== "Enter") return;
-        searchFieldChanged(name, e.target.value);
-    };
-
-    const [showModal, setShowModal] = useState(false);
-    const [statusModal, setStatusModal] = useState("");
-    const [userData, setUserData] = useState({});
-
-    const createModal = () => {
-        setShowModal(true);
-        setStatusModal("create");
+    const destroy = (data) => {
+        setDataRow(data);
+        setOpenModalDelete(true);
     };
 
     const closeModal = () => {
-        setShowModal(false);
-        setStatusModal("");
-        setUserData({});
+        setOpenModalCreate(false);
+        setOpenModalShow(false);
+        setOpenModalEdit(false);
+        setOpenModalDelete(false);
+        setDataRow();
     };
+
+    const data = useMemo(() => users.data, []);
+
+    const columnHelper = createColumnHelper();
+
+    const table = useReactTable({
+        columns: [
+            columnHelper.accessor("#", {
+                cell: (info) => info.row.index + 1,
+                enableColumnFilter: false,
+                enableSorting: false,
+            }),
+            columnHelper.accessor("full_name", {
+                header: () => "full name",
+                cell: (info) => info.getValue(),
+            }),
+            columnHelper.accessor("name", {
+                header: () => "name",
+                cell: (info) => info.getValue(),
+            }),
+            columnHelper.accessor("email", {
+                header: () => "email",
+                cell: (info) => info.getValue(),
+            }),
+            columnHelper.accessor("blocked_at", {
+                header: () => "blocked at",
+                cell: (info) => info.getValue(),
+                enableColumnFilter: false,
+            }),
+            columnHelper.accessor("action", {
+                cell: (info) => (
+                    <TableAction
+                        data={info.cell.row.original}
+                        show={show}
+                        edit={edit}
+                        destroy={destroy}
+                    />
+                ),
+                enableColumnFilter: false,
+                enableSorting: false,
+            }),
+        ],
+        data: data,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+    });
 
     return (
         <AuthenticatedLayout
@@ -79,289 +109,46 @@ export default function UserIndex({ auth, users, queryParams = null }) {
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
                     <div className="mb-6 flex justify-end">
-                        <PrimaryButton type="button" onClick={createModal}>
+                        <PrimaryButton
+                            type="button"
+                            onClick={() => setOpenModalCreate(true)}
+                        >
                             New User
                         </PrimaryButton>
                     </div>
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="w-full p-6 overflow-auto">
-                            <table className="w-full text-left text-gray-500 dark:text-gray-400">
-                                <thead className="text-gray-700 bg-gray-50 dark:bg-slate-700 dark:text-gray-400 border-b-2 border-gray-500 uppercase">
-                                    <tr className="text-nowrap">
-                                        <TableHeading sortable={false}>
-                                            #
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="full_name"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            full name
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="name"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            name
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="email"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            email
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="blocked"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            blocked
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="created_at"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            created at
-                                        </TableHeading>
-                                        <TableHeading
-                                            name="updated_at"
-                                            sort_field={queryParams.sort_field}
-                                            sort_direction={
-                                                queryParams.sort_direction
-                                            }
-                                            sortChanged={sortChanged}
-                                        >
-                                            updated at
-                                        </TableHeading>
-                                        <TableHeading sortable={false}>
-                                            actions
-                                        </TableHeading>
-                                    </tr>
-                                    {users.data.length > 0 && (
-                                        <tr className="text-nowrap">
-                                            <th className="px-3 pb-2"></th>
-                                            <th className="px-3 pb-2">
-                                                <TextInput
-                                                    className="w-full"
-                                                    type="search"
-                                                    defaultValue={
-                                                        queryParams.full_name
-                                                    }
-                                                    placeholder="search..."
-                                                    onBlur={(e) =>
-                                                        searchFieldChanged(
-                                                            "full_name",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress(
-                                                            "full_name",
-                                                            e
-                                                        )
-                                                    }
-                                                />
-                                            </th>
-                                            <th className="px-3 pb-2">
-                                                <TextInput
-                                                    className="w-full"
-                                                    type="search"
-                                                    defaultValue={
-                                                        queryParams.name
-                                                    }
-                                                    placeholder="search..."
-                                                    onBlur={(e) =>
-                                                        searchFieldChanged(
-                                                            "name",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("name", e)
-                                                    }
-                                                />
-                                            </th>
-                                            <th className="px-3 pb-2">
-                                                <TextInput
-                                                    className="w-full"
-                                                    type="search"
-                                                    defaultValue={
-                                                        queryParams.email
-                                                    }
-                                                    placeholder="search..."
-                                                    onBlur={(e) =>
-                                                        searchFieldChanged(
-                                                            "email",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("email", e)
-                                                    }
-                                                />
-                                            </th>
-                                            <th className="px-3 pb-2">
-                                                <SelectInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.blocked
-                                                    }
-                                                    onChange={(e) =>
-                                                        searchFieldChanged(
-                                                            "blocked",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        show all
-                                                    </option>
-                                                    <option value={true}>
-                                                        Blocked
-                                                    </option>
-                                                    <option value={false}>
-                                                        Unblocked
-                                                    </option>
-                                                </SelectInput>
-                                            </th>
-                                            <th className="px-3 pb-2"></th>
-                                            <th className="px-3 pb-2"></th>
-                                            <th className="px-3 pb-2"></th>
-                                        </tr>
-                                    )}
-                                </thead>
-                                <tbody>
-                                    {users.data.length > 0 ? (
-                                        users.data.map((user, index) => (
-                                            <tr
-                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                                key={user.id}
-                                            >
-                                                <td className="px-3 py-2">
-                                                    {++index}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {user.full_name}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {user.name}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {user.email}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {user.blocked}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {user.created_at}
-                                                </td>
-                                                <td className="px-3 py-2">
-                                                    {user.updated_at}
-                                                </td>
-                                                <td>
-                                                    <div className="px-3 py-2 flex gap-1.5">
-                                                        <EyeIcon
-                                                            className="w-5 text-gray-500 cursor-pointer"
-                                                            title="show"
-                                                            onClick={(e) => {
-                                                                setUserData(
-                                                                    user
-                                                                );
-                                                                setShowModal(
-                                                                    true
-                                                                );
-                                                                setStatusModal(
-                                                                    "show"
-                                                                );
-                                                            }}
-                                                        />
-                                                        <PencilSquareIcon
-                                                            className="w-5 text-yellow-500 cursor-pointer"
-                                                            title="edit"
-                                                            onClick={(e) => {
-                                                                setUserData(
-                                                                    user
-                                                                );
-                                                                setShowModal(
-                                                                    true
-                                                                );
-                                                                setStatusModal(
-                                                                    "edit"
-                                                                );
-                                                            }}
-                                                        />
-                                                        <TrashIcon
-                                                            className="w-5 text-red-500 cursor-pointer"
-                                                            title="delete"
-                                                            onClick={(e) => {
-                                                                setUserData(
-                                                                    user
-                                                                );
-                                                                setShowModal(
-                                                                    true
-                                                                );
-                                                                setStatusModal(
-                                                                    "delete"
-                                                                );
-                                                            }}
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <td
-                                                colSpan={7}
-                                                className="text-center px-3 py-2"
-                                            >
-                                                No data found.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                            {users.data.length > 0 && (
-                                <Pagination links={users.meta.links} />
-                            )}
+                        <div className="p-4 md:p-6 text-gray-900 dark:text-gray-100">
+                            <Table table={table} />
                         </div>
                     </div>
                 </div>
-                <Modal
-                    show={showModal}
-                    maxWidth={statusModal === "delete" ? "sm" : "xl"}
-                >
-                    {statusModal === "create" && (
-                        <UserCreate closeModal={closeModal} />
-                    )}
-                    {statusModal === "show" && (
-                        <UserShow user={userData} closeModal={closeModal} />
-                    )}
-                    {statusModal === "edit" && (
-                        <UserEdit user={userData} closeModal={closeModal} />
-                    )}
-                    {statusModal === "delete" && (
-                        <UserDelete user={userData} closeModal={closeModal} />
-                    )}
-                </Modal>
+                {openModalCreate && (
+                    <UserCreate
+                        showModal={openModalCreate}
+                        closeModal={closeModal}
+                    />
+                )}
+                {openModalShow && (
+                    <UserShow
+                        state={dataRow}
+                        showModal={openModalShow}
+                        closeModal={closeModal}
+                    />
+                )}
+                {openModalEdit && (
+                    <UserEdit
+                        state={dataRow}
+                        showModal={openModalEdit}
+                        closeModal={closeModal}
+                    />
+                )}
+                {openModalDelete && (
+                    <UserDelete
+                        state={dataRow}
+                        showModal={openModalDelete}
+                        closeModal={closeModal}
+                    />
+                )}
             </div>
         </AuthenticatedLayout>
     );

@@ -16,28 +16,8 @@ class DestroyRibbonController extends Controller
      */
     public function index()
     {
-        $destroyRibbonAll = new DestroyRibbon();
-        $query = DestroyRibbon::query();
-
-        $sortField = request("sort_field", "destroyed_at");
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("destroyed_at")) {
-            $query->where("destroyed_at", "like", "%" . request("destroyed_at") . "%");
-        }
-        if (request("destroyed_by")) {
-            $query->where("destroyed_by", "like", "%" . request("destroyed_by") . "%");
-        }
-
-        /**@disregard P1013*/
-        $destroyRibbons = DestroyRibbonResource::collection($query->orderBy($sortField, $sortDirection)->orderBy('updated_at', 'desc')->paginate(15)->onEachSide(1));
         return Inertia::render('DistroyRibbons/Index', [
-            'destroyRibbons' => $destroyRibbons,
-            'queryParams' => request()->query() ?: null,
-            'filters' => [
-                'destroyed_at' => $destroyRibbonAll->all()->pluck('destroyed_at', 'destroyed_at')->map(fn($v) => now()->parse($v)->format('d-F-Y')),
-                'destroyed_by' => $destroyRibbonAll->all()->pluck('destroyed_by', 'destroyed_by')->map(fn($v) => $destroyRibbonAll->where('destroyed_by', $v)->first()->destroyedBy->full_name),
-            ]
+            'destroyRibbons' => DestroyRibbonResource::collection(DestroyRibbon::orderBy('destroyed_at', 'desc')->orderBy('destroyed_by')->get())
         ]);
     }
 

@@ -1,5 +1,6 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
+import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import SelectInput from "@/Components/SelectInput";
@@ -11,6 +12,7 @@ import { toast } from "react-hot-toast";
 export default function TransactionMaterialCreate({
     user,
     materials,
+    showModal,
     closeModal = () => {},
 }) {
     const { data, setData, post, errors, processing } = useForm({
@@ -76,141 +78,148 @@ export default function TransactionMaterialCreate({
         });
     };
     return (
-        <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h3 className="mb-4 text-lg dark:text-gray-100">
-                New Transaction Material
-            </h3>
-            <form onSubmit={submit} className="space-y-6">
-                <div>
-                    <InputLabel htmlFor="date" value="Date" />
+        <Modal show={showModal} maxWidth="2xl">
+            <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 className="mb-4 text-lg dark:text-gray-100">
+                    New Transaction Material
+                </h3>
+                <form onSubmit={submit} className="space-y-6">
+                    <div>
+                        <InputLabel htmlFor="date" value="Date" />
 
-                    <TextInput
-                        id="date"
-                        className="mt-1 block w-full"
-                        value={data.date}
-                        required
-                        onChange={(e) => setData("date", e.target.value)}
-                        type="date"
-                        onKeyDown={(e) => e.preventDefault()}
-                    />
+                        <TextInput
+                            id="date"
+                            className="mt-1 block w-full"
+                            value={data.date}
+                            required
+                            onChange={(e) => setData("date", e.target.value)}
+                            type="date"
+                            onKeyDown={(e) => e.preventDefault()}
+                        />
 
-                    <InputError className="mt-2" message={errors.date} />
-                </div>
-                <div>
-                    <InputLabel htmlFor="type" value="Type" />
-
-                    <SelectInput
-                        id="type"
-                        className="mt-1 block w-full"
-                        value={data.type}
-                        required
-                        onChange={(e) => setData("type", e.target.value)}
-                    >
-                        <option value="">Select type</option>
-                        <option value="taking">Taking</option>
-                        <option value="comming">Comming</option>
-                        <option value="stock_opname">Stock Opname</option>
-                    </SelectInput>
-
-                    <InputError className="mt-2" message={errors.type} />
-                </div>
-                <div>
-                    <h6 className="text-sm">Materials</h6>
-                    {materialSelects.map(({ material_id, qty }, index) => (
-                        <div className="px-2" key={index}>
-                            <div className="flex justify-end">
-                                <span
-                                    className="p-2 text-red-600 text-sm cursor-pointer font-bold"
-                                    title="remove"
-                                    onClick={() => handleRemoveInput(index)}
-                                >
-                                    X
-                                </span>
-                            </div>
-
-                            <div className="w-full flex gap-4">
-                                <div className="w-full">
-                                    <InputLabel
-                                        htmlFor={"material_id_" + index}
-                                        value="Material"
-                                    />
-
-                                    <SelectInput
-                                        id={"material_id_" + index}
-                                        className="mt-1 block w-full"
-                                        value={material_id}
-                                        required
-                                        onChange={(e) =>
-                                            handleMaterialChange(
-                                                e.target.value,
-                                                index
-                                            )
-                                        }
-                                    >
-                                        <option value="">
-                                            Select material
-                                        </option>
-                                        {materials.map((material) => (
-                                            <option
-                                                key={material.id}
-                                                value={material.id}
-                                            >
-                                                {material.name}
-                                            </option>
-                                        ))}
-                                    </SelectInput>
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.materials}
-                                    />
-                                </div>
-                                <div className="w-full">
-                                    <InputLabel
-                                        htmlFor={"qty_" + index}
-                                        value="Qty"
-                                    />
-
-                                    <TextInput
-                                        id={"qty_" + index}
-                                        type="number"
-                                        className="mt-1 block w-full"
-                                        required
-                                        min="1"
-                                        value={qty}
-                                        onChange={(e) =>
-                                            handleQtyChange(
-                                                e.target.value,
-                                                index
-                                            )
-                                        }
-                                    />
-
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.materials}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                    <div className="flex justify-center mt-3">
-                        <span
-                            className="py-1 px-2 rounded-md bg-green-700 text-gray-50 text-sm cursor-pointer"
-                            onClick={() => handleAddInput()}
-                        >
-                            Add Material
-                        </span>
+                        <InputError className="mt-2" message={errors.date} />
                     </div>
-                </div>
+                    <div>
+                        <InputLabel htmlFor="type" value="Type" />
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
-                    <SecondaryButton disabled={processing} onClick={closeModal}>
-                        Cancel
-                    </SecondaryButton>
-                </div>
-            </form>
-        </div>
+                        <SelectInput
+                            id="type"
+                            className="mt-1 block w-full"
+                            value={data.type}
+                            required
+                            onChange={(e) => setData("type", e.target.value)}
+                        >
+                            <option value="">Select type</option>
+                            <option value="taking">Taking</option>
+                            <option value="comming">Comming</option>
+                            <option value="stock_opname">Stock Opname</option>
+                        </SelectInput>
+
+                        <InputError className="mt-2" message={errors.type} />
+                    </div>
+                    <div>
+                        <h6 className="text-sm">Materials</h6>
+                        {materialSelects.map(({ material_id, qty }, index) => (
+                            <div className="px-2" key={index}>
+                                <div className="flex justify-end">
+                                    <span
+                                        className="p-2 text-red-600 text-sm cursor-pointer font-bold"
+                                        title="remove"
+                                        onClick={() => handleRemoveInput(index)}
+                                    >
+                                        X
+                                    </span>
+                                </div>
+
+                                <div className="w-full flex gap-4">
+                                    <div className="w-full">
+                                        <InputLabel
+                                            htmlFor={"material_id_" + index}
+                                            value="Material"
+                                        />
+
+                                        <SelectInput
+                                            id={"material_id_" + index}
+                                            className="mt-1 block w-full"
+                                            value={material_id}
+                                            required
+                                            onChange={(e) =>
+                                                handleMaterialChange(
+                                                    e.target.value,
+                                                    index
+                                                )
+                                            }
+                                        >
+                                            <option value="">
+                                                Select material
+                                            </option>
+                                            {materials.map((material) => (
+                                                <option
+                                                    key={material.id}
+                                                    value={material.id}
+                                                >
+                                                    {material.name}
+                                                </option>
+                                            ))}
+                                        </SelectInput>
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={errors.materials}
+                                        />
+                                    </div>
+                                    <div className="w-full">
+                                        <InputLabel
+                                            htmlFor={"qty_" + index}
+                                            value="Qty"
+                                        />
+
+                                        <TextInput
+                                            id={"qty_" + index}
+                                            type="number"
+                                            className="mt-1 block w-full"
+                                            required
+                                            min="1"
+                                            value={qty}
+                                            onChange={(e) =>
+                                                handleQtyChange(
+                                                    e.target.value,
+                                                    index
+                                                )
+                                            }
+                                        />
+
+                                        <InputError
+                                            className="mt-2"
+                                            message={errors.materials}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                        <div className="flex justify-center mt-3">
+                            <span
+                                className="py-1 px-2 rounded-md bg-green-700 text-gray-50 text-sm cursor-pointer"
+                                onClick={() => handleAddInput()}
+                            >
+                                Add Material
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                        <PrimaryButton disabled={processing}>
+                            Save
+                        </PrimaryButton>
+                        <SecondaryButton
+                            disabled={processing}
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </SecondaryButton>
+                    </div>
+                </form>
+            </div>
+        </Modal>
     );
 }

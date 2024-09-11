@@ -14,29 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $query = User::query();
-
-        $sortField = request("sort_field", "created_at");
-        $sortDirection = request("sort_direction", "desc");
-
-        if (request("full_name")) {
-            $query->where("full_name", "like", "%" . request("full_name") . "%");
-        }
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
-        if (request("email")) {
-            $query->where("email", "like", "%" . request("email") . "%");
-        }
-        if (request("blocked")) {
-            request("blocked") == "true" ? $query->whereNull('blocked') : $query->whereNotNull('blocked');
-        }
-
-        /**@disregard P1013*/
-        $users = UserResource::collection($query->orderBy($sortField, $sortDirection)->paginate(15)->onEachSide(1));
         return Inertia::render('Users/Index', [
-            'users' => $users,
-            'queryParams' => request()->query() ?: null
+            'users' => UserResource::collection(User::all())
         ]);
     }
 

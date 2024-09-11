@@ -1,3 +1,4 @@
+import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { router } from "@inertiajs/react";
@@ -6,7 +7,8 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 
 export default function HistoryImportDownload({
-    historyImport,
+    state,
+    showModal,
     closeModal = () => {},
 }) {
     const [processing, setProcessing] = useState(false);
@@ -16,7 +18,7 @@ export default function HistoryImportDownload({
         setProcessing(true);
 
         await axios({
-            url: route("history-import.download", historyImport.id),
+            url: route("history-import.download", state.id),
             method: "GET",
             responseType: "blob", // important
         })
@@ -28,7 +30,7 @@ export default function HistoryImportDownload({
                 link.href = url;
                 link.setAttribute(
                     "download",
-                    historyImport.name + "." + historyImport.extension
+                    state.name + "." + state.extension
                 );
                 document.body.appendChild(link);
                 link.click();
@@ -44,20 +46,25 @@ export default function HistoryImportDownload({
     };
 
     return (
-        <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h3 className="dark:text-gray-100 text-lg text-center mb-6">
-                Are you sure to download this file?
-            </h3>
-            <form onSubmit={submit} className="space-y-6">
-                <div className="flex justify-center gap-4">
-                    <PrimaryButton disabled={processing}>
-                        Download!
-                    </PrimaryButton>
-                    <SecondaryButton disabled={processing} onClick={closeModal}>
-                        Cancel!
-                    </SecondaryButton>
-                </div>
-            </form>
-        </div>
+        <Modal show={showModal} maxWidth="sm">
+            <div className="w-full bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 className="dark:text-gray-100 text-lg text-center mb-6">
+                    Are you sure to download this file?
+                </h3>
+                <form onSubmit={submit} className="space-y-6">
+                    <div className="flex justify-center gap-4">
+                        <PrimaryButton disabled={processing}>
+                            Download!
+                        </PrimaryButton>
+                        <SecondaryButton
+                            disabled={processing}
+                            onClick={closeModal}
+                        >
+                            Cancel!
+                        </SecondaryButton>
+                    </div>
+                </form>
+            </div>
+        </Modal>
     );
 }
