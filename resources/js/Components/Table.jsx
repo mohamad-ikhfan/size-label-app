@@ -107,7 +107,7 @@ export default function Table({ table }) {
                                     colSpan={table.getAllColumns().length}
                                     className="text-center p-4"
                                 >
-                                    Not data found.
+                                    No data found.
                                 </td>
                             </tr>
                         )}

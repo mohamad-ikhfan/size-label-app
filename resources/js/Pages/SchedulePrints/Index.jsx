@@ -114,7 +114,6 @@ export default function SchedulePrintIndex({
             columnHelper.accessor("schedule_format", {
                 header: () => "schedule",
                 cell: (info) => info.getValue(),
-                enableColumnFilter: false,
                 enableSorting: false,
             }),
             columnHelper.accessor("release_format", {
