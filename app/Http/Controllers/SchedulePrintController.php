@@ -32,10 +32,8 @@ class SchedulePrintController extends Controller
             $query->where("status", "printing")->orWhere("status", null);
         }
 
-        $schedulePrints = SchedulePrintResource::collection($query->orderBy('schedule', 'asc')->paginate(15)->onEachSide(1));
-
         return Inertia::render('SchedulePrints/Index', [
-            'schedulePrints' => $schedulePrints,
+            'schedulePrints' => SchedulePrintResource::collection($query->orderBy('schedule', 'asc')->get()),
             'users' => User::all(),
             'queryParams' => request()->query() ?: null
         ]);

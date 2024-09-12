@@ -12,15 +12,15 @@ export default function TableAction({
     edit,
     destroy,
     download,
-    print,
+    printing,
 }) {
     return (
         <div className="flex gap-2 justify-start">
-            {print && (
+            {printing && (
                 <PrinterIcon
                     className="w-5 cursor-pointer text-gray-400"
                     title="Print"
-                    onClick={() => print(data)}
+                    onClick={() => printing(data)}
                 />
             )}
             {download && (
