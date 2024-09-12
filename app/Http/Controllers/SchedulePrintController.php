@@ -19,12 +19,13 @@ class SchedulePrintController extends Controller
      */
     public function index()
     {
-        $schedulePrintAll = new SchedulePrint();
         $query = SchedulePrint::query();
 
         if (request("status")) {
             if (request("status") === "printed") {
                 $query->where("status", request("status"));
+            } elseif (request("status") === "all") {
+                $query->where("status", null)->orWhere("status", "printed")->orWhere("status", "printing");
             } else {
                 $query->where("status", request("status"))->orWhere("status", null);
             }

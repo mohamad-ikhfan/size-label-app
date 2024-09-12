@@ -40,11 +40,17 @@ export default function SchedulePrintIndex({
         router.get(route("schedule-print.index"), queryParams);
     };
 
+    const [pagination, setPagination] = useState({
+        pageIndex: 2,
+        pageSize: 10,
+    });
+
     useEffect(() => {
         const timer = setTimeout(
             async () => router.reload({ only: ["schedulePrints"] }),
             6000
         );
+
         return () => clearTimeout(timer);
     }, [schedulePrints]);
 
@@ -185,6 +191,7 @@ export default function SchedulePrintIndex({
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        autoResetPageIndex: false,
     });
 
     return (
@@ -240,13 +247,19 @@ export default function SchedulePrintIndex({
                                         )
                                     }
                                 >
-                                    <option value="printed">printed</option>
-                                    <option value="printing">printing</option>
+                                    <option value="all">All</option>
+                                    <option value="printed">Printed</option>
+                                    <option value="printing">Printing</option>
                                 </SelectInput>
                             </div>
                         </div>
                         <div className="p-4 md:p-6 text-gray-900 dark:text-gray-100">
-                            <Table table={table} />
+                            <Table
+                                table={table}
+                                pageIndex={
+                                    table.getState().pagination.pageIndex
+                                }
+                            />
                         </div>
                     </div>
                 </div>
