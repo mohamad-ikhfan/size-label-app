@@ -15,7 +15,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import TableAction from "@/Components/TableAction";
-import Table from "@/Components/Table";
+import Table, { numberFormat } from "@/Components/Table";
 
 export default function PoItemIndex({ auth, poItems }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -80,7 +80,7 @@ export default function PoItemIndex({ auth, poItems }) {
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 filterFn: "includesString",
             }),
             columnHelper.accessor("special", {

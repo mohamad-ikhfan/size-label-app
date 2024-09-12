@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import TransactionMaterialCreate from "./Create";
 import TransactionMaterialEdit from "./Edit";
 import TransactionMaterialDelete from "./Delete";
-import Table from "@/Components/Table";
+import Table, { numberFormat } from "@/Components/Table";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -74,17 +74,17 @@ export default function MaterialIndex({
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 enableColumnFilter: false,
             }),
             columnHelper.accessor("first_stock_qty", {
                 header: () => "first stock",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 enableColumnFilter: false,
             }),
             columnHelper.accessor("last_stock_qty", {
                 header: () => "last stock",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 enableColumnFilter: false,
             }),
             columnHelper.accessor("transaction_by_name", {

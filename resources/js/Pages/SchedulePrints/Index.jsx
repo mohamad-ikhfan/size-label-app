@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import SelectInput from "@/Components/SelectInput";
 import InputLabel from "@/Components/InputLabel";
 import SchedulePrinting from "./Printing";
-import Table from "@/Components/Table";
+import Table, { numberFormat } from "@/Components/Table";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -137,7 +137,7 @@ export default function SchedulePrintIndex({
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 filterFn: "includesString",
                 enableSorting: false,
             }),

@@ -6,7 +6,7 @@ import ReportPrintCreate from "./Create";
 import ReportPrintEdit from "./Edit";
 import ReportPrintDelete from "./Delete";
 import ReportPrintImport from "./Import";
-import Table from "@/Components/Table";
+import Table, { numberFormat } from "@/Components/Table";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -90,7 +90,7 @@ export default function ReportPrintIndex({ auth, reportPrints }) {
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 filterFn: "includesString",
             }),
             columnHelper.accessor("remark", {

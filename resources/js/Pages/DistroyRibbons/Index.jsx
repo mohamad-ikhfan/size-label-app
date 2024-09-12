@@ -16,7 +16,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import TableAction from "@/Components/TableAction";
-import Table from "@/Components/Table";
+import Table, { numberFormat } from "@/Components/Table";
 
 export default function DestroyRibbonIndex({ auth, destroyRibbons }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -66,7 +66,7 @@ export default function DestroyRibbonIndex({ auth, destroyRibbons }) {
             }),
             columnHelper.accessor("qty", {
                 header: () => "qty",
-                cell: (info) => info.getValue(),
+                cell: (info) => numberFormat(info.getValue()),
                 filterFn: "includesString",
             }),
             columnHelper.accessor("action", {

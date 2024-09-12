@@ -245,3 +245,6 @@ export default function Table({ table }) {
         return null;
     }
 }
+
+export const numberFormat = (value) =>
+    new Intl.NumberFormat("en-IN").format(value);
