@@ -13,8 +13,8 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { Table } from "@/Components/Table";
-import { TableAction } from "@/Components/TableAction";
+import Table from "@/Components/Table";
+import TableAction from "@/Components/TableAction";
 
 export default function MaterialIndex({ auth, materials }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -39,7 +39,7 @@ export default function MaterialIndex({ auth, materials }) {
         setDataRow();
     };
 
-    const data = useMemo(() => materials.data, []);
+    const data = useMemo(() => materials.data, [materials.data]);
 
     const columnHelper = createColumnHelper();
 

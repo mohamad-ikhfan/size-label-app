@@ -6,7 +6,7 @@ import ReportPrintCreate from "./Create";
 import ReportPrintEdit from "./Edit";
 import ReportPrintDelete from "./Delete";
 import ReportPrintImport from "./Import";
-import { Table } from "@/Components/Table";
+import Table from "@/Components/Table";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -15,7 +15,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { TableAction } from "@/Components/TableAction";
+import TableAction from "@/Components/TableAction";
 
 export default function ReportPrintIndex({ auth, reportPrints }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -42,7 +42,7 @@ export default function ReportPrintIndex({ auth, reportPrints }) {
         setDataRow();
     };
 
-    const data = useMemo(() => reportPrints.data, []);
+    const data = useMemo(() => reportPrints.data, [reportPrints.data]);
 
     const columnHelper = createColumnHelper();
 

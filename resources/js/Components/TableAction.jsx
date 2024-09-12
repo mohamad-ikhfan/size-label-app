@@ -6,7 +6,14 @@ import {
     TrashIcon,
 } from "@heroicons/react/16/solid";
 
-export function TableAction({ data, show, edit, destroy, download, print }) {
+export default function TableAction({
+    data,
+    show,
+    edit,
+    destroy,
+    download,
+    print,
+}) {
     return (
         <div className="flex gap-2 justify-start">
             {print && (

@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import TransactionMaterialCreate from "./Create";
 import TransactionMaterialEdit from "./Edit";
 import TransactionMaterialDelete from "./Delete";
-import { Table } from "@/Components/Table";
+import Table from "@/Components/Table";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -14,7 +14,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { TableAction } from "@/Components/TableAction";
+import TableAction from "@/Components/TableAction";
 
 export default function MaterialIndex({
     auth,
@@ -43,7 +43,10 @@ export default function MaterialIndex({
         setDataRow();
     };
 
-    const data = useMemo(() => transactionMaterials.data, []);
+    const data = useMemo(
+        () => transactionMaterials.data,
+        [transactionMaterials.data]
+    );
 
     const columnHelper = createColumnHelper();
 

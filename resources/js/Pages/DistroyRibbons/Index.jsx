@@ -15,8 +15,8 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { TableAction } from "@/Components/TableAction";
-import { Table } from "@/Components/Table";
+import TableAction from "@/Components/TableAction";
+import Table from "@/Components/Table";
 
 export default function DestroyRibbonIndex({ auth, destroyRibbons }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -43,7 +43,7 @@ export default function DestroyRibbonIndex({ auth, destroyRibbons }) {
         setDataRow();
     };
 
-    const data = useMemo(() => destroyRibbons.data, []);
+    const data = useMemo(() => destroyRibbons.data, [destroyRibbons.data]);
 
     const columnHelper = createColumnHelper();
 

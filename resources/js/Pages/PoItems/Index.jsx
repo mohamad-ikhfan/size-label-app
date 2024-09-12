@@ -14,8 +14,8 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { TableAction } from "@/Components/TableAction";
-import { Table } from "@/Components/Table";
+import TableAction from "@/Components/TableAction";
+import Table from "@/Components/Table";
 
 export default function PoItemIndex({ auth, poItems }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -42,7 +42,7 @@ export default function PoItemIndex({ auth, poItems }) {
         setDataRow();
     };
 
-    const data = useMemo(() => poItems.data, []);
+    const data = useMemo(() => poItems.data, [poItems.data]);
 
     const columnHelper = createColumnHelper();
 

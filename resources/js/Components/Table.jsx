@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/16/solid";
 import TextInput from "./TextInput";
 
-export function Table({ table }) {
+export default function Table({ table }) {
     if (table) {
         return (
             <div className="w-full overflow-auto py-6">

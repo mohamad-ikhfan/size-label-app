@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 import { useMemo, useState } from "react";
 import HistoryImportDelete from "./Delete";
 import HistoryImportDownload from "./Download";
-import { Table } from "@/Components/Table";
+import Table from "@/Components/Table";
 import {
     createColumnHelper,
     getCoreRowModel,
@@ -12,7 +12,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { TableAction } from "@/Components/TableAction";
+import TableAction from "@/Components/TableAction";
 
 export default function HistoryImportIndex({ auth, historyImports }) {
     const [openModalDownload, setOpenModalDownload] = useState(false);
@@ -35,7 +35,7 @@ export default function HistoryImportIndex({ auth, historyImports }) {
         setDataRow();
     };
 
-    const data = useMemo(() => historyImports.data, []);
+    const data = useMemo(() => historyImports.data, [historyImports.data]);
 
     const columnHelper = createColumnHelper();
 
