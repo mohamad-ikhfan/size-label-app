@@ -40,20 +40,6 @@ export default function SchedulePrintIndex({
         router.get(route("schedule-print.index"), queryParams);
     };
 
-    const [pagination, setPagination] = useState({
-        pageIndex: 2,
-        pageSize: 10,
-    });
-
-    useEffect(() => {
-        const timer = setTimeout(
-            async () => router.reload({ only: ["schedulePrints"] }),
-            6000
-        );
-
-        return () => clearTimeout(timer);
-    }, [schedulePrints]);
-
     const [processSyncToPrinted, setProcessSyncToPrinted] = useState(false);
 
     const syncToPrinted = (e) => {
@@ -81,6 +67,31 @@ export default function SchedulePrintIndex({
     const [openModalPrinting, setOpenModalPrinting] = useState(false);
     const [dataRow, setDataRow] = useState();
 
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            if (
+                !openModalCreate &&
+                !openModalEdit &&
+                !openModalDelete &&
+                !openModalGenerate &&
+                !openModalPrinting
+            ) {
+                return router.reload({ only: ["schedulePrints"] });
+            } else {
+                return;
+            }
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, [schedulePrints]);
+
+    const create = () => {
+        setOpenModalCreate(true);
+    };
+
+    const generate = () => {
+        setOpenModalGenerate(true);
+    };
+
     const edit = (data) => {
         setDataRow(data);
         setOpenModalEdit(true);
@@ -103,6 +114,7 @@ export default function SchedulePrintIndex({
         setOpenModalGenerate(false);
         setOpenModalPrinting(false);
         setDataRow();
+        router.reload({ only: ["schedulePrints"] });
     };
 
     const data = useMemo(() => schedulePrints.data, [schedulePrints.data]);
@@ -215,16 +227,10 @@ export default function SchedulePrintIndex({
                         >
                             Sync to printed
                         </SecondaryButton>
-                        <PrimaryButton
-                            type="button"
-                            onClick={() => setOpenModalGenerate(true)}
-                        >
+                        <PrimaryButton type="button" onClick={generate}>
                             Generate schedule print
                         </PrimaryButton>
-                        <PrimaryButton
-                            type="button"
-                            onClick={() => setOpenModalCreate(true)}
-                        >
+                        <PrimaryButton type="button" onClick={create}>
                             New schedule print
                         </PrimaryButton>
                     </div>

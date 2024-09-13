@@ -57,6 +57,9 @@ export default function Authenticated({ user, header, children }) {
                                                         ) ||
                                                         route().current(
                                                             "transaction-material.*"
+                                                        ) ||
+                                                        route().current(
+                                                            "model-for-material.*"
                                                         )
                                                             ? "inline-flex items-center px-1 py-5 border-b-2 text-sm font-medium leading-6 transition duration-150 ease-in-out focus:outline-none border-indigo-400 dark:border-indigo-600 text-gray-900 dark:text-gray-100 focus:border-indigo-700"
                                                             : "inline-flex items-center px-1 py-5 border-b-2 text-sm font-medium leading-6 transition duration-150 ease-in-out focus:outline-none border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700"
@@ -77,6 +80,13 @@ export default function Authenticated({ user, header, children }) {
                                                 </Dropdown.Link>
                                                 <Dropdown.Link
                                                     href={route(
+                                                        "model-for-material.index"
+                                                    )}
+                                                >
+                                                    Model for materials
+                                                </Dropdown.Link>
+                                                <Dropdown.Link
+                                                    href={route(
                                                         "transaction-material.index"
                                                     )}
                                                 >
@@ -85,14 +95,6 @@ export default function Authenticated({ user, header, children }) {
                                             </Dropdown.Content>
                                         </Dropdown>
                                     </div>
-                                    <NavLink
-                                        href={route("model-for-material.index")}
-                                        active={route().current(
-                                            "model-for-material.*"
-                                        )}
-                                    >
-                                        Model For Materials
-                                    </NavLink>
                                     <NavLink
                                         href={route("po-item.index")}
                                         active={route().current("po-item.*")}

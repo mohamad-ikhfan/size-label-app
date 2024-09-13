@@ -96,8 +96,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [TransactionMaterialController::class, 'destroy'])->name('transaction-material.destroy');
     });
 
-    Route::put('notifications/{id}', [NotificationController::class, 'read'])->name('notification.read');
-    Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
+    Route::prefix('notification')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('notification.index');
+        Route::put('/{id}', [NotificationController::class, 'read'])->name('notification.read');
+        Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
+    });
 
     Route::prefix('history-import')->group(function () {
         Route::get('/', [HistoryImportController::class, 'index'])->name('history-import.index');

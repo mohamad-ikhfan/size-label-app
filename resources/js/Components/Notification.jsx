@@ -1,24 +1,40 @@
 import { BellIcon } from "@heroicons/react/16/solid";
 import Dropdown from "./Dropdown";
 import { router } from "@inertiajs/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Notification({ user }) {
+    const [notifications, setNotificattion] = useState([]);
+    const [isFatch, setIsFetch] = useState(true);
+
+    const fetchData = async () => {
+        await axios.get(route("notification.index")).then((response) => {
+            setNotificattion(response.data);
+            setIsFetch(false);
+        });
+    };
+
+    useEffect(() => {
+        if (isFatch) {
+            fetchData();
+        } else {
+            let timer = setTimeout(() => setIsFetch(true), 10000);
+            () => clearTimeout(timer);
+        }
+    });
+
     const handleReadNotification = (id) => {
+        setIsFetch(false);
         router.put(route("notification.read", id));
+        setIsFetch(true);
     };
 
     const handleDeleteNotification = (id) => {
+        setIsFetch(false);
         router.delete(route("notification.destroy", id));
+        setIsFetch(true);
     };
-
-    // useEffect(() => {
-    //     const timer = setTimeout(
-    //         async () => router.reload({ only: ["user"] }),
-    //         5000
-    //     );
-    //     return () => clearTimeout(timer);
-    // }, [user]);
 
     return (
         <Dropdown>
@@ -29,24 +45,24 @@ export default function Notification({ user }) {
                         className="inline-flex items-center p-1 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                     >
                         <BellIcon className="w-5" />
-                        {user.notifications.filter((v) => v.read_at === null)
-                            .length > 0 && (
-                            <span className="absolute top-0 right-0 px-1 rounded-full bg-orange-600 text-orange-50 text-xs">
-                                {
-                                    user.notifications.filter(
-                                        (v) => v.read_at === null
-                                    ).length
-                                }
-                            </span>
-                        )}
+                        {notifications.length > 0 &&
+                            notifications.filter((v) => v.read_at === null)
+                                .length > 0 && (
+                                <span className="absolute top-0 right-0 px-1 rounded-full bg-orange-600 text-orange-50 text-xs">
+                                    {notifications.length > 0 &&
+                                        notifications.filter(
+                                            (v) => v.read_at === null
+                                        ).length}
+                                </span>
+                            )}
                     </button>
                 </span>
             </Dropdown.Trigger>
 
             <Dropdown.Content>
                 <div className="px-2 py-4 text-sm max-h-96 overflow-y-auto space-y-1">
-                    {user.notifications.length > 0 ? (
-                        user.notifications.map((notif) => (
+                    {notifications.length > 0 ? (
+                        notifications.map((notif) => (
                             <div
                                 className={
                                     notif.read_at === null
