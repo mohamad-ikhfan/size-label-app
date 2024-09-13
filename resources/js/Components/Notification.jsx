@@ -19,7 +19,7 @@ export default function Notification({ user }) {
         if (isFatch) {
             fetchData();
         } else {
-            let timer = setTimeout(() => setIsFetch(true), 10000);
+            let timer = setTimeout(() => setIsFetch(true), 15000);
             () => clearTimeout(timer);
         }
     });

@@ -80,7 +80,7 @@ export default function SchedulePrintIndex({
             } else {
                 return;
             }
-        }, 5000);
+        }, 10000);
         return () => clearTimeout(timer);
     }, [schedulePrints]);
 
