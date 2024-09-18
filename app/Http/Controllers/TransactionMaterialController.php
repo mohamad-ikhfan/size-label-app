@@ -82,22 +82,41 @@ class TransactionMaterialController extends Controller
         $request->validate([
             'date' => 'required|date',
             'type' => 'required|string',
-            'materials' => 'required|array',
-            'qty' => 'required|numeric',
-            'transaction_by' => 'required|integer',
-        ]);
-
-        $stockMaterial = StockMaterial::latest()->first();
-        $newStock = StockMaterial::create(['qty' => $stockMaterial->qty ?? 0 + $request->qty]);
-
-        $transactionMaterial = TransactionMaterial::findOrFail($id);
-        $transactionMaterial->update([
-            'date' => 'required|date',
-            'type' => 'required|string',
             'material_id' => 'required|integer',
             'qty' => 'required|numeric',
-            'transaction_by' => 'required|integer',
         ]);
+
+        $transactionMaterial = TransactionMaterial::findOrFail($id);
+
+        $stockMaterial = StockMaterial::latest()->first();
+
+        if ($transactionMaterial->qty < $request->qty) {
+            $qty = $stockMaterial->qty ?? 0 + $request->qty;
+        } elseif ($transactionMaterial->qty > $request->qty) {
+            $qty = $stockMaterial->qty ?? 0 - $request->qty;
+        }
+        if (isset($qty)) {
+            $newStock = StockMaterial::create(['qty' => $qty]);
+            $data = [
+                'date' => $request->date,
+                'type' => $request->type,
+                'material_id' => $request->material_id,
+                'qty' => $request->qty,
+                'first_stock_id' => $transactionMaterial->firstStock->id,
+                'last_stock_id' => $newStock->id,
+            ];
+        } else {
+            $data = [
+                'date' => $request->date,
+                'type' => $request->type,
+                'material_id' => $request->material_id,
+                'qty' => $request->qty,
+                'first_stock_id' => $transactionMaterial->firstStock->id,
+                'last_stock_id' => $transactionMaterial->lastStock->id,
+            ];
+        }
+
+        $transactionMaterial->update($data);
     }
 
     /**
