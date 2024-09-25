@@ -19,25 +19,14 @@ class SchedulePrintController extends Controller
      */
     public function index()
     {
-        $query = SchedulePrint::query();
-
-        if (request("status")) {
-            if (request("status") === "printed") {
-                $query->where("status", request("status"));
-            } elseif (request("status") === "all") {
-                $query->where("status", null)->orWhere("status", "printed")->orWhere("status", "printing");
-            } else {
-                $query->where("status", request("status"))->orWhere("status", null);
-            }
-        } else {
-            $query->where("status", "printing")->orWhere("status", null);
-        }
-
         return Inertia::render('SchedulePrints/Index', [
-            'schedulePrints' => SchedulePrintResource::collection($query->orderBy('schedule', 'asc')->get()),
             'users' => User::all(),
-            'queryParams' => request()->query() ?: null
         ]);
+    }
+
+    public function fetch()
+    {
+        return response()->json(SchedulePrintResource::collection(SchedulePrint::orderBy('schedule', 'asc')->orderBy('release', 'asc')->get()));
     }
 
     /**

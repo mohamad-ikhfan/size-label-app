@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('schedule-print')->group(function () {
         Route::get('/', [SchedulePrintController::class, 'index'])->name('schedule-print.index');
+        Route::get('/fetch', [SchedulePrintController::class, 'fetch'])->name('schedule-print.fetch');
         Route::post('/', [SchedulePrintController::class, 'store'])->name('schedule-print.store');
         Route::put('/{id}', [SchedulePrintController::class, 'update'])->name('schedule-print.update');
         Route::delete('/{id}', [SchedulePrintController::class, 'destroy'])->name('schedule-print.destroy');

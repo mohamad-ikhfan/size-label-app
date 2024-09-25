@@ -21,26 +21,37 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import TableAction from "@/Components/TableAction";
+import axios from "axios";
 
-export default function SchedulePrintIndex({
-    auth,
-    schedulePrints,
-    users,
-    queryParams = null,
-}) {
-    queryParams = queryParams || {};
+export default function SchedulePrintIndex({ auth, users }) {
+    const [processSyncToPrinted, setProcessSyncToPrinted] = useState(false);
+    const [onFetch, setOnFetch] = useState(false);
+    const [schedulePrints, setSchedulePrint] = useState([]);
+    const [filter, setFilter] = useState("printing");
 
-    const searchFieldChanged = (name, value) => {
-        if (value) {
-            queryParams[name] = value;
-        } else {
-            delete queryParams[name];
-        }
+    const [openModalCreate, setOpenModalCreate] = useState(false);
+    const [openModalEdit, setOpenModalEdit] = useState(false);
+    const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [openModalGenerate, setOpenModalGenerate] = useState(false);
+    const [openModalPrinting, setOpenModalPrinting] = useState(false);
+    const [dataRow, setDataRow] = useState();
 
-        router.get(route("schedule-print.index"), queryParams);
+    const fetchData = async () => {
+        await axios.get(route("schedule-print.fetch")).then((response) => {
+            setSchedulePrint(response.data);
+            setOnFetch(true);
+        });
     };
 
-    const [processSyncToPrinted, setProcessSyncToPrinted] = useState(false);
+    useEffect(() => {
+        if (!onFetch) {
+            fetchData();
+            return;
+        } else {
+            let timer = setTimeout(() => setOnFetch(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    });
 
     const syncToPrinted = (e) => {
         setProcessSyncToPrinted(true);
@@ -48,6 +59,7 @@ export default function SchedulePrintIndex({
         if (confirm("Are you sure sync to printed?")) {
             router.post(route("schedule-print.sync-to-printed"), [], {
                 onSuccess: () => {
+                    setOnFetch(false);
                     setProcessSyncToPrinted(false);
                     toast.success("Sync to printed successfully.", {
                         position: "top-right",
@@ -59,30 +71,6 @@ export default function SchedulePrintIndex({
             setProcessSyncToPrinted(false);
         }
     };
-
-    const [openModalCreate, setOpenModalCreate] = useState(false);
-    const [openModalEdit, setOpenModalEdit] = useState(false);
-    const [openModalDelete, setOpenModalDelete] = useState(false);
-    const [openModalGenerate, setOpenModalGenerate] = useState(false);
-    const [openModalPrinting, setOpenModalPrinting] = useState(false);
-    const [dataRow, setDataRow] = useState();
-
-    useEffect(() => {
-        let timer = setTimeout(() => {
-            if (
-                !openModalCreate &&
-                !openModalEdit &&
-                !openModalDelete &&
-                !openModalGenerate &&
-                !openModalPrinting
-            ) {
-                return router.reload({ only: ["schedulePrints"] });
-            } else {
-                return;
-            }
-        }, 10000);
-        return () => clearTimeout(timer);
-    }, [schedulePrints]);
 
     const create = () => {
         setOpenModalCreate(true);
@@ -108,16 +96,14 @@ export default function SchedulePrintIndex({
     };
 
     const closeModal = () => {
+        setOnFetch(false);
         setOpenModalCreate(false);
         setOpenModalEdit(false);
         setOpenModalDelete(false);
         setOpenModalGenerate(false);
         setOpenModalPrinting(false);
         setDataRow();
-        router.reload({ only: ["schedulePrints"] });
     };
-
-    const data = useMemo(() => schedulePrints.data, [schedulePrints.data]);
 
     const columnHelper = createColumnHelper();
 
@@ -171,10 +157,25 @@ export default function SchedulePrintIndex({
                 enableSorting: false,
             }),
             columnHelper.accessor("status", {
-                header: () => "status",
+                header: () => (
+                    <>
+                        <div>status</div>
+                        <div>
+                            <SelectInput
+                                value={filter}
+                                onChange={(e) => setFilter(e.target.value)}
+                                className="w-fit"
+                            >
+                                <option value="">ALL</option>
+                                <option value="printing">Printing</option>
+                                <option value="printed">Printed</option>
+                            </SelectInput>
+                        </div>
+                    </>
+                ),
                 cell: (info) => info.getValue(),
-                filterFn: "includesString",
                 enableSorting: false,
+                enableColumnFilter: false,
             }),
             columnHelper.accessor("status_updated_by_name", {
                 header: () => "printed by",
@@ -198,7 +199,19 @@ export default function SchedulePrintIndex({
                 enableSorting: false,
             }),
         ],
-        data: data,
+        data: schedulePrints.filter((schedule) => {
+            if (filter === "printing") {
+                if (schedule.status === filter || schedule.status === null) {
+                    return schedule;
+                }
+            } else if (filter === "printed") {
+                if (schedule.status === filter) {
+                    return schedule;
+                }
+            } else {
+                return schedule;
+            }
+        }),
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
@@ -235,30 +248,6 @@ export default function SchedulePrintIndex({
                         </PrimaryButton>
                     </div>
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="flex justify-end p-6">
-                            <div className="flex gap-4">
-                                <InputLabel
-                                    htmlFor="status"
-                                    value="Status Filter"
-                                />
-                                <SelectInput
-                                    className="w-full"
-                                    defaultValue={
-                                        queryParams.status ?? "printing"
-                                    }
-                                    onChange={(e) =>
-                                        searchFieldChanged(
-                                            "status",
-                                            e.target.value
-                                        )
-                                    }
-                                >
-                                    <option value="all">All</option>
-                                    <option value="printed">Printed</option>
-                                    <option value="printing">Printing</option>
-                                </SelectInput>
-                            </div>
-                        </div>
                         <div className="p-4 md:p-6 text-gray-900 dark:text-gray-100">
                             <Table
                                 table={table}
