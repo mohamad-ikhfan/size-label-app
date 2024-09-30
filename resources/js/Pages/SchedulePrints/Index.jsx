@@ -37,10 +37,13 @@ export default function SchedulePrintIndex({ auth, users }) {
     const [dataRow, setDataRow] = useState();
 
     const fetchData = async () => {
-        await axios.get(route("schedule-print.fetch")).then((response) => {
-            setSchedulePrint(response.data);
-            setOnFetch(true);
-        });
+        await axios
+            .get(route("schedule-print.fetch"))
+            .then((response) => {
+                setSchedulePrint(response.data);
+                setOnFetch(true);
+            })
+            .catch(() => window.location.reload());
     };
 
     useEffect(() => {
