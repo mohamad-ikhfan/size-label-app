@@ -65,17 +65,62 @@ export default function PoItemIndex({ auth, poItems }) {
             }),
             columnHelper.accessor("po_number", {
                 header: () => "po number",
-                cell: (info) => info.getValue(),
+                cell: (info) => (
+                    <div
+                        className="w-full cursor-pointer"
+                        onClick={(e) => {
+                            if (e.detail === 3) {
+                                try {
+                                    document.execCommand("copy");
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }}
+                    >
+                        {info.getValue()}
+                    </div>
+                ),
                 filterFn: "includesString",
             }),
             columnHelper.accessor("style_number", {
                 header: () => "style number",
-                cell: (info) => info.getValue(),
+                cell: (info) => (
+                    <div
+                        className="w-full cursor-pointer"
+                        onClick={(e) => {
+                            if (e.detail === 3) {
+                                try {
+                                    document.execCommand("copy");
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }}
+                    >
+                        {info.getValue()}
+                    </div>
+                ),
                 filterFn: "includesString",
             }),
             columnHelper.accessor("model_name", {
                 header: () => "model name",
-                cell: (info) => info.getValue(),
+                cell: (info) => (
+                    <div
+                        className="w-full cursor-pointer"
+                        onClick={(e) => {
+                            if (e.detail === 3) {
+                                try {
+                                    document.execCommand("copy");
+                                } catch (error) {
+                                    console.log(error);
+                                }
+                            }
+                        }}
+                    >
+                        {info.getValue()}
+                    </div>
+                ),
                 filterFn: "includesString",
             }),
             columnHelper.accessor("qty", {

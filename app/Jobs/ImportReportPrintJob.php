@@ -56,11 +56,11 @@ class ImportReportPrintJob implements ShouldQueue
                             'line' => $line,
                             'release' => $release,
                             'po_number' => $poItem,
-                            'style_number' => $styleNumber,
-                            'model_name' => $modelName,
+                            'style_number' => trim($styleNumber),
+                            'model_name' => trim($modelName),
                             'qty' => $qty,
-                            'special' => $special,
-                            'remark' => $remark,
+                            'special' => trim($special),
+                            'remark' => trim($remark),
                             'printed_by' => $printedBy,
                         ];
                         ReportPrint::create($data);

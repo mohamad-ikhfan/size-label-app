@@ -31,7 +31,7 @@ class ImportPoItemJob implements ShouldQueue
     public function handle(): void
     {
         PoItem::truncate();
-        foreach ($this->files as $key=> $value) {
+        foreach ($this->files as $key => $value) {
             try {
                 $file = storage_path('app/public/imports/' . $value);
                 $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
@@ -51,15 +51,15 @@ class ImportPoItemJob implements ShouldQueue
 
                         if (!empty($poItem) && $poItem > 0) {
                             $data = [
-                                'line' => $line,
+                                'line' => trim($line),
                                 'spk_publish' => $spkPublish,
                                 'release' => $release,
                                 'po_number' => $poItem,
-                                'style_number' => $styleNumber,
-                                'model_name' => $modelName,
+                                'style_number' => trim($styleNumber),
+                                'model_name' => trim($modelName),
                                 'qty' => $qty,
-                                'special' => $special,
-                                'remark' => $remark
+                                'special' => trim($special),
+                                'remark' => trim($remark)
                             ];
                             PoItem::create($data);
                         }
