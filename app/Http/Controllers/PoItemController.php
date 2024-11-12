@@ -27,7 +27,7 @@ class PoItemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'line' => 'required|integer|min:1',
+            'line' => 'required|string',
             'spk_publish' => 'nullable|date',
             'release' => 'required|date',
             'po_number' => 'required|numeric|unique:po_items',
@@ -57,7 +57,7 @@ class PoItemController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'line' => 'required|integer|min:1',
+            'line' => 'required|string',
             'spk_publish' => 'nullable|date',
             'release' => 'required|date',
             'po_number' => 'required|numeric|unique:po_items,po_number,' . $id,

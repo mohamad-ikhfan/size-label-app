@@ -40,7 +40,7 @@ class ImportReportPrintJob implements ShouldQueue
             foreach ($spreadsheet->getSheetNames() as $sheetName) {
                 foreach ($spreadsheet->getSheetByName($sheetName)->toArray() as $numRow => $row) {
                     $printedAt = intval($row[0]) > 0 ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[0])->format('Y-m-d') : null;
-                    $line = intval($row[1] ?? 0);
+                    $line = $row[1] ?? "INVALID";
                     $poItem = intval($row[2] ?? 0);
                     $release = intval($row[3]) > 0 ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[3])->format('Y-m-d') : null;
                     $styleNumber = $row[4] ?? null;
@@ -53,7 +53,7 @@ class ImportReportPrintJob implements ShouldQueue
                     if (!empty($poItem) && $poItem > 0) {
                         $data = [
                             'printed_at' => $printedAt,
-                            'line' => $line,
+                            'line' => trim($line),
                             'release' => $release,
                             'po_number' => $poItem,
                             'style_number' => trim($styleNumber),

@@ -44,7 +44,6 @@ export default function PoItemCreate({ showModal, closeModal = () => {} }) {
 
                             <TextInput
                                 id="line"
-                                type="number"
                                 required
                                 className="mt-1 block w-full"
                                 defaultValue={data.line}

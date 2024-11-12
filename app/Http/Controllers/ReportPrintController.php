@@ -28,7 +28,7 @@ class ReportPrintController extends Controller
     {
         $request->validate([
             'printed_at' => 'required|date',
-            'line' => 'required|integer',
+            'line' => 'required|string',
             'po_number' => 'required|numeric',
             'release' => 'required|date',
             'style_number' => 'required|string',
@@ -60,7 +60,7 @@ class ReportPrintController extends Controller
     {
         $request->validate([
             'printed_at' => 'required|date',
-            'line' => 'required|integer',
+            'line' => 'required|string',
             'po_number' => 'required|numeric',
             'release' => 'required|date',
             'style_number' => 'required|string',

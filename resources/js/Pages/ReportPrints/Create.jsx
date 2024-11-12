@@ -72,7 +72,6 @@ export default function ReportPrintCreate({
 
                             <TextInput
                                 id="line"
-                                type="number"
                                 className="mt-1 block w-full"
                                 required
                                 defaultValue={data.line}

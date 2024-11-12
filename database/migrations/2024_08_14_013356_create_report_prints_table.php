@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('report_prints', function (Blueprint $table) {
             $table->id();
             $table->date('printed_at');
-            $table->integer('line');
+            $table->string('line');
             $table->date('release');
             $table->bigInteger('po_number')->nullable();
             $table->string('style_number');

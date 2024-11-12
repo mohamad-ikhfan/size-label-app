@@ -35,7 +35,7 @@ class SchedulePrintController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'line' => 'required|integer|min:1',
+            'line' => 'required|string',
             'schedule' => 'nullable|date',
             'release' => 'required|date',
             'style_number' => 'required|string',
@@ -68,7 +68,7 @@ class SchedulePrintController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'line' => 'required|integer|min:1',
+            'line' => 'required|string',
             'schedule' => 'nullable|date',
             'release' => 'required|date',
             'style_number' => 'required|string',

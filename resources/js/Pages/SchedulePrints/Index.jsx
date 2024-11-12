@@ -114,7 +114,9 @@ export default function SchedulePrintIndex({ auth, users }) {
         columns: [
             columnHelper.accessor("line", {
                 header: () => "line",
-                cell: (info) => info.getValue(),
+                cell: (info) => (
+                    <span className="text-nowrap">{info.getValue()}</span>
+                ),
                 filterFn: "includesString",
                 enableSorting: false,
             }),

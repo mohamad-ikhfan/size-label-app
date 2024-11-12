@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('po_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('line');
+            $table->string('line');
             $table->date('spk_publish')->nullable();
             $table->date('release');
             $table->bigInteger('po_number')->nullable();

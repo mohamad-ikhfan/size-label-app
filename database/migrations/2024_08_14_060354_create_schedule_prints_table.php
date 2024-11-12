@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('schedule_prints', function (Blueprint $table) {
             $table->id();
-            $table->integer('line');
+            $table->string('line');
             $table->date('schedule')->nullable();
             $table->date('release');
             $table->string('style_number');
