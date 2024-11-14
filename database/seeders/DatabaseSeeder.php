@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        $this->call(NameLineSeeder::class);
+
         // User::factory(100)->create();
     }
 }

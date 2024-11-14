@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\NameLine;
 use App\Models\ReportPrint;
 use App\Models\User;
 use App\Notifications\ImportNotification;
@@ -51,6 +52,18 @@ class ImportReportPrintJob implements ShouldQueue
                     $printedBy = intval($row[10] ?? 0);
 
                     if (!empty($poItem) && $poItem > 0) {
+                        if (now()->parse($release)->diff(now()->parse('2024-11-30'))->invert == 1) {
+                            $nameLine = NameLine::where('old_name', $line)->first();
+                            if ($nameLine) {
+                                $line = $nameLine->new_name;
+                            }
+                        } else {
+                            $nameLine = NameLine::where('new_name', $line)->first();
+                            if ($nameLine) {
+                                $line = $nameLine->old_name;
+                            }
+                        }
+
                         $data = [
                             'printed_at' => $printedAt,
                             'line' => trim($line),

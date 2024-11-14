@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\NameLine;
 use App\Models\PoItem;
 use App\Models\User;
 use App\Notifications\ImportNotification;
@@ -50,6 +51,18 @@ class ImportPoItemJob implements ShouldQueue
                         $remark = $row[4] ?? null;
 
                         if (!empty($poItem) && $poItem > 0) {
+                            if (now()->parse($release)->diff(now()->parse('2024-11-30'))->invert == 1) {
+                                $nameLine = NameLine::where('old_name', $line)->first();
+                                if ($nameLine) {
+                                    $line = $nameLine->new_name;
+                                }
+                            } else {
+                                $nameLine = NameLine::where('new_name', $line)->first();
+                                if ($nameLine) {
+                                    $line = $nameLine->old_name;
+                                }
+                            }
+
                             $data = [
                                 'line' => trim($line),
                                 'spk_publish' => $spkPublish,
