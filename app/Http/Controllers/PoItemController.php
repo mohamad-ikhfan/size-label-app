@@ -8,6 +8,8 @@ use App\Models\HistoryImportFile;
 use App\Models\PoItem;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PoItemController extends Controller
 {
@@ -124,5 +126,94 @@ class PoItemController extends Controller
         }
 
         ImportPoItemJob::dispatch(auth()->guard('web')->user(), $files->toArray());
+    }
+
+    public function export()
+    {
+        $poItems = PoItem::all();
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+
+        $style_title = [
+            'font' => ['bold' => true],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ],
+
+            'borders' => [
+                'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+
+        $style_data = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'top' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'right' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'bottom' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
+                'left' => ['borderStyle'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
+            ]
+        ];
+
+        $activeWorksheet->setCellValue('A1', 'Line');
+        $activeWorksheet->getStyle("A1")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('B1', 'Release');
+        $activeWorksheet->getStyle("B1")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('C1', 'PO Item');
+        $activeWorksheet->getStyle("C1")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('D1', 'Style Number');
+        $activeWorksheet->getStyle("D1")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('E1', 'Model Name');
+        $activeWorksheet->getStyle("E1")->applyFromArray($style_title);
+        $activeWorksheet->setCellValue('F1', 'Qty');
+        $activeWorksheet->getStyle("F1")->applyFromArray($style_title);
+
+        $rowCount = 2;
+        foreach ($poItems as $poItem) {
+            $activeWorksheet->setCellValue('A' . $rowCount, $poItem->line);
+            $activeWorksheet->setCellValue('B' . $rowCount, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($poItem->release)));
+            $activeWorksheet->getStyle('B' . $rowCount)->getNumberFormat()->setFormatCode("m/d");
+            $activeWorksheet->setCellValue('C' . $rowCount, $poItem->po_number);
+            $activeWorksheet->getStyle('C' . $rowCount)->getNumberFormat()->setFormatCode(0);
+            $activeWorksheet->setCellValue('D' . $rowCount, $poItem->style_number);
+            $activeWorksheet->setCellValue('E' . $rowCount, $poItem->model_name);
+            $activeWorksheet->setCellValue('F' . $rowCount, $poItem->qty);
+            $activeWorksheet->getStyle('F' . $rowCount)->getNumberFormat()->setFormatCode(0);
+
+            $activeWorksheet->getStyle('A' .  $rowCount)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('B' .  $rowCount)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('C' .  $rowCount)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('D' .  $rowCount)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('E' .  $rowCount)->applyFromArray($style_data);
+            $activeWorksheet->getStyle('F' .  $rowCount)->applyFromArray($style_data);
+            $rowCount++;
+        }
+
+        $activeWorksheet->getColumnDimension("A")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("B")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("C")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("D")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("E")->setAutoSize(true);
+        $activeWorksheet->getColumnDimension("F")->setAutoSize(true);
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="export_po_items.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save(storage_path('app/public/exports/export_po_items.xlsx'));
+    }
+
+    public function download()
+    {
+        return response()->download(storage_path('app/public/exports/export_po_items.xlsx'))->deleteFileAfterSend();
     }
 }

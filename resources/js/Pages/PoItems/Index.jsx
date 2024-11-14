@@ -16,12 +16,15 @@ import {
 } from "@tanstack/react-table";
 import TableAction from "@/Components/TableAction";
 import Table, { numberFormat } from "@/Components/Table";
+import PoItemExport from "./Export";
+import SecondaryButton from "@/Components/SecondaryButton";
 
 export default function PoItemIndex({ auth, poItems }) {
     const [openModalCreate, setOpenModalCreate] = useState(false);
     const [openModalEdit, setOpenModalEdit] = useState(false);
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const [openModalImport, setOpenModalImport] = useState(false);
+    const [openModalExport, setOpenModalExport] = useState(false);
     const [dataRow, setDataRow] = useState();
 
     const edit = (data) => {
@@ -39,6 +42,7 @@ export default function PoItemIndex({ auth, poItems }) {
         setOpenModalEdit(false);
         setOpenModalDelete(false);
         setOpenModalImport(false);
+        setOpenModalExport(false);
         setDataRow();
     };
 
@@ -171,6 +175,12 @@ export default function PoItemIndex({ auth, poItems }) {
             <div className="pb-12 pt-6">
                 <div className="max-w-full mx-auto sm:px-4 lg:px-6">
                     <div className="mb-6 flex justify-end gap-4">
+                        <SecondaryButton
+                            type="button"
+                            onClick={() => setOpenModalExport(true)}
+                        >
+                            Export PO Items
+                        </SecondaryButton>
                         <PrimaryButton
                             type="button"
                             onClick={() => setOpenModalImport(true)}
@@ -213,6 +223,12 @@ export default function PoItemIndex({ auth, poItems }) {
                 {openModalImport && (
                     <PoItemImport
                         showModal={openModalImport}
+                        closeModal={closeModal}
+                    />
+                )}
+                {openModalExport && (
+                    <PoItemExport
+                        showModal={openModalExport}
                         closeModal={closeModal}
                     />
                 )}

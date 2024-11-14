@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', [PoItemController::class, 'update'])->name('po-item.update')->middleware('permission-user');
         Route::delete('/{id}', [PoItemController::class, 'destroy'])->name('po-item.destroy')->middleware('permission-user');
         Route::post('/import-file', [PoItemController::class, 'import'])->name('po-item.import')->middleware('permission-user');
+        Route::post('/export', [PoItemController::class, 'export'])->name('po-item.export');
+        Route::get('/download', [PoItemController::class, 'download'])->name('po-item.download');
     });
 
     Route::prefix('report-print')->group(function () {
